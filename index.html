@@ -8,6 +8,12 @@
     <link class="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
     <link rel="manifest" href="manifest.json" />
 
+    <!-- PDF-Bibliotheken -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    </script>
+
     <style>
         /* =========================================================
            1. CORE & RESET STYLES
@@ -87,7 +93,8 @@
             flex-wrap: wrap;
         }
 
-        .sel-hdr, .sel-modal-hdr {
+        .sel-hdr,
+        .sel-modal-hdr {
             font-size: 0.75rem;
             font-weight: 600;
             color: #1a4b60;
@@ -105,6 +112,18 @@
             max-width: 140px;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        /* Dropdowns mit optgroup – etwas mehr Platz für die Gruppen */
+        select optgroup {
+            font-weight: 700;
+            color: #1a4b60;
+            background: #f1f5f9;
+        }
+        select option {
+            font-weight: 400;
+            color: #2c3e50;
+            padding: 2px 4px;
         }
 
         .btn-lang-toggle {
@@ -187,7 +206,6 @@
             color: #94a3b8;
         }
 
-        /* Status & Error Notification Banner */
         .toast-banner {
             display: none;
             background: #fee2e2;
@@ -283,7 +301,7 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 280px;
-            container-type: inline-size;   /* WICHTIG für Zoom */
+            container-type: inline-size;
         }
 
         .mf {
@@ -296,11 +314,17 @@
             flex-shrink: 0;
         }
 
-        .bcn { background-color: #1a4b60; color: white; }
-        .bsd { background-color: #cbd5e1; color: #1a4b60; }
+        .bcn {
+            background-color: #1a4b60;
+            color: white;
+        }
+        .bsd {
+            background-color: #cbd5e1;
+            color: #1a4b60;
+        }
 
         /* =========================================================
-           4. PRINT SHEET & LABEL LAYOUT (SCREEN PREVIEW)
+           4. PRINT SHEET & LABEL LAYOUT
            ========================================================= */
         .pc {
             background: #ffffff;
@@ -361,7 +385,9 @@
             background-color: #eff6ff;
         }
 
-        .lb.round { border-radius: 50% !important; }
+        .lb.round {
+            border-radius: 50% !important;
+        }
 
         .lbt {
             font-size: 7pt;
@@ -424,7 +450,7 @@
             color: #000;
             text-align: right;
             padding-top: 0.5mm;
-            border-top: 0.5px solid rgba(0,0,0,0.08);
+            border-top: 0.5px solid rgba(0, 0, 0, 0.08);
             margin-top: auto;
             white-space: nowrap;
             overflow: hidden;
@@ -436,8 +462,8 @@
             left: 6px;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255,255,255,0.85);
-            border: 1px solid rgba(26,75,96,0.2);
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(26, 75, 96, 0.2);
             border-radius: 50%;
             width: 34px;
             height: 34px;
@@ -446,7 +472,7 @@
             justify-content: center;
             cursor: pointer;
             z-index: 20;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         .zoom-container {
@@ -458,14 +484,16 @@
             flex-direction: column;
             align-items: center;
             gap: 8px;
-            background: rgba(255,255,255,0.95);
+            background: rgba(255, 255, 255, 0.95);
             padding: 10px 6px;
             border-radius: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
             z-index: 10;
         }
 
-        .zoom-container.visible { display: flex; }
+        .zoom-container.visible {
+            display: flex;
+        }
 
         .zoom-slider-wrapper {
             height: 120px;
@@ -498,42 +526,118 @@
             color: #1a4b60;
         }
 
-        /* =========================================================
-           5. MOBILE FIRST – Anpassungen für kleine Bildschirme
-           ========================================================= */
-        @media (max-width: 480px) {
-            body { padding: 8px; }
-            .crd { padding: 14px; gap: 12px; }
-            .hdr-ttl { font-size: 1rem; }
-            .sel-hdr, .sel-modal-hdr { font-size: 0.7rem; max-width: 100px; }
-            .mpc { padding: 6px 8px !important; }
-            .mbs { padding: 8px; min-height: 200px; }
-            .lb { padding: 1.5mm 2mm; }
-            .lba { font-size: 14pt; }
-            .lbs { font-size: 7pt; }
-            .lbb { font-size: 7pt; }
-            .lbt { font-size: 6pt; }
-            .lbf { font-size: 4pt; }
-            button { font-size: 0.75rem; padding: 8px 12px; }
-            .zoom-toggle-btn { width: 28px; height: 28px; left: 4px; }
-            .zoom-slider-wrapper { height: 90px; }
+        #pdfLoading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(3px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        #pdfLoading .box {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #1a4b60;
+        }
+        #pdfLoading .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 5px solid #e2e8f0;
+            border-top: 5px solid #1a4b60;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
-        /* =========================================================
-           6. ACCURATE PRINT CSS (@media print)
-           ========================================================= */
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+            .crd {
+                padding: 14px;
+                gap: 12px;
+            }
+            .hdr-ttl {
+                font-size: 1rem;
+            }
+            .sel-hdr,
+            .sel-modal-hdr {
+                font-size: 0.7rem;
+                max-width: 100px;
+            }
+            .mpc {
+                padding: 6px 8px !important;
+            }
+            .mbs {
+                padding: 8px;
+                min-height: 200px;
+            }
+            .lb {
+                padding: 1.5mm 2mm;
+            }
+            .lba {
+                font-size: 14pt;
+            }
+            .lbs {
+                font-size: 7pt;
+            }
+            .lbb {
+                font-size: 7pt;
+            }
+            .lbt {
+                font-size: 6pt;
+            }
+            .lbf {
+                font-size: 4pt;
+            }
+            button {
+                font-size: 0.75rem;
+                padding: 8px 12px;
+            }
+            .zoom-toggle-btn {
+                width: 28px;
+                height: 28px;
+                left: 4px;
+            }
+            .zoom-slider-wrapper {
+                height: 90px;
+            }
+        }
+
         @media print {
             @page {
                 size: A4 portrait;
                 margin: 0 !important;
             }
 
-            *, *::before, *::after {
+            *,
+            *::before,
+            *::after {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
 
-            html, body {
+            html,
+            body {
                 margin: 0 !important;
                 padding: 0 !important;
                 background: white !important;
@@ -542,11 +646,20 @@
                 overflow: hidden !important;
             }
 
-            .crd, .hdr, .ftr, .mh, .mf, .pwb, #m1, .zoom-toggle-btn, .zoom-container {
+            .crd,
+            .hdr,
+            .ftr,
+            .mh,
+            .mf,
+            .pwb,
+            #m1,
+            .zoom-toggle-btn,
+            .zoom-container {
                 display: none !important;
             }
 
-            .mb, #modalContainer {
+            .mb,
+            #modalContainer {
                 position: static !important;
                 background: none !important;
                 backdrop-filter: none !important;
@@ -574,7 +687,8 @@
                 container-type: unset !important;
             }
 
-            .pc, #pageContainer {
+            .pc,
+            #pageContainer {
                 position: relative !important;
                 top: 0 !important;
                 left: 0 !important;
@@ -585,7 +699,8 @@
                 margin: 0 !important;
             }
 
-            .psh, #sheetContainer {
+            .psh,
+            #sheetContainer {
                 width: 210mm !important;
                 height: 297mm !important;
                 padding: 5mm 2mm 5mm 2mm !important;
@@ -617,7 +732,15 @@
         }
     </style>
 </head>
+
 <body>
+    <div id="pdfLoading">
+        <div class="box">
+            <div class="spinner"></div>
+            <div>PDF wird erstellt …</div>
+        </div>
+    </div>
+
     <input type="hidden" id="i5" value="" />
     <input type="hidden" id="i6" value="" />
     <input type="hidden" id="i7" value="" />
@@ -627,8 +750,7 @@
 
         <div class="hdr">
             <div class="hdr-l">
-                <img src="logo.png" alt="LAVU Logo" class="lg"
-                    onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%231a4b60\' stroke-width=\'2\'><circle cx=\'12\' cy=\'12\' r=\'10\'/><path d=\'M8 14s1.5 2 4 2 4-2 4-2\'/><line x1=\'9\' y1=\'9\' x2=\'9.01\' y2=\'9\'/><line x1=\'15\' y1=\'9\' x2=\'15.01\' y2=\'9\'/></svg>'">
+                <img src="logo.png" alt="LAVU Logo" class="lg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%231a4b60\' stroke-width=\'2\'><circle cx=\'12\' cy=\'12\' r=\'10\'/><path d=\'M8 14s1.5 2 4 2 4-2 4-2\'/><line x1=\'9\' y1=\'9\' x2=\'9.01\' y2=\'9\'/><line x1=\'15\' y1=\'9\' x2=\'15.01\' y2=\'9\'/></svg>'" />
                 <div>
                     <div class="hdr-ttl">LAVU OÖ</div>
                     <div class="hdr-sub" id="txt-studio-v9">Etiketten-Studio v9</div>
@@ -647,13 +769,13 @@
                 <label style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 3px;">HERMA Vorlage</label>
                 <select id="templateSelectMain"></select>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; width: 100%;">
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 12px; width: 100%;">
                 <div>
-                    <span id="txt-art-nr" style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 3px;">Art.Nr.</span>
+                    <span id="txt-art-nr" style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; height: 16px; line-height: 16px;">Art.Nr.</span>
                     <select id="s2_art"></select>
                 </div>
                 <div>
-                    <span id="txt-bezeichnung" style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 3px;">Bezeichnung</span>
+                    <span id="txt-bezeichnung" style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; height: 16px; line-height: 16px;">Bezeichnung</span>
                     <select id="s2_name"></select>
                 </div>
             </div>
@@ -688,10 +810,11 @@
         </div>
     </div>
 
+    <!-- Options-Modal -->
     <div id="m1" class="mb" style="display:none;">
         <div class="mc">
             <div class="mh">
-                <span>Druck- & Standorteinstellungen</span>
+                <span>Druck- &amp; Standorteinstellungen</span>
                 <button class="bx" id="modal1CloseBtn">&times;</button>
             </div>
             <div style="padding: 8px 0;">
@@ -716,15 +839,17 @@
         </div>
     </div>
 
+    <!-- Haupt-Modal (Vorschau) – DROPDOWNS AUSGEBLENDET -->
     <div class="mb" id="modalContainer" style="display:none;">
         <div class="mc mpc">
             <div class="mh">
                 <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                     <span>🏷️ HERMA</span>
-                    <select id="templateSelect" class="sel-modal-hdr"></select>
-                    <select id="sortimentArtNrSelect" class="sel-modal-hdr"></select>
-                    <select id="sortimentBezSelect" class="sel-modal-hdr"></select>
-                    <select id="locationSelect" class="sel-modal-hdr"></select>
+                    <!-- Dropdowns im Modal ausgeblendet (werden nicht mehr benötigt) -->
+                    <!-- <select id="templateSelect" class="sel-modal-hdr" style="display:none;"></select> -->
+                    <!-- <select id="sortimentArtNrSelect" class="sel-modal-hdr" style="display:none;"></select> -->
+                    <!-- <select id="sortimentBezSelect" class="sel-modal-hdr" style="display:none;"></select> -->
+                    <!-- <select id="locationSelect" class="sel-modal-hdr" style="display:none;"></select> -->
                     <label style="font-size: 0.7rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 3px;">
                         <input type="checkbox" id="memoryCheckbox" checked /> Merken
                     </label>
@@ -760,7 +885,7 @@
                         <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
                         <rect x="6" y="14" width="12" height="8" />
                     </svg>
-                    Drucken
+                    PDF generieren
                 </button>
             </div>
         </div>
@@ -768,41 +893,40 @@
 
     <script>
         // ==========================================
-        // INLINE FALLBACK DATA
+        // FALLBACK DATA
         // ==========================================
         const FALLBACK_SORTIMENT = [
-            {"artNr":"4040","bez":"Elektro-Kleingeräte","geb":"AB"},
-            {"artNr":"4041","bez":"Elektro-Kleingeräte,schadst. f.","geb":"Qbox"},
-            {"artNr":"4010","bez":"Elektro-Großgeräte","geb":"EUP"},
-            {"artNr":"4020","bez":"Kühlgeräte","geb":"FP"},
-            {"artNr":"4030","bez":"Bildschirmgeräte","geb":"TPg"},
-            {"artNr":"4031","bez":"Flachbildschirmgeräte","geb":"AB"}
+            { "artNr": "4040", "bez": "Elektro-Kleingeräte", "geb": "AB" },
+            { "artNr": "4041", "bez": "Elektro-Kleingeräte,schadst. f.", "geb": "Qbox" },
+            { "artNr": "4010", "bez": "Elektro-Großgeräte", "geb": "EUP" },
+            { "artNr": "4020", "bez": "Kühlgeräte", "geb": "FP" },
+            { "artNr": "4030", "bez": "Bildschirmgeräte", "geb": "TPg" },
+            { "artNr": "4031", "bez": "Flachbildschirmgeräte", "geb": "AB" }
         ];
 
         const FALLBACK_LOCATIONS = [
-            {"siteCode":"106","name":"ASZ Asten","zipCode":"4481","region":"Linz-Land & Linz Stadt"},
-            {"siteCode":"N/G","name":"ASZ Ansfelden","zipCode":"4053","region":"Linz-Land & Linz Stadt"}
+            { "siteCode": "106", "name": "ASZ Asten", "zipCode": "4481", "region": "Linz-Land & Linz Stadt" },
+            { "siteCode": "N/G", "name": "ASZ Ansfelden", "zipCode": "4053", "region": "Linz-Land & Linz Stadt" }
         ];
 
         const FALLBACK_TEMPLATES = [
-            {"sku":"4473","category":"Standard","cols":3,"rows":8,"width_mm":70.0,"height_mm":36.0,"round":false}
+            { "sku": "4473", "category": "Standard", "cols": 3, "rows": 8, "width_mm": 70.0, "height_mm": 36.0,
+                "round": false }
         ];
 
         // ==========================================
-        // SAFE STORAGE & NETWORK UTILITIES
+        // STORAGE & NETWORK
         // ==========================================
         const Storage = {
             get(key) {
-                try { return localStorage.getItem(key); }
-                catch(e) { console.warn(`[Storage] Cannot read ${key}`, e); return null; }
+                try { return localStorage.getItem(key); } catch (e) { console.warn('[Storage] Cannot read ' + key, e);
+                    return null; }
             },
             set(key, val) {
-                try { localStorage.setItem(key, val); }
-                catch(e) { console.warn(`[Storage] Cannot set ${key}`, e); }
+                try { localStorage.setItem(key, val); } catch (e) { console.warn('[Storage] Cannot set ' + key, e); }
             },
             remove(key) {
-                try { localStorage.removeItem(key); }
-                catch(e) { console.warn(`[Storage] Cannot remove ${key}`, e); }
+                try { localStorage.removeItem(key); } catch (e) { console.warn('[Storage] Cannot remove ' + key, e); }
             }
         };
 
@@ -821,7 +945,7 @@
             try {
                 const res = await fetch(url, { signal: controller.signal });
                 clearTimeout(tid);
-                if (!res.ok) throw new Error(`Status ${res.status}`);
+                if (!res.ok) throw new Error('Status ' + res.status);
                 return await res.json();
             } catch (err) {
                 clearTimeout(tid);
@@ -830,7 +954,7 @@
         }
 
         // ==========================================
-        // STATE VARIABLES
+        // STATE
         // ==========================================
         let allTemplates = [];
         let sortimentList = [];
@@ -839,7 +963,7 @@
         let selectedLocationItem = null;
         let currentSku = '4473';
 
-        // DOM References
+        // DOM
         const sheetContainer = document.getElementById('sheetContainer');
         const templateSelect = document.getElementById('templateSelect');
         const templateSelectMain = document.getElementById('templateSelectMain');
@@ -860,6 +984,9 @@
         const modal = document.getElementById('modalContainer');
         const optionsModal = document.getElementById('m1');
 
+        // ==========================================
+        // HELPER FUNCTIONS
+        // ==========================================
         function updateSingleLabelCard() {
             const d0 = document.getElementById('d0');
             const d1 = document.getElementById('d1');
@@ -867,7 +994,8 @@
             const d3 = document.getElementById('d3');
             const d4 = document.getElementById('d4');
 
-            const topText = selectedLocationItem ? `${selectedLocationItem.siteCode} • ${selectedLocationItem.name}` : 'LAVU OÖ';
+            const topText = selectedLocationItem ? selectedLocationItem.siteCode + ' • ' + selectedLocationItem.name :
+                'LAVU OÖ';
             const artNr = selectedSortimentItem ? selectedSortimentItem.artNr : '-';
             const geb = selectedSortimentItem ? selectedSortimentItem.geb : '-';
             const bez = selectedSortimentItem ? selectedSortimentItem.bez : '-';
@@ -881,32 +1009,86 @@
 
         function populateLocations() {
             const optionsHtml = locationsList.map((loc, idx) => {
-                const label = loc.siteCode && loc.siteCode !== "N/G" ? `${loc.siteCode} - ${loc.name}` : loc.name;
-                return `<option value="${idx}">${label}</option>`;
+                const label = loc.siteCode && loc.siteCode !== "N/G" ? loc.siteCode + ' - ' + loc.name : loc.name;
+                return '<option value="' + idx + '">' + label + '</option>';
             }).join('');
 
             if (headerLocationSelect) {
-                headerLocationSelect.innerHTML = `<option value="" disabled selected>Standort wählen...</option>` + optionsHtml;
+                headerLocationSelect.innerHTML = '<option value="" disabled selected>Standort wählen...</option>' +
+                    optionsHtml;
             }
             if (locationSelect) {
-                locationSelect.innerHTML = `<option value="">-- Standort --</option>` + optionsHtml;
+                locationSelect.innerHTML = '<option value="">-- Standort --</option>' + optionsHtml;
             }
         }
 
-        function populateSortiment() {
-            const artOptionsHtml = sortimentList.map((item, idx) => 
-                `<option value="${idx}">${item.artNr}</option>`
-            ).join('');
+        // ==========================================
+        // NEUE FUNKTIONEN FÜR optgroup-DROPDOWNS
+        // ==========================================
+        function getArtNrGroup(artNr) {
+            const firstDigit = String(artNr).charAt(0);
+            const groupMap = { '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '9': '9' };
+            return groupMap[firstDigit] || '0';
+        }
 
-            const bezOptionsHtml = sortimentList.map((item, idx) => 
-                `<option value="${idx}">${item.bez}</option>`
-            ).join('');
+        function getBezGroup(bez) {
+            const firstChar = bez.trim().charAt(0).toUpperCase();
+            if (firstChar >= 'A' && firstChar <= 'Z') {
+                return firstChar;
+            }
+            return '#';
+        }
 
-            if (s2Art) s2Art.innerHTML = artOptionsHtml;
-            if (sortimentArtNrSelect) sortimentArtNrSelect.innerHTML = artOptionsHtml;
+        function populateSortimentWithGroups() {
+            if (!sortimentList.length) return;
 
-            if (s2Name) s2Name.innerHTML = bezOptionsHtml;
-            if (sortimentBezSelect) sortimentBezSelect.innerHTML = bezOptionsHtml;
+            // Art.Nr.
+            const artGroups = {};
+            sortimentList.forEach((item, idx) => {
+                const group = getArtNrGroup(item.artNr);
+                if (!artGroups[group]) artGroups[group] = [];
+                artGroups[group].push({ ...item, idx });
+            });
+
+            let artHtml = '';
+            const sortedArtGroups = Object.keys(artGroups).sort((a, b) => parseInt(a) - parseInt(b));
+            sortedArtGroups.forEach(groupKey => {
+                artHtml += '<optgroup label="' + groupKey + '">';
+                artGroups[groupKey].forEach(item => {
+                    artHtml += '<option value="' + item.idx + '">· ' + item.artNr + '</option>';
+                });
+                artHtml += '</optgroup>';
+            });
+
+            if (s2Art) s2Art.innerHTML = artHtml;
+
+            // Bezeichnung
+            const bezGroups = {};
+            sortimentList.forEach((item, idx) => {
+                const group = getBezGroup(item.bez);
+                if (!bezGroups[group]) bezGroups[group] = [];
+                bezGroups[group].push({ ...item, idx });
+            });
+
+            let bezHtml = '';
+            const sortedBezGroups = Object.keys(bezGroups).sort((a, b) => {
+                if (a === '#') return 1;
+                if (b === '#') return -1;
+                return a.localeCompare(b);
+            });
+            sortedBezGroups.forEach(groupKey => {
+                bezHtml += '<optgroup label="' + groupKey + '">';
+                bezGroups[groupKey].forEach(item => {
+                    bezHtml += '<option value="' + item.idx + '">· ' + item.bez + '</option>';
+                });
+                bezHtml += '</optgroup>';
+            });
+
+            if (s2Name) s2Name.innerHTML = bezHtml;
+
+            // Modal-Dropdowns (falls sichtbar)
+            if (sortimentArtNrSelect) sortimentArtNrSelect.innerHTML = artHtml;
+            if (sortimentBezSelect) sortimentBezSelect.innerHTML = bezHtml;
 
             if (sortimentList.length > 0) {
                 setSortimentByIndex(0);
@@ -936,7 +1118,7 @@
         }
 
         // ============================================================
-        // VERBESSERTE ZOOM-FUNKTION
+        // ZOOM
         // ============================================================
         function applyZoom(value) {
             if (zoomVal) zoomVal.textContent = value + '%';
@@ -945,22 +1127,18 @@
             const element = document.getElementById('pageContainer');
             if (!container || !element) return;
 
-            // Tatsächliche nutzbare Fläche (Container abzüglich Padding)
             const style = getComputedStyle(container);
             const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
             const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
             const availW = container.clientWidth - padX - 8;
             const availH = container.clientHeight - padY - 8;
 
-            // Referenzgröße der A4-Seite (in Pixeln, bei 96 DPI)
             const refW = 794;
             const refH = 1123;
 
             const scaleX = availW / refW;
             const scaleY = availH / refH;
-            // Basis: immer so, dass die Seite komplett sichtbar ist, aber auch vergrößert werden kann
             let baseScale = Math.min(scaleX, scaleY);
-            // Erlaubte Spanne: 0.3 (sehr klein) bis 2.5 (stark vergrößert)
             baseScale = Math.max(0.3, Math.min(2.5, baseScale));
             const finalScale = Math.min(baseScale * factor, 2.5);
 
@@ -968,7 +1146,7 @@
             element.style.top = '50%';
             element.style.left = '50%';
             element.style.transformOrigin = 'center center';
-            element.style.transform = `translate(-50%, -50%) scale(${finalScale})`;
+            element.style.transform = 'translate(-50%, -50%) scale(' + finalScale + ')';
         }
 
         // ============================================================
@@ -981,17 +1159,18 @@
 
             if (!sheetContainer) return;
             sheetContainer.innerHTML = '';
-            sheetContainer.style.gridTemplateColumns = `repeat(${config.cols}, 1fr)`;
-            sheetContainer.style.gridTemplateRows = `repeat(${config.rows}, 1fr)`;
+            sheetContainer.style.gridTemplateColumns = 'repeat(' + config.cols + ', 1fr)';
+            sheetContainer.style.gridTemplateRows = 'repeat(' + config.rows + ', 1fr)';
 
-            const topText = selectedLocationItem ? `${selectedLocationItem.siteCode} • ${selectedLocationItem.name}` : 'LAVU OÖ';
+            const topText = selectedLocationItem ? selectedLocationItem.siteCode + ' • ' + selectedLocationItem.name :
+                'LAVU OÖ';
             const artNr = selectedSortimentItem ? selectedSortimentItem.artNr : '4040';
             const suffix = selectedSortimentItem ? selectedSortimentItem.geb : 'AB';
             const bez = selectedSortimentItem ? selectedSortimentItem.bez : 'Elektro-Kleingeräte';
 
             for (let i = 1; i <= maxLabels; i++) {
                 const label = document.createElement('div');
-                label.className = `lb marked ${config.round ? 'round' : ''}`;
+                label.className = 'lb marked' + (config.round ? ' round' : '');
                 label.dataset.index = i;
                 label.innerHTML = `
                     <div class="lbt">${topText}</div>
@@ -1008,10 +1187,57 @@
         }
 
         // ============================================================
-        // INITIALISIERUNG
+        // PDF-GENERIERUNG
+        // ============================================================
+        function generatePDF() {
+            const loadingOverlay = document.getElementById('pdfLoading');
+            const button = document.getElementById('printBtn');
+
+            if (loadingOverlay) loadingOverlay.style.display = 'flex';
+            if (button) { button.disabled = true;
+                button.textContent = 'PDF wird erstellt …'; }
+
+            const container = document.getElementById('sheetContainer');
+            if (!container) {
+                alert('Kein Etiketten‑Container gefunden!');
+                if (loadingOverlay) loadingOverlay.style.display = 'none';
+                if (button) { button.disabled = false;
+                    button.textContent = 'PDF generieren'; }
+                return;
+            }
+
+            setTimeout(() => {
+                html2canvas(container, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: false,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    width: container.scrollWidth,
+                    height: container.scrollHeight
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+                    pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
+                    pdf.save('Etiketten_LAVU.pdf');
+
+                    if (loadingOverlay) loadingOverlay.style.display = 'none';
+                    if (button) { button.disabled = false;
+                        button.textContent = 'PDF generieren'; }
+                }).catch(error => {
+                    console.error('PDF‑Fehler:', error);
+                    alert('Fehler beim Erstellen des PDFs. Bitte versuche es erneut.');
+                    if (loadingOverlay) loadingOverlay.style.display = 'none';
+                    if (button) { button.disabled = false;
+                        button.textContent = 'PDF generieren'; }
+                });
+            }, 100);
+        }
+
+        // ============================================================
+        // INIT
         // ============================================================
         async function init() {
-            // Load templates with error fallback
             try {
                 const data = await fetchJsonSafe('herma_templates.json');
                 allTemplates = data.templates || FALLBACK_TEMPLATES;
@@ -1020,7 +1246,6 @@
                 allTemplates = FALLBACK_TEMPLATES;
             }
 
-            // Load sortiment with fallback
             try {
                 sortimentList = await fetchJsonSafe('sortiment.json');
             } catch (err) {
@@ -1028,7 +1253,6 @@
                 sortimentList = FALLBACK_SORTIMENT;
             }
 
-            // Load locations with fallback
             try {
                 locationsList = await fetchJsonSafe('locations.json');
             } catch (err) {
@@ -1036,30 +1260,34 @@
                 locationsList = FALLBACK_LOCATIONS;
             }
 
-            // Populate Dropdowns
+            // Templates
             [templateSelect, templateSelectMain].forEach(sel => {
                 if (!sel) return;
-                sel.innerHTML = allTemplates.map(t => 
-                    `<option value="${t.sku}">${t.sku} – ${t.width_mm}×${t.height_mm}mm (${t.category})</option>`
+                sel.innerHTML = allTemplates.map(t =>
+                    '<option value="' + t.sku + '">' + t.sku + ' – ' + t.width_mm + '×' + t.height_mm + 'mm (' + t
+                    .category + ')</option>'
                 ).join('');
             });
 
             populateLocations();
-            populateSortiment();
+            populateSortimentWithGroups();
 
-            // Event Listeners for Sortiment & Locations
-            if (s2Art) s2Art.addEventListener('change', (e) => setSortimentByIndex(e.target.value));
-            if (s2Name) s2Name.addEventListener('change', (e) => setSortimentByIndex(e.target.value));
-            if (sortimentArtNrSelect) sortimentArtNrSelect.addEventListener('change', (e) => setSortimentByIndex(e.target.value));
-            if (sortimentBezSelect) sortimentBezSelect.addEventListener('change', (e) => setSortimentByIndex(e.target.value));
+            // Events
+            if (s2Art) s2Art.addEventListener('change', function(e) { setSortimentByIndex(e.target.value); });
+            if (s2Name) s2Name.addEventListener('change', function(e) { setSortimentByIndex(e.target.value); });
+            if (sortimentArtNrSelect) sortimentArtNrSelect.addEventListener('change', function(e) { setSortimentByIndex(e
+                    .target.value); });
+            if (sortimentBezSelect) sortimentBezSelect.addEventListener('change', function(e) { setSortimentByIndex(e
+                    .target.value); });
 
-            if (headerLocationSelect) headerLocationSelect.addEventListener('change', (e) => setLocationByIndex(e.target.value));
-            if (locationSelect) locationSelect.addEventListener('change', (e) => setLocationByIndex(e.target.value));
+            if (headerLocationSelect) headerLocationSelect.addEventListener('change', function(e) { setLocationByIndex(e
+                    .target.value); });
+            if (locationSelect) locationSelect.addEventListener('change', function(e) { setLocationByIndex(e.target
+                    .value); });
 
-            // Template selection handlers
             [templateSelect, templateSelectMain].forEach(sel => {
                 if (!sel) return;
-                sel.addEventListener('change', (e) => {
+                sel.addEventListener('change', function(e) {
                     const sku = e.target.value;
                     if (templateSelect) templateSelect.value = sku;
                     if (templateSelectMain) templateSelectMain.value = sku;
@@ -1069,10 +1297,10 @@
 
             renderSheet(currentSku);
 
-            // Open Modal Explicitly on Button Click
+            // ── Buttons ──
             const btnPrintNow = document.getElementById('btn-print-now');
             if (btnPrintNow) {
-                btnPrintNow.addEventListener('click', () => {
+                btnPrintNow.addEventListener('click', function() {
                     if (modal) {
                         modal.style.display = 'flex';
                         setTimeout(() => applyZoom(zoomSlider ? zoomSlider.value : 100), 50);
@@ -1082,46 +1310,46 @@
 
             const btnOptions = document.getElementById('btn-options');
             if (btnOptions) {
-                btnOptions.addEventListener('click', () => {
+                btnOptions.addEventListener('click', function() {
                     if (optionsModal) optionsModal.style.display = 'flex';
                 });
             }
 
             const modal1Close = document.getElementById('modal1CloseBtn');
-            if (modal1Close) modal1Close.addEventListener('click', () => optionsModal.style.display = 'none');
+            if (modal1Close) modal1Close.addEventListener('click', function() { optionsModal.style.display = 'none'; });
 
             const btnDone = document.getElementById('btn-done');
-            if (btnDone) btnDone.addEventListener('click', () => optionsModal.style.display = 'none');
+            if (btnDone) btnDone.addEventListener('click', function() { optionsModal.style.display = 'none'; });
 
-            if (closeBtn) closeBtn.addEventListener('click', () => modal.style.display = 'none');
-            if (printBtn) printBtn.addEventListener('click', () => window.print());
+            if (closeBtn) closeBtn.addEventListener('click', function() { modal.style.display = 'none'; });
+
+            if (printBtn) {
+                printBtn.addEventListener('click', generatePDF);
+            }
 
             if (zoomSlider) {
                 zoomSlider.addEventListener('input', function() { applyZoom(this.value); });
             }
 
             if (zoomToggleBtn && zoomContainer) {
-                zoomToggleBtn.addEventListener('click', () => zoomContainer.classList.toggle('visible'));
+                zoomToggleBtn.addEventListener('click', function() { zoomContainer.classList.toggle('visible'); });
             }
 
-            // Fenster-Resize: Zoom neu berechnen
-            window.addEventListener('resize', () => {
+            window.addEventListener('resize', function() {
                 if (modal && modal.style.display !== 'none') {
                     applyZoom(zoomSlider ? zoomSlider.value : 100);
                 }
             });
         }
 
-        // Global uncaught errors
-        window.addEventListener('error', (e) => console.error('[Runtime Error]:', e.message));
-        window.addEventListener('unhandledrejection', (e) => console.error('[Unhandled Rejection]:', e.reason));
+        window.addEventListener('error', function(e) { console.error('[Runtime Error]:', e.message); });
+        window.addEventListener('unhandledrejection', function(e) { console.error('[Unhandled Rejection]:', e.reason); });
 
-        // Service Worker registration
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
+            window.addEventListener('load', function() {
                 navigator.serviceWorker.register('sw.js')
-                    .then(r => console.log('[SW] Registered:', r.scope))
-                    .catch(e => console.warn('[SW] Registration failed:', e));
+                    .then(function(r) { console.log('[SW] Registered:', r.scope); })
+                    .catch(function(e) { console.warn('[SW] Registration failed:', e); });
             });
         }
 

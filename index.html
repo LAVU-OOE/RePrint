@@ -36,9 +36,6 @@
             padding: 16px;
         }
 
-        /* =========================================================
-           2. MAIN DASHBOARD CARD
-           ========================================================= */
         .crd {
             background: #ffffff;
             border-radius: 16px;
@@ -114,7 +111,6 @@
             white-space: nowrap;
         }
 
-        /* Dropdowns mit optgroup – etwas mehr Platz für die Gruppen */
         select optgroup {
             font-weight: 700;
             color: #1a4b60;
@@ -185,7 +181,6 @@
             flex: 2;
             box-shadow: 0 4px 12px rgba(39, 174, 96, 0.2);
         }
-
         .bp:hover {
             background-color: #219653;
         }
@@ -195,7 +190,6 @@
             color: #1a4b60;
             flex: 1;
         }
-
         .bs:hover {
             background-color: #cbd5e1;
         }
@@ -217,7 +211,6 @@
             font-weight: 600;
             margin-bottom: 10px;
         }
-
         .toast-banner.show {
             display: block;
         }
@@ -365,26 +358,21 @@
             padding: 2mm 3mm;
             transition: background-color 0.15s ease;
         }
-
         .lb:hover {
             background-color: #e8f8f5;
             border-color: #27ae60;
         }
-
         .lb.e {
             border: 0.3px dashed #e2e8f0;
             background: #fafafa;
         }
-
         .lb.e * {
             display: none !important;
         }
-
         .lb.marked {
             border: 0.8px solid #2563eb;
             background-color: #eff6ff;
         }
-
         .lb.round {
             border-radius: 50% !important;
         }
@@ -490,7 +478,6 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
             z-index: 10;
         }
-
         .zoom-container.visible {
             display: flex;
         }
@@ -510,7 +497,6 @@
             background: #cbd5e1;
             border-radius: 3px;
         }
-
         .zoom-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 14px;
@@ -560,67 +546,26 @@
             margin-bottom: 12px;
         }
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @media (max-width: 480px) {
-            body {
-                padding: 8px;
-            }
-            .crd {
-                padding: 14px;
-                gap: 12px;
-            }
-            .hdr-ttl {
-                font-size: 1rem;
-            }
-            .sel-hdr,
-            .sel-modal-hdr {
-                font-size: 0.7rem;
-                max-width: 100px;
-            }
-            .mpc {
-                padding: 6px 8px !important;
-            }
-            .mbs {
-                padding: 8px;
-                min-height: 200px;
-            }
-            .lb {
-                padding: 1.5mm 2mm;
-            }
-            .lba {
-                font-size: 14pt;
-            }
-            .lbs {
-                font-size: 7pt;
-            }
-            .lbb {
-                font-size: 7pt;
-            }
-            .lbt {
-                font-size: 6pt;
-            }
-            .lbf {
-                font-size: 4pt;
-            }
-            button {
-                font-size: 0.75rem;
-                padding: 8px 12px;
-            }
-            .zoom-toggle-btn {
-                width: 28px;
-                height: 28px;
-                left: 4px;
-            }
-            .zoom-slider-wrapper {
-                height: 90px;
-            }
+            body { padding: 8px; }
+            .crd { padding: 14px; gap: 12px; }
+            .hdr-ttl { font-size: 1rem; }
+            .sel-hdr, .sel-modal-hdr { font-size: 0.7rem; max-width: 100px; }
+            .mpc { padding: 6px 8px !important; }
+            .mbs { padding: 8px; min-height: 200px; }
+            .lb { padding: 1.5mm 2mm; }
+            .lba { font-size: 14pt; }
+            .lbs { font-size: 7pt; }
+            .lbb { font-size: 7pt; }
+            .lbt { font-size: 6pt; }
+            .lbf { font-size: 4pt; }
+            button { font-size: 0.75rem; padding: 8px 12px; }
+            .zoom-toggle-btn { width: 28px; height: 28px; left: 4px; }
+            .zoom-slider-wrapper { height: 90px; }
         }
 
         @media print {
@@ -628,16 +573,11 @@
                 size: A4 portrait;
                 margin: 0 !important;
             }
-
-            *,
-            *::before,
-            *::after {
+            *, *::before, *::after {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-
-            html,
-            body {
+            html, body {
                 margin: 0 !important;
                 padding: 0 !important;
                 background: white !important;
@@ -645,21 +585,10 @@
                 height: 297mm !important;
                 overflow: hidden !important;
             }
-
-            .crd,
-            .hdr,
-            .ftr,
-            .mh,
-            .mf,
-            .pwb,
-            #m1,
-            .zoom-toggle-btn,
-            .zoom-container {
+            .crd, .hdr, .ftr, .mh, .mf, .pwb, #m1, .zoom-toggle-btn, .zoom-container {
                 display: none !important;
             }
-
-            .mb,
-            #modalContainer {
+            .mb, #modalContainer {
                 position: static !important;
                 background: none !important;
                 backdrop-filter: none !important;
@@ -668,7 +597,6 @@
                 width: 210mm !important;
                 height: 297mm !important;
             }
-
             .mpc {
                 padding: 0 !important;
                 width: 210mm !important;
@@ -676,7 +604,6 @@
                 background: white !important;
                 overflow: hidden !important;
             }
-
             .mbs {
                 padding: 0 !important;
                 background: white !important;
@@ -686,9 +613,7 @@
                 height: 297mm !important;
                 container-type: unset !important;
             }
-
-            .pc,
-            #pageContainer {
+            .pc, #pageContainer {
                 position: relative !important;
                 top: 0 !important;
                 left: 0 !important;
@@ -698,9 +623,7 @@
                 height: 297mm !important;
                 margin: 0 !important;
             }
-
-            .psh,
-            #sheetContainer {
+            .psh, #sheetContainer {
                 width: 210mm !important;
                 height: 297mm !important;
                 padding: 5mm 2mm 5mm 2mm !important;
@@ -708,24 +631,20 @@
                 display: grid !important;
                 background: white !important;
             }
-
             .lb {
                 border: 0.3px solid #ccc !important;
                 background: white !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
-
             .lb.marked {
                 border: 0.8px solid #000 !important;
                 background: white !important;
             }
-
             .lb.e {
                 background: white !important;
                 border: 0.3px dashed #e2e8f0 !important;
             }
-
             .lb.e * {
                 display: none !important;
             }
@@ -839,17 +758,13 @@
         </div>
     </div>
 
-    <!-- Haupt-Modal (Vorschau) – DROPDOWNS AUSGEBLENDET -->
+    <!-- Haupt-Modal (Vorschau) – Dropdowns ausgeblendet -->
     <div class="mb" id="modalContainer" style="display:none;">
         <div class="mc mpc">
             <div class="mh">
                 <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                     <span>🏷️ HERMA</span>
-                    <!-- Dropdowns im Modal ausgeblendet (werden nicht mehr benötigt) -->
-                    <!-- <select id="templateSelect" class="sel-modal-hdr" style="display:none;"></select> -->
-                    <!-- <select id="sortimentArtNrSelect" class="sel-modal-hdr" style="display:none;"></select> -->
-                    <!-- <select id="sortimentBezSelect" class="sel-modal-hdr" style="display:none;"></select> -->
-                    <!-- <select id="locationSelect" class="sel-modal-hdr" style="display:none;"></select> -->
+                    <!-- Dropdowns im Modal ausgeblendet -->
                     <label style="font-size: 0.7rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 3px;">
                         <input type="checkbox" id="memoryCheckbox" checked /> Merken
                     </label>
@@ -1023,7 +938,7 @@
         }
 
         // ==========================================
-        // NEUE FUNKTIONEN FÜR optgroup-DROPDOWNS
+        // optgroup-FUNKTIONEN
         // ==========================================
         function getArtNrGroup(artNr) {
             const firstDigit = String(artNr).charAt(0);
@@ -1042,7 +957,6 @@
         function populateSortimentWithGroups() {
             if (!sortimentList.length) return;
 
-            // Art.Nr.
             const artGroups = {};
             sortimentList.forEach((item, idx) => {
                 const group = getArtNrGroup(item.artNr);
@@ -1062,7 +976,6 @@
 
             if (s2Art) s2Art.innerHTML = artHtml;
 
-            // Bezeichnung
             const bezGroups = {};
             sortimentList.forEach((item, idx) => {
                 const group = getBezGroup(item.bez);
@@ -1089,12 +1002,54 @@
             // Modal-Dropdowns (falls sichtbar)
             if (sortimentArtNrSelect) sortimentArtNrSelect.innerHTML = artHtml;
             if (sortimentBezSelect) sortimentBezSelect.innerHTML = bezHtml;
+        }
 
-            if (sortimentList.length > 0) {
+        // ==========================================
+        // STATE MANAGEMENT (mit localStorage)
+        // ==========================================
+        function saveState() {
+            if (selectedSortimentItem) {
+                const idx = sortimentList.indexOf(selectedSortimentItem);
+                if (idx !== -1) Storage.set('selectedSortimentIndex', idx);
+            }
+            if (selectedLocationItem) {
+                const idx = locationsList.indexOf(selectedLocationItem);
+                if (idx !== -1) Storage.set('selectedLocationIndex', idx);
+            }
+            Storage.set('selectedTemplateSku', currentSku);
+        }
+
+        function restoreState() {
+            // Standort
+            const locIdx = Storage.get('selectedLocationIndex');
+            if (locIdx !== null && locationsList[locIdx]) {
+                setLocationByIndex(parseInt(locIdx));
+            } else if (locationsList.length > 0) {
+                setLocationByIndex(0); // Fallback auf ersten
+            }
+
+            // Sortiment
+            const sortIdx = Storage.get('selectedSortimentIndex');
+            if (sortIdx !== null && sortimentList[sortIdx]) {
+                setSortimentByIndex(parseInt(sortIdx));
+            } else if (sortimentList.length > 0) {
                 setSortimentByIndex(0);
+            }
+
+            // Template
+            const sku = Storage.get('selectedTemplateSku');
+            if (sku && allTemplates.some(t => t.sku === sku)) {
+                currentSku = sku;
+                // Dropdowns syncen
+                if (templateSelect) templateSelect.value = sku;
+                if (templateSelectMain) templateSelectMain.value = sku;
+                renderSheet(sku);
             }
         }
 
+        // ==========================================
+        // SETTER-FUNKTIONEN (speichern automatisch)
+        // ==========================================
         function setSortimentByIndex(idx) {
             const index = parseInt(idx, 10);
             if (!isNaN(index) && sortimentList[index]) {
@@ -1105,6 +1060,7 @@
                 if (sortimentBezSelect) sortimentBezSelect.value = index;
                 updateSingleLabelCard();
                 renderSheet(currentSku);
+                saveState();
             }
         }
 
@@ -1115,6 +1071,7 @@
             if (locationSelect) locationSelect.value = isNaN(index) ? "" : index;
             updateSingleLabelCard();
             renderSheet(currentSku);
+            saveState();
         }
 
         // ============================================================
@@ -1184,6 +1141,7 @@
                 sheetContainer.appendChild(label);
             }
             if (zoomSlider) applyZoom(zoomSlider.value);
+            saveState(); // Template speichern
         }
 
         // ============================================================
@@ -1260,7 +1218,7 @@
                 locationsList = FALLBACK_LOCATIONS;
             }
 
-            // Templates
+            // Templates befüllen
             [templateSelect, templateSelectMain].forEach(sel => {
                 if (!sel) return;
                 sel.innerHTML = allTemplates.map(t =>
@@ -1271,6 +1229,9 @@
 
             populateLocations();
             populateSortimentWithGroups();
+
+            // Zustand wiederherstellen (gespeicherte Werte)
+            restoreState();
 
             // Events
             if (s2Art) s2Art.addEventListener('change', function(e) { setSortimentByIndex(e.target.value); });
@@ -1294,8 +1255,6 @@
                     renderSheet(sku);
                 });
             });
-
-            renderSheet(currentSku);
 
             // ── Buttons ──
             const btnPrintNow = document.getElementById('btn-print-now');

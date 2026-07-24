@@ -262,7 +262,7 @@
             background: white;
             border-radius: 16px;
             width: 100%;
-            max-width: 580px;
+            max-width: 700px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
             position: relative;
             max-height: 95vh;
@@ -339,6 +339,116 @@
         .bsd {
             background-color: #cbd5e1;
             color: #1a4b60;
+        }
+
+        /* =========================================================
+           OPTIONS MODAL STYLES
+           ========================================================= */
+        .fv {
+            margin-bottom: 12px;
+        }
+        .fv label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+        .fv select,
+        .fv input[type="text"],
+        .fv input[type="number"] {
+            width: 100%;
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-size: 0.8rem;
+            background: #f8fafc;
+        }
+        .fg {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .ms {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 16px;
+            gap: 0;
+        }
+        .mt {
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #64748b;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .mt.a {
+            color: #1a4b60;
+            border-bottom-color: #1a4b60;
+        }
+        .mt:hover {
+            color: #1a4b60;
+            background: #f1f5f9;
+        }
+        .fs {
+            display: none;
+        }
+        .fs.a {
+            display: block;
+        }
+        .cir {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 8px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.8rem;
+        }
+        .cir:last-child {
+            border-bottom: none;
+        }
+        .cii {
+            flex: 1;
+        }
+        .cir button {
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            border-radius: 4px;
+            background: transparent;
+        }
+        .cir button[data-action="edit"] {
+            background: #3498db;
+            color: white;
+        }
+        .cir button[data-action="delete"] {
+            background: #e74c3c;
+            color: white;
+        }
+        .bc {
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+        .status-badge.online {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-badge.offline {
+            background: #f8d7da;
+            color: #721c24;
         }
 
         /* =========================================================
@@ -575,6 +685,12 @@
             100% { transform: rotate(360deg); }
         }
 
+        .lb.clickable:hover {
+            cursor: pointer;
+            background-color: #dbeafe;
+            border-color: #1a4b60;
+        }
+
         @media (max-width: 480px) {
             body { padding: 8px; }
             .crd { padding: 14px; gap: 12px; }
@@ -592,6 +708,8 @@
             .zoom-toggle-btn { width: 28px; height: 28px; left: 4px; }
             .zoom-slider-wrapper { height: 90px; }
             .range-inputs { grid-template-columns: 1fr; }
+            .fg { grid-template-columns: 1fr; }
+            .mc { max-width: 100%; margin: 8px; }
         }
 
         @media print {
@@ -724,7 +842,6 @@
                     <select id="s2_name"></select>
                 </div>
             </div>
-            <!-- NEUE Steuerelemente: Startposition & Anzahl -->
             <div class="range-inputs" style="margin-top: 8px;">
                 <div>
                     <label for="startPosition">Start bei Etikett</label>
@@ -766,42 +883,170 @@
         </div>
     </div>
 
-    <!-- Options-Modal -->
+    <!-- ============================================================
+         ERWEITERTES OPTIONS-MODAL
+         ============================================================ -->
     <div id="m1" class="mb" style="display:none;">
         <div class="mc">
             <div class="mh">
-                <span>Druck- &amp; Standorteinstellungen</span>
-                <button class="bx" id="modal1CloseBtn">&times;</button>
+                <span id="txt-modal1-title">Druck- &amp; Standorteinstellungen</span>
+                <button class="bx" id="modal1CloseBtn" aria-label="Close modal">×</button>
             </div>
-            <div style="padding: 8px 0;">
-                <div style="margin-bottom: 12px;">
-                    <label style="font-weight: bold; font-size: 0.8rem;">Sortiment-Worker:</label>
-                    <div style="display: flex; gap: 6px; margin-top: 4px;">
-                        <input type="text" id="i4" placeholder="https://..." style="flex: 1; padding: 6px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.8rem;" />
-                        <button class="bsd" id="btn-update">Aktualisieren</button>
+
+            <!-- Standort -->
+            <div class="fv">
+                <label for="i1" id="lbl-location">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    Standort (ASZ Niederlassung OÖ):
+                </label>
+                <select id="i1"></select>
+            </div>
+
+            <!-- HERMA Format -->
+            <div class="fv">
+                <label for="labelFormatSelect" id="lbl-format">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+                    Etiketten-Hersteller &amp; Format:
+                </label>
+                <select id="labelFormatSelect">
+                    <option value="4269">HERMA 4269 (99,1 x 67,7 mm)</option>
+                    <option value="4273">HERMA 4273 (70 x 36 mm)</option>
+                    <option value="4276">HERMA 4276 (99,1 x 42,3 mm)</option>
+                    <option value="4278">HERMA 4278 (70 x 50,8 mm)</option>
+                    <option value="4282">HERMA 4282 (105 x 68 mm)</option>
+                    <option value="4359">HERMA 4359 (97 x 67,7 mm)</option>
+                    <option value="4428">HERMA 4428 (105 x 68 mm)</option>
+                    <option value="4441">HERMA 4441 (70 x 42 mm)</option>
+                    <option value="4456">HERMA 4456 (70 x 29,7 mm)</option>
+                    <option value="4459">HERMA 4459 (70 x 16,9 mm)</option>
+                    <option value="4462">HERMA 4462 (105 x 37 mm)</option>
+                    <option value="4463">HERMA 4463 (105 x 68 mm)</option>
+                    <option value="4465">HERMA 4465 (99,1 x 42,3 mm)</option>
+                    <option value="4470">HERMA 4470 (105 x 74 mm)</option>
+                    <option value="4473" selected>HERMA 4473 (70 x 36 mm)</option>
+                    <option value="4623">HERMA 4623 (97 x 42,3 mm)</option>
+                    <option value="4626">HERMA 4626 (105 x 74 mm)</option>
+                    <option value="4676">HERMA 4676 (70 x 36 mm)</option>
+                    <option value="5055">HERMA 5055 (70 x 50,8 mm)</option>
+                    <option value="5062">HERMA 5062 (105 x 74 mm)</option>
+                    <option value="5074">HERMA 5074 (70 x 36 mm)</option>
+                    <option value="5077">HERMA 5077 (99,1 x 67,7 mm)</option>
+                    <option value="8645">HERMA 8645 (105 x 74 mm)</option>
+                </select>
+            </div>
+
+            <!-- Anzahl & Startposition (optional) -->
+            <div class="fg" style="margin-bottom: 15px;">
+                <div class="fv">
+                    <label for="i2" id="lblCount">Anzahl Etiketten (max. 24):</label>
+                    <input type="number" id="i2" value="24" min="1" max="24" />
+                </div>
+                <div class="fv">
+                    <label for="i3" id="lblStartPos">Start-Position (1-24):</label>
+                    <input type="number" id="i3" value="1" min="1" max="24" />
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="ms">
+                <div id="t2" class="mt a">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                    <span id="txt-tab-select">LAVU Service-Worker</span>
+                </div>
+                <div id="t3" class="mt">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="16"></line>
+                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                    <span id="txt-tab-manage">Datenbank verwalten</span>
+                </div>
+            </div>
+
+            <!-- Tab 1: Service-Worker -->
+            <div id="s3" class="fs a">
+                <div class="fv">
+                    <label for="i4" id="lbl-url">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                        Sortiment API:
+                    </label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="i4" placeholder="https://..." style="flex: 1;" />
+                        <button class="bc bsd" style="padding: 8px 16px;" id="btn-update">Aktualisieren</button>
+                    </div>
+                    <span id="n1" class="status-badge online">🟢 Verbunden mit externem JSON Repository</span>
+                </div>
+
+                <div class="fv" style="border-top: 1px dashed #cbd5e1; padding-top: 15px;">
+                    <label for="i8" id="lbl-locations-url">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        Locations API:
+                    </label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="i8" placeholder="https://..." style="flex: 1;" />
+                        <button class="bc bsd" style="padding: 8px 16px;" id="btn-update-locations">Aktualisieren</button>
+                    </div>
+                    <span id="n2" class="status-badge online">✅ Locations geladen (0 Einträge)</span>
+                </div>
+            </div>
+
+            <!-- Tab 2: Datenbank verwalten -->
+            <div id="s4" class="fs">
+                <div class="fg" style="gap: 12px; margin-bottom: 15px;">
+                    <div class="fv">
+                        <label for="c1">Art.Nr.:</label>
+                        <input type="text" id="c1" placeholder="z.B. 4040" />
+                    </div>
+                    <div class="fv">
+                        <label for="c2" id="lbl-db-suffix">Gebinde / Suffix:</label>
+                        <input type="text" id="c2" placeholder="z.B. QR-Box" />
+                    </div>
+                    <div class="fv" style="grid-column: 1 / -1;">
+                        <label for="c3" id="lbl-db-bez">Bezeichnung:</label>
+                        <input type="text" id="c3" placeholder="z.B. Elektro-Kleingeräte" />
                     </div>
                 </div>
-                <div style="margin-bottom: 12px; border-top: 1px dashed #cbd5e1; padding-top: 12px;">
-                    <label style="font-weight: bold; font-size: 0.8rem;">Locations-Worker:</label>
-                    <div style="display: flex; gap: 6px; margin-top: 4px;">
-                        <input type="text" id="i8" placeholder="https://..." style="flex: 1; padding: 6px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.8rem;" />
-                        <button class="bsd" id="btn-update-locations">Aktualisieren</button>
-                    </div>
+                <div style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
+                    <button id="b1" class="bc bsd" style="display: none; background: #e67e22;">💾 Ändern</button>
+                    <button class="bc bsd" style="background: #27ae60; flex: 1;" id="btn-add-new">➕ Neu hinzufügen</button>
+                    <button class="bc bcn" id="btn-cancel">Abbrechen</button>
                 </div>
+                <div style="margin-bottom: 15px;">
+                    <button class="bc" style="background: #2c3e50; color: white; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px;" id="btn-download-json">📥 Aktuelle Datenbank als JSON herunterladen</button>
+                </div>
+                <label id="lbl-current-entries">Aktuelle Einträge im lokalen Workspace:</label>
+                <div id="c4" style="max-height: 220px; overflow-y: auto; border: 1px solid #cbd5e1; border-radius: 6px; background: #f8fafc; padding: 5px;"></div>
             </div>
+
             <div class="mf">
+                <button id="b2" class="bsd" style="display: none;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
+                    </svg>
+                    <span id="btn-save-default">Standard sichern</span>
+                </button>
                 <button class="bcn" id="btn-done">Fertig</button>
             </div>
         </div>
     </div>
 
-    <!-- Haupt-Modal (Vorschau) – enthält jetzt auch Start/Anzahl -->
+    <!-- ============================================================
+         HAUPT-MODAL (Vorschau)
+         ============================================================ -->
     <div class="mb" id="modalContainer" style="display:none;">
         <div class="mc mpc">
             <div class="mh">
                 <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                     <span>🏷️ HERMA</span>
-                    <!-- Dropdowns im Modal ausgeblendet, aber Start/Anzahl sichtbar -->
                     <label style="font-size: 0.7rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 3px;">
                         <input type="checkbox" id="memoryCheckbox" checked /> Merken
                     </label>
@@ -809,7 +1054,6 @@
                 <button class="bx" id="closeBtn">✕</button>
             </div>
 
-            <!-- Zusätzliche Steuerelemente im Modal (Start & Anzahl) -->
             <div style="display: flex; gap: 12px; padding: 6px 0; flex-wrap: wrap; background: #f8fafc; border-radius: 8px; margin-bottom: 8px; padding: 8px 12px;">
                 <div style="display: flex; align-items: center; gap: 6px;">
                     <label style="font-size: 0.7rem; font-weight: 700; color: #64748b;">Start:</label>
@@ -820,6 +1064,7 @@
                     <input type="number" id="labelCountModal" min="1" value="24" style="width: 60px; padding: 4px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 0.8rem;" />
                 </div>
                 <button id="applyRangeModal" style="padding: 4px 12px; font-size: 0.7rem; background: #1a4b60; color: white; border: none; border-radius: 4px; cursor: pointer;">Anwenden</button>
+                <span style="font-size: 0.7rem; color: #64748b; margin-left: auto;">👆 Klick auf Etikett = Start</span>
             </div>
 
             <div class="mbs" id="previewArea">
@@ -879,6 +1124,33 @@
                 "round": false }
         ];
 
+        // HERMA Format Mapping (SKU -> cols, rows)
+        const HERMA_FORMATS = {
+            '4269': { cols: 2, rows: 4 },
+            '4273': { cols: 3, rows: 8 },
+            '4276': { cols: 2, rows: 6 },
+            '4278': { cols: 3, rows: 5 },
+            '4282': { cols: 2, rows: 4 },
+            '4359': { cols: 2, rows: 4 },
+            '4428': { cols: 2, rows: 4 },
+            '4441': { cols: 3, rows: 5 },
+            '4456': { cols: 3, rows: 9 },
+            '4459': { cols: 3, rows: 16 },
+            '4462': { cols: 2, rows: 7 },
+            '4463': { cols: 2, rows: 4 },
+            '4465': { cols: 2, rows: 6 },
+            '4470': { cols: 2, rows: 3 },
+            '4473': { cols: 3, rows: 8 },
+            '4623': { cols: 2, rows: 6 },
+            '4626': { cols: 2, rows: 3 },
+            '4676': { cols: 3, rows: 8 },
+            '5055': { cols: 3, rows: 5 },
+            '5062': { cols: 2, rows: 3 },
+            '5074': { cols: 3, rows: 8 },
+            '5077': { cols: 2, rows: 4 },
+            '8645': { cols: 2, rows: 3 }
+        };
+
         // ==========================================
         // STORAGE & NETWORK
         // ==========================================
@@ -895,10 +1167,12 @@
             }
         };
 
-        function showNotification(msg) {
+        function showNotification(msg, isError = false) {
             const banner = document.getElementById('toastBanner');
             if (banner) {
                 banner.textContent = msg;
+                banner.style.background = isError ? '#fee2e2' : '#d4edda';
+                banner.style.color = isError ? '#991b1b' : '#155724';
                 banner.classList.add('show');
                 setTimeout(() => banner.classList.remove('show'), 4000);
             }
@@ -939,7 +1213,6 @@
         const s2Art = document.getElementById('s2_art');
         const s2Name = document.getElementById('s2_name');
 
-        // Neue Felder
         const startPositionInput = document.getElementById('startPosition');
         const labelCountInput = document.getElementById('labelCount');
         const startPositionModal = document.getElementById('startPositionModal');
@@ -955,6 +1228,31 @@
         const closeBtn = document.getElementById('closeBtn');
         const modal = document.getElementById('modalContainer');
         const optionsModal = document.getElementById('m1');
+
+        // Options Modal Elements
+        const i1 = document.getElementById('i1');
+        const labelFormatSelect = document.getElementById('labelFormatSelect');
+        const i2 = document.getElementById('i2');
+        const i3 = document.getElementById('i3');
+        const i4 = document.getElementById('i4');
+        const i8 = document.getElementById('i8');
+        const n1 = document.getElementById('n1');
+        const n2 = document.getElementById('n2');
+        const btnUpdate = document.getElementById('btn-update');
+        const btnUpdateLocations = document.getElementById('btn-update-locations');
+        const t2 = document.getElementById('t2');
+        const t3 = document.getElementById('t3');
+        const s3 = document.getElementById('s3');
+        const s4 = document.getElementById('s4');
+        const c1 = document.getElementById('c1');
+        const c2 = document.getElementById('c2');
+        const c3 = document.getElementById('c3');
+        const c4 = document.getElementById('c4');
+        const btnAddNew = document.getElementById('btn-add-new');
+        const btnCancel = document.getElementById('btn-cancel');
+        const btnDownloadJson = document.getElementById('btn-download-json');
+        const btnDoneOptions = document.getElementById('btn-done');
+        const modal1CloseBtn = document.getElementById('modal1CloseBtn');
 
         // ==========================================
         // HELPER FUNCTIONS
@@ -980,6 +1278,7 @@
         }
 
         function populateLocations() {
+            // Haupt-Dropdowns
             const optionsHtml = locationsList.map((loc, idx) => {
                 const label = loc.siteCode && loc.siteCode !== "N/G" ? loc.siteCode + ' - ' + loc.name : loc.name;
                 return '<option value="' + idx + '">' + label + '</option>';
@@ -992,10 +1291,31 @@
             if (locationSelect) {
                 locationSelect.innerHTML = '<option value="">-- Standort --</option>' + optionsHtml;
             }
+
+            // Options-Modal Standort (mit optgroup nach Region)
+            const regionMap = {};
+            locationsList.forEach((loc, idx) => {
+                const region = loc.region || 'Sonstige';
+                if (!regionMap[region]) regionMap[region] = [];
+                regionMap[region].push({ ...loc, idx });
+            });
+
+            let optHtml = '';
+            Object.keys(regionMap).sort().forEach(region => {
+                optHtml += '<optgroup label="' + region + '">';
+                regionMap[region].forEach(item => {
+                    const label = item.siteCode && item.siteCode !== "N/G" ? item.siteCode + ' - ' + item.name :
+                        item.name;
+                    optHtml += '<option value="' + item.idx + '">' + label + ' (' + (item.siteCode || 'N/G') +
+                        ')</option>';
+                });
+                optHtml += '</optgroup>';
+            });
+            if (i1) i1.innerHTML = '<option value="">-- Standort wählen --</option>' + optHtml;
         }
 
         // ==========================================
-        // optgroup-FUNKTIONEN
+        // optgroup-FUNKTIONEN für Haupt-Dropdowns
         // ==========================================
         function getArtNrGroup(artNr) {
             const firstDigit = String(artNr).charAt(0);
@@ -1014,6 +1334,7 @@
         function populateSortimentWithGroups() {
             if (!sortimentList.length) return;
 
+            // Art.Nr.
             const artGroups = {};
             sortimentList.forEach((item, idx) => {
                 const group = getArtNrGroup(item.artNr);
@@ -1030,9 +1351,9 @@
                 });
                 artHtml += '</optgroup>';
             });
-
             if (s2Art) s2Art.innerHTML = artHtml;
 
+            // Bezeichnung
             const bezGroups = {};
             sortimentList.forEach((item, idx) => {
                 const group = getBezGroup(item.bez);
@@ -1053,11 +1374,134 @@
                 });
                 bezHtml += '</optgroup>';
             });
-
             if (s2Name) s2Name.innerHTML = bezHtml;
 
             if (sortimentArtNrSelect) sortimentArtNrSelect.innerHTML = artHtml;
             if (sortimentBezSelect) sortimentBezSelect.innerHTML = bezHtml;
+
+            // Datenbank-Liste aktualisieren
+            renderSortimentList();
+        }
+
+        // ==========================================
+        // DATENBANK-VERWALTUNG (CRUD)
+        // ==========================================
+        let editingIndex = null;
+
+        function renderSortimentList() {
+            if (!c4) return;
+            c4.innerHTML = '';
+            sortimentList.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = 'cir';
+                div.innerHTML = `
+                    <div class="cii">
+                        <b>${item.artNr}</b> - ${item.bez} <span style="color:#7f8c8d; font-size:0.75rem;">(${item.geb})</span>
+                    </div>
+                    <div style="display: flex; gap: 4px;">
+                        <button class="bc" style="padding: 3px 6px; background: #3498db; color: white; font-size: 0.75rem;" data-index="${idx}" data-action="edit">✏️</button>
+                        <button class="bc" style="padding: 3px 6px; background: #e74c3c; color: white; font-size: 0.75rem;" data-index="${idx}" data-action="delete">🗑️</button>
+                    </div>
+                `;
+                c4.appendChild(div);
+            });
+
+            // Event-Listener für Edit/Delete
+            c4.querySelectorAll('[data-action="edit"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const idx = parseInt(this.dataset.index, 10);
+                    editSortimentEntry(idx);
+                });
+            });
+            c4.querySelectorAll('[data-action="delete"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const idx = parseInt(this.dataset.index, 10);
+                    deleteSortimentEntry(idx);
+                });
+            });
+        }
+
+        function editSortimentEntry(idx) {
+            const item = sortimentList[idx];
+            if (!item) return;
+            c1.value = item.artNr || '';
+            c2.value = item.geb || '';
+            c3.value = item.bez || '';
+            editingIndex = idx;
+            document.getElementById('b1').style.display = 'flex';
+            document.getElementById('b1').textContent = '💾 Aktualisieren';
+            document.getElementById('btn-add-new').textContent = '✖ Abbrechen';
+            showNotification('Bearbeite Eintrag ' + item.artNr);
+        }
+
+        function deleteSortimentEntry(idx) {
+            if (!confirm('Eintrag "' + sortimentList[idx].artNr + ' - ' + sortimentList[idx].bez + '" wirklich löschen?'))
+                return;
+            sortimentList.splice(idx, 1);
+            // Wenn der aktuell ausgewählte Eintrag gelöscht wurde, zurücksetzen
+            if (selectedSortimentItem && sortimentList.indexOf(selectedSortimentItem) === -1) {
+                selectedSortimentItem = null;
+            }
+            populateSortimentWithGroups();
+            updateSingleLabelCard();
+            renderSheet(currentSku);
+            saveState();
+            showNotification('Eintrag gelöscht');
+        }
+
+        function addOrUpdateSortiment() {
+            const artNr = c1.value.trim();
+            const geb = c2.value.trim();
+            const bez = c3.value.trim();
+            if (!artNr || !bez) {
+                showNotification('Bitte Art.Nr. und Bezeichnung ausfüllen!', true);
+                return;
+            }
+
+            if (editingIndex !== null) {
+                // Update
+                sortimentList[editingIndex] = { artNr, bez, geb };
+                showNotification('Eintrag aktualisiert');
+                editingIndex = null;
+                document.getElementById('b1').style.display = 'none';
+                document.getElementById('btn-add-new').textContent = '➕ Neu hinzufügen';
+            } else {
+                // Neu
+                if (sortimentList.some(item => item.artNr === artNr)) {
+                    showNotification('Art.Nr. ' + artNr + ' existiert bereits!', true);
+                    return;
+                }
+                sortimentList.push({ artNr, bez, geb });
+                showNotification('Neuer Eintrag hinzugefügt');
+            }
+
+            c1.value = '';
+            c2.value = '';
+            c3.value = '';
+            populateSortimentWithGroups();
+            updateSingleLabelCard();
+            renderSheet(currentSku);
+            saveState();
+        }
+
+        function cancelEdit() {
+            c1.value = '';
+            c2.value = '';
+            c3.value = '';
+            editingIndex = null;
+            document.getElementById('b1').style.display = 'none';
+            document.getElementById('btn-add-new').textContent = '➕ Neu hinzufügen';
+        }
+
+        function downloadJSON() {
+            const dataStr = JSON.stringify(sortimentList, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'sortiment_' + new Date().toISOString().slice(0, 10) + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
         }
 
         // ==========================================
@@ -1073,13 +1517,13 @@
                 if (idx !== -1) Storage.set('selectedLocationIndex', idx);
             }
             Storage.set('selectedTemplateSku', currentSku);
-            // Neue Werte speichern
             Storage.set('startPosition', startPositionInput ? startPositionInput.value : '1');
             Storage.set('labelCount', labelCountInput ? labelCountInput.value : '24');
+            // HERMA Format speichern
+            if (labelFormatSelect) Storage.set('selectedHermaFormat', labelFormatSelect.value);
         }
 
         function restoreState() {
-            // Standort
             const locIdx = Storage.get('selectedLocationIndex');
             if (locIdx !== null && locationsList[locIdx]) {
                 setLocationByIndex(parseInt(locIdx));
@@ -1087,7 +1531,6 @@
                 setLocationByIndex(0);
             }
 
-            // Sortiment
             const sortIdx = Storage.get('selectedSortimentIndex');
             if (sortIdx !== null && sortimentList[sortIdx]) {
                 setSortimentByIndex(parseInt(sortIdx));
@@ -1095,7 +1538,6 @@
                 setSortimentByIndex(0);
             }
 
-            // Template
             const sku = Storage.get('selectedTemplateSku');
             if (sku && allTemplates.some(t => t.sku === sku)) {
                 currentSku = sku;
@@ -1104,7 +1546,6 @@
                 renderSheet(sku);
             }
 
-            // Start & Anzahl
             const start = Storage.get('startPosition');
             if (start && startPositionInput) startPositionInput.value = start;
             if (start && startPositionModal) startPositionModal.value = start;
@@ -1112,10 +1553,13 @@
             const count = Storage.get('labelCount');
             if (count && labelCountInput) labelCountInput.value = count;
             if (count && labelCountModal) labelCountModal.value = count;
+
+            const herma = Storage.get('selectedHermaFormat');
+            if (herma && labelFormatSelect) labelFormatSelect.value = herma;
         }
 
         // ==========================================
-        // SETTER-FUNKTIONEN (speichern automatisch)
+        // SETTER-FUNKTIONEN
         // ==========================================
         function setSortimentByIndex(idx) {
             const index = parseInt(idx, 10);
@@ -1136,6 +1580,7 @@
             selectedLocationItem = (!isNaN(index) && locationsList[index]) ? locationsList[index] : null;
             if (headerLocationSelect && !isNaN(index)) headerLocationSelect.value = index;
             if (locationSelect) locationSelect.value = isNaN(index) ? "" : index;
+            if (i1) i1.value = isNaN(index) ? "" : index;
             updateSingleLabelCard();
             renderSheet(currentSku);
             saveState();
@@ -1177,7 +1622,24 @@
         // RENDER SHEET (mit Startposition & Anzahl)
         // ============================================================
         function renderSheet(sku) {
-            const config = allTemplates.find(t => t.sku === sku) || FALLBACK_TEMPLATES[0];
+            // Template aus allTemplates oder aus HERMA_FORMATS bauen
+            let config = allTemplates.find(t => t.sku === sku);
+            if (!config) {
+                const format = HERMA_FORMATS[sku];
+                if (format) {
+                    config = {
+                        sku: sku,
+                        category: 'HERMA',
+                        cols: format.cols,
+                        rows: format.rows,
+                        width_mm: 0,
+                        height_mm: 0,
+                        round: false
+                    };
+                } else {
+                    config = FALLBACK_TEMPLATES[0];
+                }
+            }
             currentSku = sku;
             const maxLabels = (config.cols || 3) * (config.rows || 8);
 
@@ -1192,21 +1654,18 @@
             const suffix = selectedSortimentItem ? selectedSortimentItem.geb : 'AB';
             const bez = selectedSortimentItem ? selectedSortimentItem.bez : 'Elektro-Kleingeräte';
 
-            // Werte aus den Inputs holen (mit Fallback)
             let start = parseInt(startPositionInput ? startPositionInput.value : 1);
             let count = parseInt(labelCountInput ? labelCountInput.value : maxLabels);
-            // Validierung
             if (isNaN(start) || start < 1) start = 1;
             if (isNaN(count) || count < 1) count = 1;
             if (start > maxLabels) start = maxLabels;
             if (start + count - 1 > maxLabels) count = maxLabels - start + 1;
             if (count < 1) count = 1;
 
-            // Für jedes Etikett entscheiden, ob es befüllt wird
             for (let i = 1; i <= maxLabels; i++) {
                 const label = document.createElement('div');
                 const isFilled = (i >= start && i < start + count);
-                label.className = 'lb' + (isFilled ? ' marked' : ' e') + (config.round ? ' round' : '');
+                label.className = 'lb' + (isFilled ? ' marked' : ' e') + (config.round ? ' round' : '') + ' clickable';
                 label.dataset.index = i;
                 if (isFilled) {
                     label.innerHTML = `
@@ -1219,13 +1678,36 @@
                         <div class="lbf">https://lavu-ooe.github.io</div>
                     `;
                 } else {
-                    // Leeres Etikett (kein Inhalt)
                     label.innerHTML = '';
                 }
                 sheetContainer.appendChild(label);
             }
+
+            sheetContainer.removeEventListener('click', handleLabelClick);
+            sheetContainer.addEventListener('click', handleLabelClick);
+
             if (zoomSlider) applyZoom(zoomSlider.value);
             saveState();
+        }
+
+        // ============================================================
+        // CLICK-TO-SELECT
+        // ============================================================
+        function handleLabelClick(e) {
+            const label = e.target.closest('.lb');
+            if (!label) return;
+            if (label.classList.contains('e')) return;
+
+            const index = parseInt(label.dataset.index, 10);
+            if (isNaN(index)) return;
+
+            if (startPositionInput) startPositionInput.value = index;
+            if (startPositionModal) startPositionModal.value = index;
+            if (i3) i3.value = index;
+
+            renderSheet(currentSku);
+            saveState();
+            showNotification('Startposition auf Etikett ' + index + ' gesetzt');
         }
 
         // ============================================================
@@ -1236,13 +1718,15 @@
             const button = document.getElementById('printBtn');
 
             if (loadingOverlay) loadingOverlay.style.display = 'flex';
-            if (button) { button.disabled = true; button.textContent = 'PDF wird erstellt …'; }
+            if (button) { button.disabled = true;
+                button.textContent = 'PDF wird erstellt …'; }
 
             const container = document.getElementById('sheetContainer');
             if (!container) {
                 alert('Kein Etiketten‑Container gefunden!');
                 if (loadingOverlay) loadingOverlay.style.display = 'none';
-                if (button) { button.disabled = false; button.textContent = 'PDF generieren'; }
+                if (button) { button.disabled = false;
+                    button.textContent = 'PDF generieren'; }
                 return;
             }
 
@@ -1262,12 +1746,14 @@
                     pdf.output('dataurlnewwindow');
 
                     if (loadingOverlay) loadingOverlay.style.display = 'none';
-                    if (button) { button.disabled = false; button.textContent = 'PDF generieren'; }
+                    if (button) { button.disabled = false;
+                        button.textContent = 'PDF generieren'; }
                 }).catch(error => {
                     console.error('PDF‑Fehler:', error);
                     alert('Fehler beim Erstellen des PDFs. Bitte versuche es erneut.');
                     if (loadingOverlay) loadingOverlay.style.display = 'none';
-                    if (button) { button.disabled = false; button.textContent = 'PDF generieren'; }
+                    if (button) { button.disabled = false;
+                        button.textContent = 'PDF generieren'; }
                 });
             }, 100);
         }
@@ -1298,34 +1784,44 @@
                 locationsList = FALLBACK_LOCATIONS;
             }
 
-            // Templates befüllen
+            // Templates befüllen (Haupt + Modal)
+            const allTemplateOptions = allTemplates.map(t =>
+                '<option value="' + t.sku + '">' + t.sku + ' – ' + t.width_mm + '×' + t.height_mm + 'mm (' + t.category +
+                ')</option>'
+            ).join('');
+
+            // HERMA Formate aus HERMA_FORMATS hinzufügen
+            const hermaOptions = Object.keys(HERMA_FORMATS).map(sku =>
+                '<option value="' + sku + '">HERMA ' + sku + ' (' + HERMA_FORMATS[sku].cols + '×' + HERMA_FORMATS[sku]
+                .rows + ')</option>'
+            ).join('');
+
+            const allOptions = allTemplateOptions + hermaOptions;
+
             [templateSelect, templateSelectMain].forEach(sel => {
                 if (!sel) return;
-                sel.innerHTML = allTemplates.map(t =>
-                    '<option value="' + t.sku + '">' + t.sku + ' – ' + t.width_mm + '×' + t.height_mm + 'mm (' + t
-                    .category + ')</option>'
-                ).join('');
+                sel.innerHTML = allOptions;
             });
+
+            // labelFormatSelect schon mit Optionen im HTML
 
             populateLocations();
             populateSortimentWithGroups();
-
-            // Zustand wiederherstellen
             restoreState();
 
-            // ── Events für Start/Anzahl ──
+            // ── Sync für Start/Anzahl ──
             function syncRangeInputs() {
-                // Werte aus Hauptfeldern in Modal-Felder kopieren
                 if (startPositionModal) startPositionModal.value = startPositionInput ? startPositionInput.value : '1';
                 if (labelCountModal) labelCountModal.value = labelCountInput ? labelCountInput.value : '24';
-                // Neu rendern
+                if (i2) i2.value = labelCountInput ? labelCountInput.value : '24';
+                if (i3) i3.value = startPositionInput ? startPositionInput.value : '1';
                 renderSheet(currentSku);
             }
 
             if (startPositionInput) {
                 startPositionInput.addEventListener('change', function() {
-                    // Modal synchronisieren
                     if (startPositionModal) startPositionModal.value = this.value;
+                    if (i3) i3.value = this.value;
                     renderSheet(currentSku);
                     saveState();
                 });
@@ -1333,14 +1829,15 @@
             if (labelCountInput) {
                 labelCountInput.addEventListener('change', function() {
                     if (labelCountModal) labelCountModal.value = this.value;
+                    if (i2) i2.value = this.value;
                     renderSheet(currentSku);
                     saveState();
                 });
             }
-            // Modal-Inputs
             if (startPositionModal) {
                 startPositionModal.addEventListener('change', function() {
                     if (startPositionInput) startPositionInput.value = this.value;
+                    if (i3) i3.value = this.value;
                     renderSheet(currentSku);
                     saveState();
                 });
@@ -1348,21 +1845,140 @@
             if (labelCountModal) {
                 labelCountModal.addEventListener('change', function() {
                     if (labelCountInput) labelCountInput.value = this.value;
+                    if (i2) i2.value = this.value;
+                    renderSheet(currentSku);
+                    saveState();
+                });
+            }
+            if (i2) {
+                i2.addEventListener('change', function() {
+                    if (labelCountInput) labelCountInput.value = this.value;
+                    if (labelCountModal) labelCountModal.value = this.value;
+                    renderSheet(currentSku);
+                    saveState();
+                });
+            }
+            if (i3) {
+                i3.addEventListener('change', function() {
+                    if (startPositionInput) startPositionInput.value = this.value;
+                    if (startPositionModal) startPositionModal.value = this.value;
                     renderSheet(currentSku);
                     saveState();
                 });
             }
             if (applyRangeModal) {
                 applyRangeModal.addEventListener('click', function() {
-                    // Werte aus Modal in Hauptfelder kopieren und rendern
-                    if (startPositionInput && startPositionModal) startPositionInput.value = startPositionModal.value;
+                    if (startPositionInput && startPositionModal) startPositionInput.value = startPositionModal
+                        .value;
                     if (labelCountInput && labelCountModal) labelCountInput.value = labelCountModal.value;
+                    if (i2) i2.value = labelCountModal ? labelCountModal.value : '24';
+                    if (i3) i3.value = startPositionModal ? startPositionModal.value : '1';
                     renderSheet(currentSku);
                     saveState();
                 });
             }
 
-            // ── Events für andere Dropdowns ──
+            // ── HERMA Format im Options-Modal ──
+            if (labelFormatSelect) {
+                labelFormatSelect.addEventListener('change', function() {
+                    const sku = this.value;
+                    if (templateSelect) templateSelect.value = sku;
+                    if (templateSelectMain) templateSelectMain.value = sku;
+                    renderSheet(sku);
+                    saveState();
+                });
+            }
+
+            // ── Standort im Options-Modal ──
+            if (i1) {
+                i1.addEventListener('change', function() {
+                    const idx = parseInt(this.value, 10);
+                    if (!isNaN(idx)) {
+                        setLocationByIndex(idx);
+                    }
+                });
+            }
+
+            // ── Tabs ──
+            if (t2 && t3 && s3 && s4) {
+                t2.addEventListener('click', function() {
+                    t2.classList.add('a');
+                    t3.classList.remove('a');
+                    s3.classList.add('a');
+                    s4.classList.remove('a');
+                });
+                t3.addEventListener('click', function() {
+                    t3.classList.add('a');
+                    t2.classList.remove('a');
+                    s4.classList.add('a');
+                    s3.classList.remove('a');
+                });
+            }
+
+            // ── CRUD ──
+            if (btnAddNew) {
+                btnAddNew.addEventListener('click', addOrUpdateSortiment);
+            }
+            if (btnCancel) {
+                btnCancel.addEventListener('click', cancelEdit);
+            }
+            if (btnDownloadJson) {
+                btnDownloadJson.addEventListener('click', downloadJSON);
+            }
+
+            // ── API Updates ──
+            if (btnUpdate) {
+                btnUpdate.addEventListener('click', async function() {
+                    const url = i4.value.trim();
+                    if (!url) { showNotification('Bitte eine URL eingeben!', true); return; }
+                    try {
+                        const data = await fetchJsonSafe(url);
+                        if (Array.isArray(data)) {
+                            sortimentList = data;
+                            populateSortimentWithGroups();
+                            updateSingleLabelCard();
+                            renderSheet(currentSku);
+                            saveState();
+                            n1.textContent = '✅ Sortiment geladen (' + sortimentList.length + ' Einträge)';
+                            n1.className = 'status-badge online';
+                            showNotification('Sortiment aktualisiert!');
+                        } else {
+                            throw new Error('Ungültiges Datenformat');
+                        }
+                    } catch (err) {
+                        n1.textContent = '❌ Fehler beim Laden';
+                        n1.className = 'status-badge offline';
+                        showNotification('Fehler: ' + err.message, true);
+                    }
+                });
+            }
+            if (btnUpdateLocations) {
+                btnUpdateLocations.addEventListener('click', async function() {
+                    const url = i8.value.trim();
+                    if (!url) { showNotification('Bitte eine URL eingeben!', true); return; }
+                    try {
+                        const data = await fetchJsonSafe(url);
+                        if (Array.isArray(data)) {
+                            locationsList = data;
+                            populateLocations();
+                            if (locationsList.length > 0) setLocationByIndex(0);
+                            renderSheet(currentSku);
+                            saveState();
+                            n2.textContent = '✅ Locations geladen (' + locationsList.length + ' Einträge)';
+                            n2.className = 'status-badge online';
+                            showNotification('Locations aktualisiert!');
+                        } else {
+                            throw new Error('Ungültiges Datenformat');
+                        }
+                    } catch (err) {
+                        n2.textContent = '❌ Fehler beim Laden';
+                        n2.className = 'status-badge offline';
+                        showNotification('Fehler: ' + err.message, true);
+                    }
+                });
+            }
+
+            // ── Events für Haupt-Dropdowns ──
             if (s2Art) s2Art.addEventListener('change', function(e) { setSortimentByIndex(e.target.value); });
             if (s2Name) s2Name.addEventListener('change', function(e) { setSortimentByIndex(e.target.value); });
             if (sortimentArtNrSelect) sortimentArtNrSelect.addEventListener('change', function(e) { setSortimentByIndex(e
@@ -1381,6 +1997,7 @@
                     const sku = e.target.value;
                     if (templateSelect) templateSelect.value = sku;
                     if (templateSelectMain) templateSelectMain.value = sku;
+                    if (labelFormatSelect) labelFormatSelect.value = sku;
                     renderSheet(sku);
                 });
             });
@@ -1391,10 +2008,11 @@
                 btnPrintNow.addEventListener('click', function() {
                     if (modal) {
                         modal.style.display = 'flex';
-                        // Modal-Inputs mit Hauptwerten synchronisieren
                         if (startPositionModal && startPositionInput) startPositionModal.value = startPositionInput
                             .value;
                         if (labelCountModal && labelCountInput) labelCountModal.value = labelCountInput.value;
+                        if (i2) i2.value = labelCountInput ? labelCountInput.value : '24';
+                        if (i3) i3.value = startPositionInput ? startPositionInput.value : '1';
                         setTimeout(() => applyZoom(zoomSlider ? zoomSlider.value : 100), 50);
                     }
                 });
@@ -1403,15 +2021,19 @@
             const btnOptions = document.getElementById('btn-options');
             if (btnOptions) {
                 btnOptions.addEventListener('click', function() {
-                    if (optionsModal) optionsModal.style.display = 'flex';
+                    if (optionsModal) {
+                        // Werte synchronisieren
+                        if (i1) i1.value = headerLocationSelect ? headerLocationSelect.value : '';
+                        if (i2) i2.value = labelCountInput ? labelCountInput.value : '24';
+                        if (i3) i3.value = startPositionInput ? startPositionInput.value : '1';
+                        if (labelFormatSelect) labelFormatSelect.value = currentSku;
+                        optionsModal.style.display = 'flex';
+                    }
                 });
             }
 
-            const modal1Close = document.getElementById('modal1CloseBtn');
-            if (modal1Close) modal1Close.addEventListener('click', function() { optionsModal.style.display = 'none'; });
-
-            const btnDone = document.getElementById('btn-done');
-            if (btnDone) btnDone.addEventListener('click', function() { optionsModal.style.display = 'none'; });
+            if (modal1CloseBtn) modal1CloseBtn.addEventListener('click', function() { optionsModal.style.display = 'none'; });
+            if (btnDoneOptions) btnDoneOptions.addEventListener('click', function() { optionsModal.style.display = 'none'; });
 
             if (closeBtn) closeBtn.addEventListener('click', function() { modal.style.display = 'none'; });
 
@@ -1432,6 +2054,9 @@
                     applyZoom(zoomSlider ? zoomSlider.value : 100);
                 }
             });
+
+            // Status-Badges initialisieren
+            n2.textContent = '✅ Locations geladen (' + locationsList.length + ' Einträge)';
         }
 
         window.addEventListener('error', function(e) { console.error('[Runtime Error]:', e.message); });

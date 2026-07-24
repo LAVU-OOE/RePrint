@@ -83,11 +83,32 @@
             font-weight: 600;
         }
 
+        .dev-version {
+            font-size: 0.6rem;
+            color: #e67e22;
+            margin-left: 8px;
+            font-weight: 700;
+        }
+
         .hdr-r {
             display: flex;
             align-items: center;
             gap: 6px;
             flex-wrap: wrap;
+        }
+
+        .btn-clear-cache {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.6rem;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .btn-clear-cache:hover {
+            background: #c0392b;
         }
 
         .sel-hdr,
@@ -816,7 +837,10 @@
                 <img src="logo.png" alt="LAVU Logo" class="lg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%231a4b60\' stroke-width=\'2\'><circle cx=\'12\' cy=\'12\' r=\'10\'/><path d=\'M8 14s1.5 2 4 2 4-2 4-2\'/><line x1=\'9\' y1=\'9\' x2=\'9.01\' y2=\'9\'/><line x1=\'15\' y1=\'9\' x2=\'15.01\' y2=\'9\'/></svg>'" />
                 <div>
                     <div class="hdr-ttl">LAVU OÖ</div>
-                    <div class="hdr-sub" id="txt-studio-v9">Etiketten-Studio v9</div>
+                    <div class="hdr-sub" id="txt-studio-v9">
+                        Etiketten-Studio
+                        <span class="dev-version" id="devVersion">v1.0.0-dev</span>
+                    </div>
                 </div>
             </div>
             <div class="hdr-r">
@@ -824,6 +848,7 @@
                     <option value="" disabled selected>Standorte laden...</option>
                 </select>
                 <button id="langToggleBtn" class="btn-lang-toggle" aria-label="Toggle language">EN</button>
+                <button id="clearCacheBtn" class="btn-clear-cache" title="Service Worker &amp; Cache leeren und Seite neu laden">🔄 Clear Cache</button>
             </div>
         </div>
 
@@ -1103,7 +1128,12 @@
 
     <script>
         // ==========================================
-        // FALLBACK DATA
+        // DEV VERSION
+        // ==========================================
+        const APP_VERSION = 'v1.0.0-dev';
+
+        // ==========================================
+        // FALLBACK DATA (nur als letzte Reserve)
         // ==========================================
         const FALLBACK_SORTIMENT = [
             { "artNr": "4040", "bez": "Elektro-Kleingeräte", "geb": "AB" },
@@ -1253,6 +1283,30 @@
         const btnDownloadJson = document.getElementById('btn-download-json');
         const btnDoneOptions = document.getElementById('btn-done');
         const modal1CloseBtn = document.getElementById('modal1CloseBtn');
+        const clearCacheBtn = document.getElementById('clearCacheBtn');
+
+        // ==========================================
+        // CACHE CLEAR & HARD RELOAD
+        // ==========================================
+        if (clearCacheBtn) {
+            clearCacheBtn.addEventListener('click', function() {
+                if (!confirm('Service Worker und Cache leeren und Seite neu laden?')) return;
+                // Service Worker deregistrieren
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.getRegistrations().then(registrations => {
+                        registrations.forEach(r => r.unregister());
+                    });
+                }
+                // Cache leeren
+                if ('caches' in window) {
+                    caches.keys().then(keys => {
+                        keys.forEach(key => caches.delete(key));
+                    });
+                }
+                // Hard Reload
+                location.reload(true);
+            });
+        }
 
         // ==========================================
         // HELPER FUNCTIONS
@@ -1438,7 +1492,6 @@
             if (!confirm('Eintrag "' + sortimentList[idx].artNr + ' - ' + sortimentList[idx].bez + '" wirklich löschen?'))
                 return;
             sortimentList.splice(idx, 1);
-            // Wenn der aktuell ausgewählte Eintrag gelöscht wurde, zurücksetzen
             if (selectedSortimentItem && sortimentList.indexOf(selectedSortimentItem) === -1) {
                 selectedSortimentItem = null;
             }
@@ -1459,14 +1512,12 @@
             }
 
             if (editingIndex !== null) {
-                // Update
                 sortimentList[editingIndex] = { artNr, bez, geb };
                 showNotification('Eintrag aktualisiert');
                 editingIndex = null;
                 document.getElementById('b1').style.display = 'none';
                 document.getElementById('btn-add-new').textContent = '➕ Neu hinzufügen';
             } else {
-                // Neu
                 if (sortimentList.some(item => item.artNr === artNr)) {
                     showNotification('Art.Nr. ' + artNr + ' existiert bereits!', true);
                     return;
@@ -1519,7 +1570,6 @@
             Storage.set('selectedTemplateSku', currentSku);
             Storage.set('startPosition', startPositionInput ? startPositionInput.value : '1');
             Storage.set('labelCount', labelCountInput ? labelCountInput.value : '24');
-            // HERMA Format speichern
             if (labelFormatSelect) Storage.set('selectedHermaFormat', labelFormatSelect.value);
         }
 
@@ -1622,7 +1672,6 @@
         // RENDER SHEET (mit Startposition & Anzahl)
         // ============================================================
         function renderSheet(sku) {
-            // Template aus allTemplates oder aus HERMA_FORMATS bauen
             let config = allTemplates.find(t => t.sku === sku);
             if (!config) {
                 const format = HERMA_FORMATS[sku];
@@ -1762,6 +1811,11 @@
         // INIT
         // ============================================================
         async function init() {
+            // Versionsnummer anzeigen
+            const verEl = document.getElementById('devVersion');
+            if (verEl) verEl.textContent = APP_VERSION;
+
+            // 1. Templates laden
             try {
                 const data = await fetchJsonSafe('herma_templates.json');
                 allTemplates = data.templates || FALLBACK_TEMPLATES;
@@ -1770,18 +1824,28 @@
                 allTemplates = FALLBACK_TEMPLATES;
             }
 
+            // 2. Sortiment laden
             try {
                 sortimentList = await fetchJsonSafe('sortiment.json');
+                n1.textContent = '🟢 Sortiment geladen (' + sortimentList.length + ' Einträge)';
+                n1.className = 'status-badge online';
             } catch (err) {
                 console.warn('[Data] Falling back to default sortiment:', err.message);
                 sortimentList = FALLBACK_SORTIMENT;
+                n1.textContent = '⚠️ Fallback-Sortiment geladen (' + sortimentList.length + ' Einträge)';
+                n1.className = 'status-badge offline';
             }
 
+            // 3. Locations laden
             try {
                 locationsList = await fetchJsonSafe('locations.json');
+                n2.textContent = '✅ Locations geladen (' + locationsList.length + ' Einträge)';
+                n2.className = 'status-badge online';
             } catch (err) {
                 console.warn('[Data] Falling back to default locations:', err.message);
                 locationsList = FALLBACK_LOCATIONS;
+                n2.textContent = '⚠️ Fallback-Locations geladen (' + locationsList.length + ' Einträge)';
+                n2.className = 'status-badge offline';
             }
 
             // Templates befüllen (Haupt + Modal)
@@ -1790,7 +1854,6 @@
                 ')</option>'
             ).join('');
 
-            // HERMA Formate aus HERMA_FORMATS hinzufügen
             const hermaOptions = Object.keys(HERMA_FORMATS).map(sku =>
                 '<option value="' + sku + '">HERMA ' + sku + ' (' + HERMA_FORMATS[sku].cols + '×' + HERMA_FORMATS[sku]
                 .rows + ')</option>'
@@ -1802,8 +1865,6 @@
                 if (!sel) return;
                 sel.innerHTML = allOptions;
             });
-
-            // labelFormatSelect schon mit Optionen im HTML
 
             populateLocations();
             populateSortimentWithGroups();
@@ -2022,7 +2083,6 @@
             if (btnOptions) {
                 btnOptions.addEventListener('click', function() {
                     if (optionsModal) {
-                        // Werte synchronisieren
                         if (i1) i1.value = headerLocationSelect ? headerLocationSelect.value : '';
                         if (i2) i2.value = labelCountInput ? labelCountInput.value : '24';
                         if (i3) i3.value = startPositionInput ? startPositionInput.value : '1';
@@ -2054,9 +2114,6 @@
                     applyZoom(zoomSlider ? zoomSlider.value : 100);
                 }
             });
-
-            // Status-Badges initialisieren
-            n2.textContent = '✅ Locations geladen (' + locationsList.length + ' Einträge)';
         }
 
         window.addEventListener('error', function(e) { console.error('[Runtime Error]:', e.message); });

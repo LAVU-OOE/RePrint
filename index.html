@@ -733,6 +733,9 @@
             .mc { max-width: 100%; margin: 8px; }
         }
 
+        /* =========================================================
+           5. CSS PRINT – für den nativen Browser-Druck
+           ========================================================= */
         @media print {
             @page {
                 size: A4 portrait;
@@ -750,9 +753,13 @@
                 height: 297mm !important;
                 overflow: hidden !important;
             }
-            .crd, .hdr, .ftr, .mh, .mf, .pwb, #m1, .zoom-toggle-btn, .zoom-container {
+            /* Alle Steuerelemente ausblenden */
+            .crd, .hdr, .ftr, .mh, .mf, .pwb, #m1, .zoom-toggle-btn, .zoom-container,
+            #modalContainer .mh, #modalContainer .mf, #modalContainer .zoom-container,
+            #modalContainer .zoom-toggle-btn, #modalContainer .bx, #modalContainer .mh > div {
                 display: none !important;
             }
+            /* Modal und Container auf volle Seite setzen */
             .mb, #modalContainer {
                 position: static !important;
                 background: none !important;
@@ -1065,7 +1072,7 @@
     </div>
 
     <!-- ============================================================
-         HAUPT-MODAL (Vorschau)
+         HAUPT-MODAL (Vorschau) – mit beiden Druckoptionen
          ============================================================ -->
     <div class="mb" id="modalContainer" style="display:none;">
         <div class="mc mpc">
@@ -1113,7 +1120,16 @@
                 </div>
             </div>
 
+            <!-- Zwei Buttons: PDF + Browser-Druck -->
             <div class="mf">
+                <button class="bsd" id="printBrowserBtn" style="background: #3498db; color: white;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="6 9 6 2 18 2 18 9" />
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                        <rect x="6" y="14" width="12" height="8" />
+                    </svg>
+                    Drucken (Browser)
+                </button>
                 <button class="bp" id="printBtn">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <polyline points="6 9 6 2 18 2 18 9" />
@@ -1349,6 +1365,7 @@
         const zoomContainer = document.getElementById('zoomContainer');
         const previewArea = document.getElementById('previewArea');
         const printBtn = document.getElementById('printBtn');
+        const printBrowserBtn = document.getElementById('printBrowserBtn');
         const closeBtn = document.getElementById('closeBtn');
         const modal = document.getElementById('modalContainer');
         const optionsModal = document.getElementById('m1');
@@ -1893,6 +1910,13 @@
         }
 
         // ============================================================
+        // BROWSER-DRUCK (CSS Print)
+        // ============================================================
+        function browserPrint() {
+            window.print();
+        }
+
+        // ============================================================
         // INIT
         // ============================================================
         async function init() {
@@ -2181,8 +2205,12 @@
 
             if (closeBtn) closeBtn.addEventListener('click', function() { modal.style.display = 'none'; });
 
+            // ── Druck-Buttons im Modal ──
             if (printBtn) {
                 printBtn.addEventListener('click', generatePDF);
+            }
+            if (printBrowserBtn) {
+                printBrowserBtn.addEventListener('click', browserPrint);
             }
 
             if (zoomSlider) {

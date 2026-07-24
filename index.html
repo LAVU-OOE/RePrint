@@ -1771,6 +1771,79 @@
         }
 
         // ============================================================
+        // NEUE HILFSFUNKTION: maximale Anzahl ermitteln
+        // ============================================================
+        function getMaxLabels() {
+            const config = allTemplates.find(t => t.sku === currentSku);
+            if (!config) {
+                const format = HERMA_FORMATS[currentSku];
+                if (format) return format.cols * format.rows;
+                return 24;
+            }
+            return (config.cols || 3) * (config.rows || 8);
+        }
+
+        // ============================================================
+        // CLICK-TO-SELECT (NEUE LOGIK)
+        // ============================================================
+        function handleLabelClick(e) {
+            const label = e.target.closest('.lb');
+            if (!label) return;
+            if (label.classList.contains('e')) return;
+
+            const clickedIndex = parseInt(label.dataset.index, 10);
+            if (isNaN(clickedIndex)) return;
+
+            let start = parseInt(startPositionInput ? startPositionInput.value : 1);
+            let count = parseInt(labelCountInput ? labelCountInput.value : 1);
+            const maxLabels = getMaxLabels();
+
+            let end = start + count - 1;
+            if (end > maxLabels) end = maxLabels;
+            if (start < 1) start = 1;
+            if (count < 1) count = 1;
+
+            // Fall 1: kein Bereich (nur ein Label)
+            if (count === 1 && start === end) {
+                start = clickedIndex;
+                count = 1;
+            } else {
+                if (clickedIndex >= start && clickedIndex <= end) {
+                    // innerhalb → verkleinern
+                    end = clickedIndex;
+                    start = Math.min(start, end);
+                    count = end - start + 1;
+                } else if (clickedIndex < start) {
+                    // links → erweitern nach links
+                    start = clickedIndex;
+                    count = end - start + 1;
+                } else if (clickedIndex > end) {
+                    // rechts → erweitern nach rechts
+                    end = clickedIndex;
+                    count = end - start + 1;
+                }
+            }
+
+            // Begrenzen
+            if (start < 1) start = 1;
+            if (end > maxLabels) end = maxLabels;
+            count = end - start + 1;
+            if (count < 1) count = 1;
+
+            // Felder aktualisieren
+            if (startPositionInput) startPositionInput.value = start;
+            if (startPositionModal) startPositionModal.value = start;
+            if (i3) i3.value = start;
+            if (labelCountInput) labelCountInput.value = count;
+            if (labelCountModal) labelCountModal.value = count;
+            if (i2) i2.value = count;
+
+            renderSheet(currentSku);
+            saveState();
+            showNotification('Bereich: Start ' + start + ', Anzahl ' + count);
+        }
+
+        // ============================================================
         // RENDER SHEET (mit Startposition & Anzahl)
         // ============================================================
         function renderSheet(sku) {
@@ -1841,79 +1914,6 @@
             saveState();
         }
 
-        function getMaxLabels() {
-    const config = allTemplates.find(t => t.sku === currentSku);
-    if (!config) {
-        const format = HERMA_FORMATS[currentSku];
-        if (format) return format.cols * format.rows;
-        return 24; // Fallback
-    }
-    return (config.cols || 3) * (config.rows || 8);
-}
-        // ============================================================
-        // CLICK-TO-SELECT
-        // ============================================================
-function handleLabelClick(e) {
-    const label = e.target.closest('.lb');
-    if (!label) return;
-    if (label.classList.contains('e')) return; // leere Etiketten ignorieren
-
-    const clickedIndex = parseInt(label.dataset.index, 10);
-    if (isNaN(clickedIndex)) return;
-
-    // Aktuelle Werte aus den Inputs holen
-    let start = parseInt(startPositionInput ? startPositionInput.value : 1);
-    let count = parseInt(labelCountInput ? labelCountInput.value : 1);
-    const maxLabels = getMaxLabels(); // Hilfsfunktion, siehe unten
-
-    // Bereichsgrenzen bestimmen
-    let end = start + count - 1;
-    if (end > maxLabels) end = maxLabels;
-    if (start < 1) start = 1;
-    if (count < 1) count = 1;
-
-    // Fall 1: Kein Bereich aktiv (count == 1 und start == end)
-    if (count === 1 && start === end) {
-        // Start auf geklicktes setzen, Anzahl = 1
-        start = clickedIndex;
-        count = 1;
-    } else {
-        // Bereich aktiv
-        if (clickedIndex >= start && clickedIndex <= end) {
-            // Klick innerhalb des Bereichs → verkleinern (Ende = clickedIndex)
-            end = clickedIndex;
-            start = Math.min(start, end);
-            count = end - start + 1;
-        } else if (clickedIndex < start) {
-            // Klick links vom Start → erweitern nach links
-            start = clickedIndex;
-            count = end - start + 1;
-        } else if (clickedIndex > end) {
-            // Klick rechts vom Ende → erweitern nach rechts
-            end = clickedIndex;
-            count = end - start + 1;
-        }
-    }
-
-    // Begrenzung auf maxLabels
-    if (start < 1) start = 1;
-    if (end > maxLabels) end = maxLabels;
-    count = end - start + 1;
-    if (count < 1) count = 1;
-
-    // Werte in die Felder schreiben
-    if (startPositionInput) startPositionInput.value = start;
-    if (startPositionModal) startPositionModal.value = start;
-    if (i3) i3.value = start;
-    if (labelCountInput) labelCountInput.value = count;
-    if (labelCountModal) labelCountModal.value = count;
-    if (i2) i2.value = count;
-
-    // Neu rendern
-    renderSheet(currentSku);
-    saveState();
-    showNotification('Bereich: Start ' + start + ', Anzahl ' + count);
-}
         // ============================================================
         // PDF-GENERIERUNG
         // ============================================================

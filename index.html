@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#1a4b60" />
-    <title>LAVU OÖ - Label Studio</title>
+    <title>Re:Print - Label Studio</title>
     <link class="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
     <link rel="manifest" href="manifest.json" />
 
@@ -753,13 +753,11 @@
                 height: 297mm !important;
                 overflow: hidden !important;
             }
-            /* Alle Steuerelemente ausblenden */
             .crd, .hdr, .ftr, .mh, .mf, .pwb, #m1, .zoom-toggle-btn, .zoom-container,
             #modalContainer .mh, #modalContainer .mf, #modalContainer .zoom-container,
             #modalContainer .zoom-toggle-btn, #modalContainer .bx, #modalContainer .mh > div {
                 display: none !important;
             }
-            /* Modal und Container auf volle Seite setzen */
             .mb, #modalContainer {
                 position: static !important;
                 background: none !important;
@@ -841,9 +839,13 @@
 
         <div class="hdr">
             <div class="hdr-l">
-                <img src="logo.png" alt="LAVU Logo" class="lg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%231a4b60\' stroke-width=\'2\'><circle cx=\'12\' cy=\'12\' r=\'10\'/><path d=\'M8 14s1.5 2 4 2 4-2 4-2\'/><line x1=\'9\' y1=\'9\' x2=\'9.01\' y2=\'9\'/><line x1=\'15\' y1=\'9\' x2=\'15.01\' y2=\'9\'/></svg>'" />
+                <!-- Neues Logo: SVG mit "RP" in einem Kreis -->
+                <svg class="lg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" stroke="#1a4b60" stroke-width="2.5" />
+                    <text x="20" y="22" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a4b60" text-anchor="middle" dominant-baseline="central">RP</text>
+                </svg>
                 <div>
-                    <div class="hdr-ttl">LAVU OÖ</div>
+                    <div class="hdr-ttl">Re:Print</div>
                     <div class="hdr-sub" id="txt-studio-v9">
                         Etiketten-Studio
                         <span class="dev-version" id="devVersion">v1.0.0-dev</span>
@@ -1427,7 +1429,7 @@
             const d4 = document.getElementById('d4');
 
             const topText = selectedLocationItem ? selectedLocationItem.siteCode + ' • ' + selectedLocationItem.name :
-                'LAVU OÖ';
+                'Re:Print';
             const artNr = selectedSortimentItem ? selectedSortimentItem.artNr : '-';
             const geb = selectedSortimentItem ? selectedSortimentItem.geb : '-';
             const bez = selectedSortimentItem ? selectedSortimentItem.bez : '-';
@@ -1873,7 +1875,7 @@
             sheetContainer.style.gridTemplateRows = 'repeat(' + config.rows + ', 1fr)';
 
             const topText = selectedLocationItem ? selectedLocationItem.siteCode + ' • ' + selectedLocationItem.name :
-                'LAVU OÖ';
+                'Re:Print';
             const artNr = selectedSortimentItem ? selectedSortimentItem.artNr : '4040';
             const suffix = selectedSortimentItem ? selectedSortimentItem.geb : 'AB';
             const bez = selectedSortimentItem ? selectedSortimentItem.bez : 'Elektro-Kleingeräte';

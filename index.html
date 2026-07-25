@@ -1221,6 +1221,28 @@
     font-weight: normal;
     font-style: italic;
     }
+    /* Standard‑Grid für die zwei Dropdowns */
+.dropdown-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 12px;
+    width: 100%;
+}
+
+/* Verbesserte Bedienbarkeit auf Touch‑Geräten */
+select {
+    min-height: 44px;          /* größere Touch‑Fläche */
+    font-size: 16px;           /* verhindert iOS‑Zoom */
+}
+
+/* Bei Bildschirmen unter 520px: Dropdowns untereinander */
+@media (max-width: 520px) {
+    .dropdown-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px;
+    }
+    /* Die Labels (Art.Nr. / Bezeichnung) bleiben oben, das ist okay */
+}
     </style>
 </head>
 <body>
@@ -1283,7 +1305,7 @@
             <!-- ===== IP-CONTAINER (rechte Seite) ===== -->
             <div class="ip">
                 <div class="fps">
-                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 12px; width: 100%;">
+                    <div class="dropdown-grid">
                         <div>
                             <span id="txt-art-nr"
                                 style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; height: 16px; line-height: 16px;">Art.Nr.</span>

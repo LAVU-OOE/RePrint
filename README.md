@@ -5,9 +5,9 @@
 <details>
 <summary><b>⚡ TL;DR / (Quick Overview)</b></summary>
 
-> **🇬🇧 English:** Quick summary of what this tool does, how it works, and how to use it instantly.
+> **🇬🇧 English:** 
 
----
+# To Long ; To Read
 
 ## 📦 External Data Sources (JSON)
 

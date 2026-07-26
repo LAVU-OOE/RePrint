@@ -815,6 +815,24 @@
     .ps-wrapper {
         display: none !important; /* Miniatur-Vorschau ausblenden */
     }
+    /* Standard: mobiler Container ausblenden, Header-Container anzeigen */
+#locationMobileContainer {
+    display: none;
+}
+.hdr-r {
+    display: flex;
+}
+
+/* Unter 628px: Header-Container ausblenden, mobilen Container einblenden */
+@media (max-width: 628px) {
+    .hdr-r {
+        display: none !important;
+    }
+    #locationMobileContainer {
+        display: block !important;
+        margin-bottom: 8px;
+    }
+}
     .mobile-template-selector {
         display: block !important; /* Template-Selector einblenden */
     }
@@ -1295,7 +1313,10 @@ select {
                     </div>
                 </div>
             </div>
-
+<div class="location-mobile" id="locationMobileContainer">
+    <span id="txt-location-mobile" style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px;">Standort</span>
+    <select id="s1_mobile" class="sel-hdr" style="width: 100%;"></select>
+</div>
             <!-- ===== MOBILER TEMPLATE-SELECTOR ===== -->
             <div class="mobile-template-selector">
                 <span id="txt-herma-template" style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; height: 16px; line-height: 16px;">HERMA A4 Vorlage</span>

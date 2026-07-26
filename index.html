@@ -787,7 +787,7 @@
             min-height: 44px;
             font-size: 16px;
         }
-        /* NEU: Wrapper für mobilen Locations-Selector – standardmäßig ausgeblendet */
+        /* Standardmäßig ausgeblendet – wird erst bei 520px sichtbar */
         .mobile-location-wrapper {
             display: none;
         }
@@ -844,16 +844,7 @@
             }
         }
 
-        /* Ab 628px: Header-Locations ausblenden, mobiler Locations-Selector sichtbar */
-        @media (max-width: 628px) {
-            .hdr-r {
-                display: none !important;
-            }
-            .mobile-location-wrapper {
-                display: block !important;
-            }
-        }
-
+        /* Ab 520px: Header-Locations ausblenden, mobiler Locations-Selector sichtbar */
         @media (max-width: 520px) {
             .hdr {
                 flex-direction: row !important;
@@ -882,15 +873,17 @@
                 font-size: 0.65rem;
                 white-space: nowrap;
             }
+
+            /* Header-Locations verschwinden */
             .hdr-r {
-                flex-shrink: 0;
-                width: auto !important;
-                justify-content: flex-end !important;
-                margin-left: auto;
-                padding: 4px 8px;
-                gap: 6px;
-                font-size: 0.9rem;
+                display: none !important;
             }
+
+            /* Mobiler Locations-Selector erscheint */
+            .mobile-location-wrapper {
+                display: block !important;
+            }
+
             .sel-hdr {
                 font-size: 0.8rem;
                 max-width: 180px;
@@ -1292,7 +1285,7 @@
 
             <!-- ===== MOBILER TEMPLATE-SELECTOR (inkl. Locations) ===== -->
             <div class="mobile-template-selector">
-                <!-- NEU: mobiler Locations-Selector – nur bei ≤ 628px sichtbar -->
+                <!-- mobiler Locations-Selector – erscheint erst bei ≤ 520px -->
                 <div class="mobile-location-wrapper">
                     <span style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px;">Standort</span>
                     <select id="mobileLocationSelect">

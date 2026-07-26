@@ -1,19 +1,27 @@
-# Project Title
+<div align="right">
+  <details>
+    <summary><b>🌐 Language / Sprache</b></summary>
+    <br>
+    <a href="#english-documentation">🇬🇧 English</a> &nbsp; | &nbsp; <a href="#deutsche-dokumentation">🇦🇹 Deutsch</a>
+  </details>
+</div>
+
+---
 
 <div id="tldr-summary"></div>
 
 <details>
 <summary><b>⚡ TL;DR / Kurzfassung (Quick Overview)</b></summary>
 
-> **🇬🇧 English:** Quick summary of what this tool does, how it works, and how to use it instantly.
+> **🇬🇧 English:** RE:PRINT Studio is an advanced web-based printing and labeling utility designed to create, preview, scale, and print professional custom item labels and print layouts directly in your browser.
 > 
-> **🇦🇹 Deutsch:** Schnelle Zusammenfassung, was dieses Tool macht, wie es funktioniert und wie man es sofort nutzt.
+> **🇦🇹 Deutsch:** RE:PRINT Studio ist ein webbasiertes Druck- und Etikettenstudio, mit dem sich professionelle Etiketten und Drucklayouts direkt im Browser erstellen, skalieren, in der Vorschau anzeigen und ausdrucken lassen.
 
 </details>
 
 ---
 
-# 🇬🇧 English Documentation
+# <a id="english-documentation"></a>🇬🇧 English Documentation
 
 ## 📖 Table of Contents
 
@@ -975,8 +983,7 @@ SOFTWARE.
 
 ---
 
-<details>
-<summary><b>🇦🇹 Auf Deutsch anzeigen (Click to view German LIESMICH)</b></summary>
+# <a id="deutsche-dokumentation"></a>🇦🇹 Deutsche Dokumentation (LIESMICH)
 
 ## 📖 Inhaltsverzeichnis
 
@@ -2071,5 +2078,3 @@ SOFTWARE.
 ```
 
 *Unabhängiges Open-Source-Projekt*
-
-</details>

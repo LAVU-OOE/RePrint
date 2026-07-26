@@ -514,25 +514,16 @@
             flex-shrink: 0;
         }
         .bx {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: background 0.2s;
-            flex-shrink: 0;
+            background: transparent;
+            font-size: 1.8rem;
+            color: #94a3b8;
             padding: 0;
+            cursor: pointer;
             line-height: 1;
+            border: none;
         }
         .bx:hover {
-            background: #c0392b;
-            transform: scale(1.05);
+            color: #ef4444;
         }
         .ms {
             display: flex;
@@ -796,6 +787,7 @@
             min-height: 44px;
             font-size: 16px;
         }
+        /* Standardmäßig ausgeblendet – wird erst bei 520px sichtbar */
         .mobile-location-wrapper {
             display: none;
         }
@@ -881,12 +873,17 @@
                 font-size: 0.65rem;
                 white-space: nowrap;
             }
+
+            /* Header-Locations verschwinden */
             .hdr-r {
                 display: none !important;
             }
+
+            /* Mobiler Locations-Selector erscheint */
             .mobile-location-wrapper {
                 display: block !important;
             }
+
             .sel-hdr {
                 font-size: 0.8rem;
                 max-width: 180px;
@@ -919,38 +916,6 @@
                 grid-template-columns: 1fr !important;
                 gap: 8px;
             }
-        }
-
-        /* ===== MODAL #m2 – Titel responsiv ===== */
-        #m2 .mh #modalTitle {
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            white-space: normal;
-            flex: 1;
-            min-width: 0;
-        }
-
-        /* ===== MODAL #m2 – Druck-Button im Header ===== */
-        #m2 .mh .bp {
-            flex: 0 0 auto;
-            padding: 8px 16px;
-            font-size: 0.9rem;
-            background-color: #27ae60;
-            color: white;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-            box-shadow: 0 2px 8px rgba(39, 174, 96, 0.2);
-        }
-        #m2 .mh .bp:hover {
-            background-color: #219653;
-            transform: translateY(-1px);
-        }
-        #m2 .mh .bp svg {
-            width: 16px;
-            height: 16px;
-            stroke: currentColor;
         }
 
         .mpc {
@@ -1320,12 +1285,14 @@
 
             <!-- ===== MOBILER TEMPLATE-SELECTOR (inkl. Locations) ===== -->
             <div class="mobile-template-selector">
+                <!-- mobiler Locations-Selector – erscheint erst bei ≤ 520px -->
                 <div class="mobile-location-wrapper">
                     <span style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px;">Standort</span>
                     <select id="mobileLocationSelect">
                         <option value="" disabled selected>Loading locations...</option>
                     </select>
                 </div>
+                <!-- Vorhandener Template-Selector -->
                 <span id="txt-herma-template" style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; height: 16px; line-height: 16px;">HERMA A4 Vorlage</span>
                 <select id="mobileFormatSelect"></select>
             </div>
@@ -1540,25 +1507,17 @@
         </div>
     </div>
 
-    <!-- ========== MODAL MIT ZOOM-LEISTE (angepasst) ========== -->
+    <!-- ========== MODAL MIT ZOOM-LEISTE ========== -->
     <div id="m2" class="mb">
         <div class="mc mpc">
             <div class="mh">
-                <!-- Titel (responsiv) -->
-                <span id="modalTitle">Interaktiver A4-Druckbogen</span>
-                <!-- Druck-Button (bp) im Header -->
-                <button class="bp" id="btn-modal-print">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <polyline points="6 9 6 2 18 2 18 9" />
-                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-                        <rect x="6" y="14" width="12" height="8" />
-                    </svg>
-                    Drucken
-                </button>
-                <!-- Schließen-Button (roter Kreis mit X) -->
+                <span id="modalTitle" style="display: flex; flex-direction: column; gap: 4px;">
+                    Interaktiver A4-Druckbogen
+                </span>
+                <select id="modalLabelFormatSelect" class="sel-modal-hdr"></select>
                 <button class="bx" id="modal2CloseBtn" aria-label="Close modal">&times;</button>
             </div>
-            <!-- Zoom-Leiste -->
+            <!-- ====== NEUE ZOOM-LEISTE ====== -->
             <div class="zoom-bar">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a4b60" stroke-width="2">
                     <circle cx="11" cy="11" r="8" />
@@ -1568,13 +1527,23 @@
                 <input type="range" id="zoomSlider" class="zoom-slider-horizontal" min="50" max="300" value="100" />
                 <button id="zoomResetBtn" class="zoom-reset-btn" title="Zoom zurücksetzen auf 100%">↺</button>
             </div>
-            <!-- Vorschau-Bereich -->
+            <!-- ============================== -->
             <div class="mbs">
                 <div class="pc" id="p1">
                     <div class="psh" id="mdl"></div>
                 </div>
             </div>
-            <!-- Fußzeile im Modal wurde entfernt (kein bcn mehr) -->
+            <div class="mf">
+                <button class="bp" id="btn-modal-print">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="6 9 6 2 18 2 18 9" />
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                        <rect x="6" y="14" width="12" height="8" />
+                    </svg>
+                    Drucken
+                </button>
+                <button class="bcn" id="btn-modal-close">Schließen</button>
+            </div>
         </div>
     </div>
 
@@ -2700,19 +2669,9 @@
         document.getElementById('btn-save-default').innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> ${t.btnSaveDefault}`;
         document.getElementById('btn-done').textContent = t.btnDone;
         document.getElementById('modalTitle').textContent = t.modal2Title;
-        // Der Druck-Button im Modal-Header hat einen festen Text (braucht keine i18n-Anpassung, da er immer "Drucken" ist)
-        // Wir setzen ihn aber trotzdem via i18n für Konsistenz:
         const modalPrintBtn = document.getElementById('btn-modal-print');
-        if (modalPrintBtn) {
-            modalPrintBtn.innerHTML = `
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <polyline points="6 9 6 2 18 2 18 9" />
-                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-                    <rect x="6" y="14" width="12" height="8" />
-                </svg>
-                ${t.btnModalPrint}
-            `;
-        }
+        modalPrintBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> ${t.btnModalPrint}`;
+        document.getElementById('btn-modal-close').textContent = t.btnModalClose;
         document.getElementById('txt-pwa-title').textContent = t.txtPwaTitle;
         document.getElementById('txt-pwa-sub').textContent = t.txtPwaSub;
         document.getElementById('b3').textContent = t.btnPwaInstall;
@@ -2807,7 +2766,6 @@
             });
         }
 
-        // Haupt-Druck-Button (öffnet Modal oder Druckdialog)
         document.getElementById('btn-print-now').addEventListener('click', function () {
             if (window.innerWidth <= 768) {
                 o1();
@@ -2816,18 +2774,15 @@
             }
         });
 
-        // Modal-Druck-Button (löst Druckdialog aus)
-        document.getElementById('btn-modal-print').addEventListener('click', function () {
-            window.print();
-        });
-
         document.getElementById('btn-options').addEventListener('click', o2);
         document.getElementById('modal1CloseBtn').addEventListener('click', c2);
         document.getElementById('m1').addEventListener('click', function (e) { if (e.target.id === 'm1') c2(); });
         document.getElementById('modal2CloseBtn').addEventListener('click', c5);
         document.getElementById('m2').addEventListener('click', function (e) { if (e.target.id === 'm2') c5(); });
+        document.getElementById('btn-modal-print').addEventListener('click', function () { window.print(); });
+        document.getElementById('btn-modal-close').addEventListener('click', c5);
         document.getElementById('labelFormatSelect').addEventListener('change', function () { changeFormat(this.value); });
-        // Achtung: modalLabelFormatSelect existiert nicht mehr, daher kein Listener mehr nötig.
+        document.getElementById('modalLabelFormatSelect').addEventListener('change', function () { changeFormat(this.value); });
         document.getElementById('layout-title-attr').addEventListener('click', o1);
         document.getElementById('i2').addEventListener('input', function () { u1(); });
         document.getElementById('i3').addEventListener('input', function () { u1(); });

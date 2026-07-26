@@ -1,4 +1,4 @@
-# Project Title
+# RE:PRINT Studio v9
 
 <div id="tldr-summary"></div>
 
@@ -9,7 +9,6 @@
 > 
 
 ---
-
 
 ## 📦 External Data Sources (JSON)
 

@@ -233,7 +233,7 @@
             cursor: pointer;
             width: 100%;
             max-width: 100%;
-            min-height: 44px;          /* Touch‑Optimierung */
+            min-height: 44px;
         }
         .fps select:focus {
             outline: none;
@@ -262,14 +262,12 @@
         .fps select optgroup option:hover {
             background: #e8f8f5;
         }
-        /* Grid für die zwei Dropdowns (Art.Nr. / Bezeichnung) */
         .dropdown-grid {
             display: grid;
             grid-template-columns: 1fr 2fr;
             gap: 12px;
             width: 100%;
         }
-        /* Verbesserte Bedienbarkeit auf Touch‑Geräten */
         select {
             min-height: 44px;
             font-size: 16px;
@@ -287,7 +285,6 @@
             min-height: 170px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
         }
-        /* Etiketten-Klassen innerhalb der Vorschau */
         .sb .lbt {
             font-size: 7pt;
             font-weight: bold;
@@ -686,7 +683,6 @@
             border-color: #6cb4db;
             box-shadow: 0 0 0 2px rgba(108, 180, 219, 0.15);
         }
-        /* ===== NEUE ZOOM-LEISTE ===== */
         .zoom-bar {
             display: flex;
             align-items: center;
@@ -764,7 +760,7 @@
         .zoom-reset-btn:hover {
             background: #e2e8f0;
         }
-        /* ===== MOBILER TEMPLATE-SELECTOR ===== */
+        /* === MOBILER TEMPLATE-SELECTOR === */
         .mobile-template-selector {
             display: none;
             width: 100%;
@@ -791,7 +787,11 @@
             min-height: 44px;
             font-size: 16px;
         }
-        /* ===== DYNAMISCHE SCHRIFTGRÖSSEN FÜR KLEINE ETIKETTEN ===== */
+        /* NEU: Wrapper für mobilen Locations-Selector – standardmäßig ausgeblendet */
+        .mobile-location-wrapper {
+            display: none;
+        }
+        /* === DYNAMISCHE SCHRIFTGRÖSSEN FÜR KLEINE ETIKETTEN === */
         #mdl .lbt,
         #printContainer .lbt {
             font-size: calc(7pt * var(--label-scale, 1));
@@ -812,7 +812,6 @@
         #printContainer .lbf {
             font-size: calc(5pt * var(--label-scale, 1));
         }
-        /* =========================================================== */
 
         /* ===== MEDIENABFRAGEN ===== */
         @media (max-width: 768px) {
@@ -850,7 +849,7 @@
             .hdr-r {
                 display: none !important;
             }
-            .mobile-template-selector {
+            .mobile-location-wrapper {
                 display: block !important;
             }
         }
@@ -920,7 +919,6 @@
             #d5 {
                 visibility: visible !important;
             }
-            /* Dropdowns untereinander */
             .dropdown-grid {
                 grid-template-columns: 1fr !important;
                 gap: 8px;
@@ -1294,8 +1292,8 @@
 
             <!-- ===== MOBILER TEMPLATE-SELECTOR (inkl. Locations) ===== -->
             <div class="mobile-template-selector">
-                <!-- NEU: Locations-Selector für mobile -->
-                <div style="margin-bottom: 8px;">
+                <!-- NEU: mobiler Locations-Selector – nur bei ≤ 628px sichtbar -->
+                <div class="mobile-location-wrapper">
                     <span style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px;">Standort</span>
                     <select id="mobileLocationSelect">
                         <option value="" disabled selected>Loading locations...</option>
@@ -1823,7 +1821,6 @@
         const mobileLoc = document.getElementById('mobileLocationSelect');
         if (!s1 || !i1) return;
 
-        // Alle drei Selects leeren
         [s1, i1, mobileLoc].forEach(sel => { if (sel) sel.innerHTML = ''; });
 
         if (!locations || locations.length === 0) {
@@ -1836,7 +1833,6 @@
             return;
         }
 
-        // Gruppierung nach Region
         const grouped = {};
         locations.forEach(loc => {
             const region = loc.region || 'Andere';
@@ -1869,7 +1865,6 @@
             if (mobileLoc) mobileLoc.appendChild(optgroupMobile);
         });
 
-        // Gespeicherten oder Default‑Wert setzen
         const savedLocation = localStorage.getItem('lavu_location');
         let targetValue = savedLocation || DEFAULT_LOCATION_VALUE;
 
@@ -2661,7 +2656,6 @@
         document.getElementById('txt-herma-template').textContent = t.hermaTemplate;
         document.getElementById('txt-bezeichnung').textContent = t.bezeichnung;
 
-        // Button-Beschriftung dynamisch
         updatePrintButtonLabel();
 
         document.getElementById('txt-modal1-title').textContent = t.modal1Title;
@@ -2772,7 +2766,6 @@
         document.getElementById('s1').addEventListener('change', function () { x1(this.value); });
         document.getElementById('i1').addEventListener('change', function () { x2(this.value); });
 
-        // Mobiler Locations-Select
         const mobileLoc = document.getElementById('mobileLocationSelect');
         if (mobileLoc) {
             mobileLoc.addEventListener('change', function() {
@@ -2780,10 +2773,9 @@
             });
         }
 
-        // === MODIFIZIERTER DRUCKEN-BUTTON (mobil öffnet Vorschau) ===
         document.getElementById('btn-print-now').addEventListener('click', function () {
             if (window.innerWidth <= 768) {
-                o1();   // öffnet Modal 2 (Vorschau)
+                o1();
             } else {
                 window.print();
             }
@@ -2840,12 +2832,10 @@
         document.getElementById('btn-done').addEventListener('click', function () {
             document.getElementById('m1').style.display = 'none';
         });
-        // Zoom Slider
         document.getElementById('zoomSlider').addEventListener('input', function () {
             const val = this.value;
             applyFastZoom(val);
         });
-        // Reset Button
         document.getElementById('zoomResetBtn').addEventListener('click', function () {
             const slider = document.getElementById('zoomSlider');
             slider.value = 100;
@@ -2871,7 +2861,6 @@
             }
         });
 
-        // === RESIZE: Zoom + Button-Text ===
         window.addEventListener('resize', function () {
             if (document.getElementById('m2').style.display === 'flex') {
                 const zoomVal = document.getElementById('zoomSlider').value;
@@ -2882,8 +2871,6 @@
 
         u1();
         applyLanguage();
-
-        // Initialen Button-Text setzen
         updatePrintButtonLabel();
     });
 

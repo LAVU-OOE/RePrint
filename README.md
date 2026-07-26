@@ -121,3 +121,61 @@ sequenceDiagram
 | **\\> 768px** | Full dual-pane preview desktop layout with interactive sheet modal. |
 | **<= 768px** | Hides side panel live preview (`.ps-wrapper`). Switches to single-column flow. |
 | **<= 520px** | Hides desktop header location badges (`.hdr-r`). Activates mobile location select control (`.mobile-location-wrapper`). |
+
+## 📦 External Data Sources (JSON)
+
+The app retrieves its dynamic data from two central JSON files maintained in this repository:
+
+1. **`sortiment.json`** – Contains the product assortment with product number, description, and optional packaging suffix.
+2. **`locations.json`** – Contains the list of recycling center locations with name, location code, postal code, and region.
+
+These files are loaded via the GitHub raw URLs and can be updated independently of the app itself.
+
+## 🚀 Getting Started & Usage
+
+1. **Open the App:** Access the page via the provided link or install it as a PWA.
+2. **Select a Location:** Select the desired recycling center location from the dynamically loaded list in the header.
+3. **Select Item:** Search for the desired item either by **Item No.** (numerically grouped) or **Description** (alphabetically grouped).
+4. **Adjust Print Layout (Optional):**
+    * Click on the preview image to open the interactive A4 print sheet.
+    * Click on any position on the sheet to add or remove labels.
+5. **Print:** Click the main **"Print Now"** button to print the A4 sheet with your labels.
+
+## ⚙️ Database Customization (CRUD)
+
+You can access the integrated database manager via the **"Options"** button:
+
+* **Select Product Range:** Displays the current product list.
+* **Manage Database:** Here you can:
+
+* Add new items.
+* Edit or delete existing items.
+* Export the entire database as a JSON file.
+* **Save Defaults:** Saves the current settings (location, format, quantity, starting position) as the browser default.
+
+## 🔧 Technical Details & Development
+
+* **Language:** Pure HTML, CSS, and JavaScript (ES6+).
+* **Storage:** Uses `localStorage` for user-specific settings, the assortment cache, and the location cache.
+* **Network:** Uses the `fetch` API with a "no-store" cache strategy for JSON data to always prioritize the most up-to-date data.
+* **Service Worker:** The `sw.js` implements a **network-first strategy** for JSON databases and a **cache-first strategy** for static assets, enabling robust offline use.
+* **Folder Structure:** The main application is located in the `/` folder, and all assets (icons, images) are in the `/assets/` folder. An `index.html` file in the root directory redirects to the app.
+
+## 🤝 Contribute
+
+Contributions are welcome! Please note the following points:
+
+1. Fork the repository.
+2. Create a new branch for your feature (`git checkout -b feature/new-feature`).
+3. Commit your changes (`git commit -m 'feat: New feature added'`).
+4. Push the branch (`git push origin feature/new-feature`).
+5. Create a pull request.
+
+**Important notes for changes to the JSON databases:**
+
+* Ensure the JSON structure is valid.
+* Test the changes locally before merging them into the main branch.
+
+## 📄 License
+
+This project is open source and is licensed under the MIT License.

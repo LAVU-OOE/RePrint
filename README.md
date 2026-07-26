@@ -1,3 +1,7 @@
+[**📖 Home (README)**](./README.md) &nbsp; ┃ &nbsp; [**🇦🇹 LIESMICH**](./markdown/LIESMICH.md) &nbsp; ┃ &nbsp; [**ℹ️ INFORMATION**](./markdown/INFORMATION.md) &nbsp; ┃ &nbsp; [**🪧 AUSKUNFT**](./markdown/AUSKUNFT.md) &nbsp; ┃ &nbsp; [**🔧 MECHANICS**](./markdown/MECHANICS.md) &nbsp; ┃ &nbsp; [**⚖️ MIT License**](./LICENSE)
+
+---
+
 # RE:PRINT Studio v9
 
 **RE:PRINT Studio v9** is a lightweight, client-side Progressive Web Application (PWA) designed for ASZ branch locations in Upper Austria (LAVU ÖO). It provides dynamic label formatting, live print preview calculations, and customizable template sheet rendering for standard HERMA A4 templates.

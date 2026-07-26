@@ -1,3 +1,6 @@
+[**📖 Home (README)**](../README.md) &nbsp; ┃ &nbsp; [**🇦🇹 LIESMICH**](./LIESMICH.md) &nbsp; ┃ &nbsp; [**ℹ️ INFORMATION**](./INFORMATION.md) &nbsp; ┃ &nbsp; **🪧 AUSKUNFT** &nbsp; ┃ &nbsp; [**🔧 MECHANICS**](./MECHANICS.md) &nbsp; ┃ &nbsp; [**⚖️ MIT License**](../LICENSE)
+---
+
 ## 📦 Externe Datenquellen (JSON)
 
 Die App bezieht ihre dynamischen Daten aus zwei zentralen JSON-Dateien, die in diesem Repository verwaltet werden:

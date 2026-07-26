@@ -1,4 +1,5 @@
 [**📖 Home (README)**](../README.md) &nbsp; ┃ &nbsp; [**🇦🇹 LIESMICH**](./LIESMICH.md) &nbsp; ┃ &nbsp; **ℹ️ INFORMATION** &nbsp; ┃ &nbsp; [**🪧 AUSKUNFT**](./AUSKUNFT.md) &nbsp; ┃ &nbsp; [**🔧 MECHANICS**](./MECHANICS.md) &nbsp; ┃ &nbsp; [**⚖️ MIT License**](../LICENSE)
+
 ---
 
 ## 📦 External Data Sources (JSON)

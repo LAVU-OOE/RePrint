@@ -1,4 +1,5 @@
 [**📖 Home (README)**](../README.md) &nbsp; ┃ &nbsp; **🇦🇹 LIESMICH** &nbsp; ┃ &nbsp; [**ℹ️ INFORMATION**](./INFORMATION.md) &nbsp; ┃ &nbsp; [**🪧 AUSKUNFT**](./AUSKUNFT.md) &nbsp; ┃ &nbsp; [**🔧 MECHANICS**](./MECHANICS.md) &nbsp; ┃ &nbsp; [**⚖️ MIT License**](../LICENSE)
+
 ---
 
 ## RE:PRINT Studio v9

@@ -1,57 +1,99 @@
-<h2>RE:PRINT Studio v9</h2>
-<h2>📖 Inhaltsverzeichnis</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOC.md</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css">
+    <style>
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+        @media (prefers-color-scheme: dark) {
+            body { background: #0d1117; }
+        }
+    </style>
+</head>
+<body class="markdown-body">
+    <h2 id="reprint-studio-v9">RE:PRINT Studio v9</h2>
+<h2 id="inhaltsverzeichnis">📖 Inhaltsverzeichnis</h2>
 <ol>
-<li><p><a href="#-einf%C3%BChrung">Einführung</a></p>
+<li>
+<p><a href="#-einf%C3%BChrung">Einführung</a></p>
 </li>
-<li><p><a href="#-haftungsausschluss--rechtlicher-hinweis">Haftungsausschluss / Rechtlicher Hinweis</a></p>
+<li>
+<p><a href="#-haftungsausschluss--rechtlicher-hinweis">Haftungsausschluss / Rechtlicher Hinweis</a></p>
 </li>
-<li><p><a href="#-system%C3%BCbersicht">Systemübersicht</a></p>
+<li>
+<p><a href="#-system%C3%BCbersicht">Systemübersicht</a></p>
 </li>
-<li><p><a href="#-architektur">Architektur</a></p>
+<li>
+<p><a href="#-architektur">Architektur</a></p>
 <ul>
-<li><p><a href="#client-seitiger-kern">Client-Seitiger Kern</a></p>
+<li>
+<p><a href="#client-seitiger-kern">Client-Seitiger Kern</a></p>
 </li>
-<li><p><a href="#cloudflare-workers-integration">Cloudflare Workers Integration</a></p>
+<li>
+<p><a href="#cloudflare-workers-integration">Cloudflare Workers Integration</a></p>
 </li>
-<li><p><a href="#service-worker--offline-strategie">Service Worker &amp; Offline Strategie</a></p>
+<li>
+<p><a href="#service-worker--offline-strategie">Service Worker &amp; Offline Strategie</a></p>
 </li>
-<li><p><a href="#api-fetch--cache-fallback-sequenz">API Fetch &amp; Cache Fallback Sequenz</a></p>
+<li>
+<p><a href="#api-fetch--cache-fallback-sequenz">API Fetch &amp; Cache Fallback Sequenz</a></p>
 </li>
 </ul>
 </li>
-<li><p><a href="#-etikettendesign--rendering-engine">Etikettendesign &amp; Rendering Engine</a></p>
+<li>
+<p><a href="#-etikettendesign--rendering-engine">Etikettendesign &amp; Rendering Engine</a></p>
 <ul>
-<li><p><a href="#berechnung-der-rastergeometrie">Berechnung der Rastergeometrie</a></p>
+<li>
+<p><a href="#berechnung-der-rastergeometrie">Berechnung der Rastergeometrie</a></p>
 </li>
-<li><p><a href="#dynamische-skalierung">Dynamische Skalierung</a></p>
+<li>
+<p><a href="#dynamische-skalierung">Dynamische Skalierung</a></p>
 </li>
-<li><p><a href="#interaktive-bogenvorschau">Interaktive Bogenvorschau</a></p>
+<li>
+<p><a href="#interaktive-bogenvorschau">Interaktive Bogenvorschau</a></p>
 </li>
 </ul>
 </li>
-<li><p><a href="#-datenfluss--workflow-diagramme">Datenfluss &amp; Workflow Diagramme</a></p>
+<li>
+<p><a href="#-datenfluss--workflow-diagramme">Datenfluss &amp; Workflow Diagramme</a></p>
 </li>
-<li><p><a href="#-hauptfunktionen">Hauptfunktionen</a></p>
+<li>
+<p><a href="#-hauptfunktionen">Hauptfunktionen</a></p>
 </li>
-<li><p><a href="#-technische-spezifikationen">Technische Spezifikationen</a></p>
+<li>
+<p><a href="#-technische-spezifikationen">Technische Spezifikationen</a></p>
 </li>
-<li><p><a href="#-druckanleitung">Druckanleitung</a></p>
+<li>
+<p><a href="#-druckanleitung">Druckanleitung</a></p>
 </li>
-<li><p><a href="#-schnellstart">Schnellstart</a></p>
+<li>
+<p><a href="#-schnellstart">Schnellstart</a></p>
 </li>
-<li><p><a href="#-projektstruktur">Projektstruktur</a></p>
+<li>
+<p><a href="#-projektstruktur">Projektstruktur</a></p>
 </li>
-<li><p><a href="#-datenbankverwaltung">Datenbankverwaltung</a></p>
+<li>
+<p><a href="#-datenbankverwaltung">Datenbankverwaltung</a></p>
 </li>
-<li><p><a href="#-richtlinien-f%C3%BCr-mitwirkende">Richtlinien für Mitwirkende</a></p>
+<li>
+<p><a href="#-richtlinien-f%C3%BCr-mitwirkende">Richtlinien für Mitwirkende</a></p>
 </li>
-<li><p><a href="#-lizenz">Lizenz</a></p>
+<li>
+<p><a href="#-lizenz">Lizenz</a></p>
 </li>
 </ol>
-<h2>🚀 Einführung</h2>
+<h2 id="einfuhrung">🚀 Einführung</h2>
 <p><strong>RE:PRINT Studio v9</strong> ist eine ressourcenschonende, clientseitige Progressive Web Application (PWA), die für ASZ-Standorte (Altstoffsammelzentren) in Oberösterreich entwickelt wurde. Sie bietet dynamische Etikettenformatierung, Live-Berechnungen der Druckvorschau und anpassbares Rendern von Vorlagenbögen für Standard-HERMA-A4-Etiketten.</p>
 <p>Die Anwendung läuft vollständig im Browser und nutzt moderne Webtechnologien, um ein nahtloses Erlebnis über Desktop- und Mobilgeräte hinweg zu bieten, mit robusten Offline-Funktionen.</p>
-<h2>⚠️ Haftungsausschluss / Rechtlicher Hinweis</h2>
+<h2 id="haftungsausschluss-rechtlicher-hinweis">⚠️ Haftungsausschluss / Rechtlicher Hinweis</h2>
 <blockquote>
 <p><strong>Wichtiger Hinweis / Haftungsausschluss:</strong></p>
 <p><strong>Diese Software ist ein unabhängiges Community-Projekt und steht in keiner offiziellen Verbindung zur LAVU OÖ (OÖ. Landes-Abfallverwertungsunternehmen GmbH) oder den Bezirksabfallverbänden (BAV OÖ).</strong></p>
@@ -59,20 +101,24 @@
 <p><strong>Hinweis:</strong></p>
 <p><strong>Diese Anwendung ist ein unabhängiges Open-Source-Projekt und wird von der LAVU OÖ oder dem BAV OÖ weder offiziell unterstützt noch gesponsert oder in irgendeiner Weise damit in Verbindung gebracht.</strong></p>
 </blockquote>
-<h2>🏗 Systemübersicht</h2>
+<h2 id="systemubersicht">🏗 Systemübersicht</h2>
 <p>RE:PRINT Studio v9 basiert auf einer <strong>Serverless-Architektur</strong>, die Folgendes kombiniert:</p>
 <ul>
-<li><p><strong>Reines clientseitiges Rendering</strong> mit HTML5, CSS3 und Vanilla JavaScript (ES6+)</p>
+<li>
+<p><strong>Reines clientseitiges Rendering</strong> mit HTML5, CSS3 und Vanilla JavaScript (ES6+)</p>
 </li>
-<li><p><strong>Cloudflare Workers</strong> für API-Endpunkte, die dynamische JSON-Daten bereitstellen</p>
+<li>
+<p><strong>Cloudflare Workers</strong> für API-Endpunkte, die dynamische JSON-Daten bereitstellen</p>
 </li>
-<li><p><strong>Service Workers</strong> für progressive Verbesserung und Offline-Unterstützung</p>
+<li>
+<p><strong>Service Workers</strong> für progressive Verbesserung und Offline-Unterstützung</p>
 </li>
-<li><p><strong>localStorage</strong> für die clientseitige Persistenz von Benutzereinstellungen und zwischengespeicherten Daten</p>
+<li>
+<p><strong>localStorage</strong> für die clientseitige Persistenz von Benutzereinstellungen und zwischengespeicherten Daten</p>
 </li>
 </ul>
-<h3>Systemkontextdiagramm</h3>
-<pre><code>flowchart TB
+<h3 id="systemkontextdiagramm">Systemkontextdiagramm</h3>
+<pre class="codehilite"><code>flowchart TB
     subgraph Client [&quot;Browser Client (PWA)&quot;]
         UI[&quot;🎨 UI Engine&lt;br/&gt;(index.html)&quot;]
         SW[&quot;⚙️ Service Worker&lt;br/&gt;(sw.js)&quot;]
@@ -97,26 +143,32 @@
     SW --&gt;|Network-First Cache| SA
     SW --&gt;|Network-First Cache| LA
 </code></pre>
-<h2>🏛 Architektur</h2>
-<h3>Client-Seitiger Kern</h3>
+
+<h2 id="architektur">🏛 Architektur</h2>
+<h3 id="client-seitiger-kern">Client-Seitiger Kern</h3>
 <p>Der Kern der Anwendung ist in einer einzigen <code>index.html</code>-Datei enthalten, die Folgendes umfasst:</p>
 <ol>
-<li><p><strong>Vorlagen-Registry-Engine</strong> – Lädt und analysiert <code>herma_templates.json</code></p>
+<li>
+<p><strong>Vorlagen-Registry-Engine</strong> – Lädt und analysiert <code>herma_templates.json</code></p>
 </li>
-<li><p><strong>Dynamisches Dropdown-System</strong> – Gruppiert nach Zahlenbereichen und alphabetischen Buchstaben</p>
+<li>
+<p><strong>Dynamisches Dropdown-System</strong> – Gruppiert nach Zahlenbereichen und alphabetischen Buchstaben</p>
 </li>
-<li><p><strong>Interaktiver Raster-Renderer</strong> – Rendert A4-Bögen mit Klick-zum-Umschalten-Funktionalität</p>
+<li>
+<p><strong>Interaktiver Raster-Renderer</strong> – Rendert A4-Bögen mit Klick-zum-Umschalten-Funktionalität</p>
 </li>
-<li><p><strong>i18n Runtime</strong> – Zweisprachige Unterstützung mit nahtlosem Umschalten</p>
+<li>
+<p><strong>i18n Runtime</strong> – Zweisprachige Unterstützung mit nahtlosem Umschalten</p>
 </li>
-<li><p><strong>CRUD-Datenbankmanager</strong> – In-Browser-Datenverwaltung mit JSON-Export</p>
+<li>
+<p><strong>CRUD-Datenbankmanager</strong> – In-Browser-Datenverwaltung mit JSON-Export</p>
 </li>
 </ol>
-<h3>Cloudflare Workers Integration</h3>
+<h3 id="cloudflare-workers-integration">Cloudflare Workers Integration</h3>
 <p>Die Anwendung kommuniziert mit zwei primären Cloudflare-Worker-Endpunkten:</p>
-<h4>1. Sortiment API (<code>sortiment-api.lavu-ooe.workers.dev</code>)</h4>
+<h4 id="1-sortiment-api-sortiment-apilavu-ooeworkersdev">1. Sortiment API (<code>sortiment-api.lavu-ooe.workers.dev</code>)</h4>
 <p>Gibt den Produktkatalog im JSON-Format zurück:</p>
-<pre><code>[
+<pre class="codehilite"><code>[
   {
     &quot;artNr&quot;: &quot;4040&quot;,
     &quot;bez&quot;: &quot;Elektro-Kleingeräte&quot;,
@@ -124,29 +176,31 @@
   }
 ]
 </code></pre>
+
 <p><strong>Worker-Implementierungs-Snippet:</strong></p>
-<pre><code>export default {
+<pre class="codehilite"><code>export default {
   async fetch(request) {
     const CORS_HEADERS = {
-      &#39;Access-Control-Allow-Origin&#39;: &#39;*&#39;,
-      &#39;Access-Control-Allow-Methods&#39;: &#39;GET, OPTIONS&#39;,
-      &#39;Content-Type&#39;: &#39;application/json&#39;
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Content-Type': 'application/json'
     };
     try {
-      const data = await SORTIMENT_KV.get(&#39;sortiment&#39;, &#39;json&#39;);
+      const data = await SORTIMENT_KV.get('sortiment', 'json');
       return new Response(JSON.stringify(data), { headers: CORS_HEADERS });
     } catch (error) {
       return new Response(
-        JSON.stringify({ error: &#39;Fehler beim Abrufen der Sortimentsdaten&#39; }),
+        JSON.stringify({ error: 'Fehler beim Abrufen der Sortimentsdaten' }),
         { status: 500, headers: CORS_HEADERS }
       );
     }
   }
 }
 </code></pre>
-<h4>2. Locations API (<code>locations-api.lavu-ooe.workers.dev</code>)</h4>
+
+<h4 id="2-locations-api-locations-apilavu-ooeworkersdev">2. Locations API (<code>locations-api.lavu-ooe.workers.dev</code>)</h4>
 <p>Gibt die Liste der ASZ-Standorte zurück:</p>
-<pre><code>[
+<pre class="codehilite"><code>[
   {
     &quot;siteCode&quot;: &quot;106&quot;,
     &quot;name&quot;: &quot;ASZ Asten&quot;,
@@ -155,47 +209,49 @@
   }
 ]
 </code></pre>
+
 <p><strong>Worker-Implementierungs-Snippet:</strong></p>
-<pre><code>export default {
+<pre class="codehilite"><code>export default {
   async fetch(request) {
     const CORS_HEADERS = {
-      &#39;Access-Control-Allow-Origin&#39;: &#39;*&#39;,
-      &#39;Access-Control-Allow-Methods&#39;: &#39;GET, OPTIONS&#39;,
-      &#39;Content-Type&#39;: &#39;application/json&#39;
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Content-Type': 'application/json'
     };
     try {
-      const locations = await LOCATIONS_KV.get(&#39;locations&#39;, &#39;json&#39;);
+      const locations = await LOCATIONS_KV.get('locations', 'json');
       return new Response(JSON.stringify(locations), { headers: CORS_HEADERS });
     } catch (error) {
       return new Response(
-        JSON.stringify({ error: &#39;Fehler beim Abrufen der Standortdaten&#39; }),
+        JSON.stringify({ error: 'Fehler beim Abrufen der Standortdaten' }),
         { status: 500, headers: CORS_HEADERS }
       );
     }
   }
 }
 </code></pre>
-<h3>Service Worker &amp; Offline-Strategie</h3>
+
+<h3 id="service-worker-offline-strategie">Service Worker &amp; Offline-Strategie</h3>
 <p>Der Service Worker implementiert eine <strong>Network-First</strong>-Strategie für dynamische JSON-Daten und eine <strong>Cache-First</strong>-Strategie für statische Assets.</p>
-<h4>Registrierung &amp; Installation</h4>
-<pre><code>const CACHE_NAME = &#39;lavu-studio-v10&#39;;
+<h4 id="registrierung-installation">Registrierung &amp; Installation</h4>
+<pre class="codehilite"><code>const CACHE_NAME = 'lavu-studio-v10';
 const STATIC_ASSETS = [
-  &#39;.&#39;,
-  &#39;index.html&#39;,
-  &#39;manifest.json&#39;,
-  &#39;favicon.svg&#39;,
-  &#39;logo.png&#39;,
-  &#39;favicon-96x96.png&#39;,
-  &#39;apple-touch-icon.png&#39;,
-  &#39;web-app-manifest-192x192.png&#39;,
-  &#39;web-app-manifest-512x512.png&#39;
+  '.',
+  'index.html',
+  'manifest.json',
+  'favicon.svg',
+  'logo.png',
+  'favicon-96x96.png',
+  'apple-touch-icon.png',
+  'web-app-manifest-192x192.png',
+  'web-app-manifest-512x512.png'
 ];
 const DYNAMIC_JSON_URLS = [
-  &#39;https://locations-api.lavu-ooe.workers.dev/&#39;,
-  &#39;https://sortiment-api.lavu-ooe.workers.dev/&#39;
+  'https://locations-api.lavu-ooe.workers.dev/',
+  'https://sortiment-api.lavu-ooe.workers.dev/'
 ];
 
-self.addEventListener(&#39;install&#39;, event =&gt; {
+self.addEventListener('install', event =&gt; {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache =&gt; cache.addAll([...STATIC_ASSETS, ...DYNAMIC_JSON_URLS]))
@@ -203,10 +259,11 @@ self.addEventListener(&#39;install&#39;, event =&gt; {
   );
 });
 </code></pre>
-<h4>Abrufstrategie für JSON-Endpunkte</h4>
-<pre><code>if (DYNAMIC_JSON_URLS.some(jsonUrl =&gt; url.href === jsonUrl)) {
+
+<h4 id="abrufstrategie-fur-json-endpunkte">Abrufstrategie für JSON-Endpunkte</h4>
+<pre class="codehilite"><code>if (DYNAMIC_JSON_URLS.some(jsonUrl =&gt; url.href === jsonUrl)) {
   event.respondWith(
-    fetch(request, { cache: &#39;no-store&#39; })
+    fetch(request, { cache: 'no-store' })
       .then(response =&gt; {
         const clonedResponse = response.clone();
         caches.open(CACHE_NAME)
@@ -217,12 +274,12 @@ self.addEventListener(&#39;install&#39;, event =&gt; {
         return caches.match(request)
           .then(cachedResponse =&gt; {
             if (cachedResponse) {
-              console.log(&#39;[SW] JSON wird aus dem Cache bereitgestellt&#39;);
+              console.log('[SW] JSON wird aus dem Cache bereitgestellt');
               return cachedResponse;
             }
             return new Response(
-              JSON.stringify({ error: &#39;Offline - Daten nicht verfügbar&#39; }),
-              { status: 503, headers: { &#39;Content-Type&#39;: &#39;application/json&#39; } }
+              JSON.stringify({ error: 'Offline - Daten nicht verfügbar' }),
+              { status: 503, headers: { 'Content-Type': 'application/json' } }
             );
           });
       })
@@ -230,8 +287,9 @@ self.addEventListener(&#39;install&#39;, event =&gt; {
   return;
 }
 </code></pre>
-<h4>Offline-Fallback für die Navigation</h4>
-<pre><code>if (request.mode === &#39;navigate&#39;) {
+
+<h4 id="offline-fallback-fur-die-navigation">Offline-Fallback für die Navigation</h4>
+<pre class="codehilite"><code>if (request.mode === 'navigate') {
   event.respondWith(
     fetch(request)
       .then(response =&gt; {
@@ -241,15 +299,15 @@ self.addEventListener(&#39;install&#39;, event =&gt; {
         return response;
       })
       .catch(() =&gt; {
-        return caches.match(&#39;/index.html&#39;)
+        return caches.match('/index.html')
           .then(cachedResponse =&gt; {
             if (cachedResponse) {
-              console.log(&#39;[SW] Offline-Fallback-Seite wird bereitgestellt&#39;);
+              console.log('[SW] Offline-Fallback-Seite wird bereitgestellt');
               return cachedResponse;
             }
             return new Response(
-              &#39;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Offline&lt;/h1&gt;&lt;p&gt;Bitte verbinden Sie sich mit dem Internet, um die App zu nutzen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&#39;,
-              { headers: { &#39;Content-Type&#39;: &#39;text/html&#39; } }
+              '&lt;html&gt;&lt;body&gt;&lt;h1&gt;Offline&lt;/h1&gt;&lt;p&gt;Bitte verbinden Sie sich mit dem Internet, um die App zu nutzen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;',
+              { headers: { 'Content-Type': 'text/html' } }
             );
           });
       })
@@ -257,8 +315,9 @@ self.addEventListener(&#39;install&#39;, event =&gt; {
   return;
 }
 </code></pre>
-<h3>API Fetch &amp; Cache Fallback Sequenz</h3>
-<pre><code>sequenceDiagram
+
+<h3 id="api-fetch-cache-fallback-sequenz">API Fetch &amp; Cache Fallback Sequenz</h3>
+<pre class="codehilite"><code>sequenceDiagram
     autonumber
     actor User as 👤 Benutzer
     participant UI as 🖥️ Client UI (index.html)
@@ -268,7 +327,7 @@ self.addEventListener(&#39;install&#39;, event =&gt; {
 
     User-&gt;&gt;UI: Wählt Standort / Sortimentsartikel
     UI-&gt;&gt;SW: fetch(API-Endpunkt)
-    
+
     alt Netzwerk Online
         SW-&gt;&gt;API: HTTP GET /locations-api oder /sortiment-api
         API--&gt;&gt;SW: 200 OK (JSON-Nutzdaten)
@@ -283,38 +342,79 @@ self.addEventListener(&#39;install&#39;, event =&gt; {
             SW--&gt;&gt;UI: 503 Service Unavailable (Fallback-Nutzdaten)
         end
     end
-    
+
     UI-&gt;&gt;User: Interaktives Raster &amp; Etikettenvorschau rendern
 </code></pre>
-<h2>🎨 Etikettendesign &amp; Rendering Engine</h2>
+
+<h2 id="etikettendesign-rendering-engine">🎨 Etikettendesign &amp; Rendering Engine</h2>
 <p>Die Kern-Rendering-Engine wandelt HERMA-Vorlagendefinitionen mit präzisen geometrischen Berechnungen in interaktive A4-Bögen um.</p>
-<h3>Berechnung der Rastergeometrie</h3>
+<h3 id="berechnung-der-rastergeometrie">Berechnung der Rastergeometrie</h3>
 <p>Der Etiketten-Renderer berechnet dynamische Layout-Geometrien basierend auf den Vorlagenparametern, die in <code>herma_templates.json</code> deklariert sind.</p>
-<h4>Mathematische Grundlage</h4>
+<h4 id="mathematische-grundlage">Mathematische Grundlage</h4>
 <p>Wobei:</p>
-<p>| 
+<p>| <br />
 <strong>Variable</strong></p>
-<p> | </p>
+<p>| </p>
 <p><strong>Beschreibung</strong></p>
-<p> |
-| --- | --- |
+<p>|<br />
+| --- | --- |<br />
 |  | </p>
 <p>Anzahl der Spalten (<code>cols</code>)</p>
-<p> |
-|  | </p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p>Anzahl der Zeilen (<code>rows</code>)</p>
-<p> |
-|  | </p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p>Etikettenbreite in Millimetern</p>
-<p> |
-|  | </p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p>Etikettenhöhe in Millimetern</p>
-<p> |
-|  | </p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p>Horizontale und vertikale Abstände in Millimetern</p>
-<p> |</p>
-<h4>Vorlagenstruktur (<code>herma_templates.json</code>)</h4>
-<pre><code>{
+<p>|</p>
+<h4 id="vorlagenstruktur-herma_templatesjson">Vorlagenstruktur (<code>herma_templates.json</code>)</h4>
+<pre class="codehilite"><code>{
   &quot;engine&quot;: &quot;HERMA Label Engine&quot;,
   &quot;page_format&quot;: {
     &quot;size&quot;: &quot;A4&quot;,
@@ -339,65 +439,68 @@ self.addEventListener(&#39;install&#39;, event =&gt; {
   ]
 }
 </code></pre>
-<h4>Raster-Rendering-Funktion</h4>
-<pre><code>function r2(containerId, data) {
+
+<h4 id="raster-rendering-funktion">Raster-Rendering-Funktion</h4>
+<pre class="codehilite"><code>function r2(containerId, data) {
   const container = document.getElementById(containerId);
   const t = templateRegistry[currentFormatKey];
-  
+
   const totalGridWidth = t.cols * t.width_mm + (t.cols - 1) * t.gap_x_mm;
   const totalGridHeight = t.rows * t.height_mm + (t.rows - 1) * t.gap_y_mm;
-  
+
   const rightMargin = 210 - totalGridWidth - t.left_margin_mm;
   const bottomMargin = 297 - totalGridHeight - t.top_margin_mm;
-  
+
   container.style.padding = `
     ${t.top_margin_mm}mm 
     ${Math.max(0, rightMargin)}mm 
     ${Math.max(0, bottomMargin)}mm 
     ${t.left_margin_mm}mm
   `;
-  
+
   container.style.gridTemplateColumns = `repeat(${t.cols}, ${t.width_mm}mm)`;
   container.style.gridTemplateRows = `repeat(${t.rows}, ${t.height_mm}mm)`;
-  
+
   for (let i = 1; i &lt;= maxLabels; i++) {
-    const label = document.createElement(&#39;div&#39;);
-    label.className = &#39;lb&#39;;
+    const label = document.createElement('div');
+    label.className = 'lb';
     if (i &gt;= start &amp;&amp; i &lt; start + count) {
       label.innerHTML = `
-        &lt;div class=&quot;lbt&quot;&gt;${data.topText || &#39;&amp;nbsp;&#39;}&lt;/div&gt;
+        &lt;div class=&quot;lbt&quot;&gt;${data.topText || '&amp;nbsp;'}&lt;/div&gt;
         &lt;div class=&quot;lbm&quot;&gt;
-          &lt;div class=&quot;lba&quot;&gt;${data.artNr || &#39;&amp;nbsp;&#39;}&lt;/div&gt;
-          ${data.suffix ? `&lt;div class=&quot;lbs&quot;&gt;${data.suffix}&lt;/div&gt;` : &#39;&#39;}
+          &lt;div class=&quot;lba&quot;&gt;${data.artNr || '&amp;nbsp;'}&lt;/div&gt;
+          ${data.suffix ? `&lt;div class=&quot;lbs&quot;&gt;${data.suffix}&lt;/div&gt;` : ''}
         &lt;/div&gt;
-        &lt;div class=&quot;lbb&quot;&gt;${data.bezeichnung || &#39;&amp;nbsp;&#39;}&lt;/div&gt;
+        &lt;div class=&quot;lbb&quot;&gt;${data.bezeichnung || '&amp;nbsp;'}&lt;/div&gt;
         &lt;div class=&quot;lbf&quot;&gt;https://lavu-ooe.github.io/&lt;/div&gt;
       `;
     } else {
-      label.className += &#39; e&#39;; 
+      label.className += ' e'; 
     }
     container.appendChild(label);
   }
 }
 </code></pre>
-<h3>Dynamische Skalierung</h3>
+
+<h3 id="dynamische-skalierung">Dynamische Skalierung</h3>
 <p>Um CSS-Layoutbrüche in Vorschaukarten zu vermeiden, werden Skalierungsvektoren als dynamische Inline-Eigenschaften berechnet:</p>
-<pre><code>const baseWidth = 70;   
+<pre class="codehilite"><code>const baseWidth = 70;   
 const baseHeight = 41;  
 const scaleX = t.width_mm / baseWidth;
 const scaleY = t.height_mm / baseHeight;
 const scale = Math.min(scaleX, scaleY, 1);
-container.style.setProperty(&#39;--label-scale&#39;, scale);
+container.style.setProperty('--label-scale', scale);
 </code></pre>
-<h3>Interaktive Bogenvorschau</h3>
+
+<h3 id="interaktive-bogenvorschau">Interaktive Bogenvorschau</h3>
 <p>Die modale Vorschau ermöglicht es Benutzern, auf einzelne Etikettenpositionen zu klicken, um deren Status umzuschalten:</p>
-<pre><code>function toggleLabel(clickedIndex) {
+<pre class="codehilite"><code>function toggleLabel(clickedIndex) {
   const t = templateRegistry[currentFormatKey];
   const maxLabels = t.cols * t.rows;
-  let count = parseInt(document.getElementById(&#39;i2&#39;).value) || 0;
-  let start = parseInt(document.getElementById(&#39;i3&#39;).value) || 1;
+  let count = parseInt(document.getElementById('i2').value) || 0;
+  let start = parseInt(document.getElementById('i3').value) || 1;
   let end = start + count - 1;
-  
+
   if (count === 0) {
     start = clickedIndex;
     count = 1;
@@ -410,49 +513,51 @@ container.style.setProperty(&#39;--label-scale&#39;, scale);
     start = clickedIndex;
     count = 1;
   }
-  
-  document.getElementById(&#39;i2&#39;).value = count;
-  document.getElementById(&#39;i3&#39;).value = start;
+
+  document.getElementById('i2').value = count;
+  document.getElementById('i3').value = start;
   u1(); 
 }
 </code></pre>
-<h2>📊 Datenfluss &amp; Workflow Diagramme</h2>
-<h3>Vollständiger Anwendungs-Workflow</h3>
-<pre><code>flowchart TD
+
+<h2 id="datenfluss-workflow-diagramme">📊 Datenfluss &amp; Workflow Diagramme</h2>
+<h3 id="vollstandiger-anwendungs-workflow">Vollständiger Anwendungs-Workflow</h3>
+<pre class="codehilite"><code>flowchart TD
     A[&quot;🚀 Benutzer öffnet App&quot;] --&gt; B{&quot;🔍 localStorage prüfen&quot;}
     B -- Cache existiert --&gt; C[&quot;📦 Zwischengespeicherte Daten laden&quot;]
     B -- Kein Cache --&gt; D[&quot;☁️ Von Cloudflare Workers abrufen&quot;]
     C --&gt; E[&quot;📋 Dropdowns füllen&quot;]
     D --&gt; E
-    
+
     E --&gt; F[&quot;📍 Benutzer wählt Standort&quot;]
     F --&gt; G[&quot;🏷️ Benutzer wählt Produkt&quot;]
     G --&gt; H[&quot;👁️ Live-Vorschau rendern&quot;]
-    
+
     H --&gt; I{&quot;⚡ Benutzeraktion&quot;}
     I -- Klick auf Vorschau --&gt; J[&quot;🖼️ Interaktives Bogen-Modal öffnen&quot;]
     J --&gt; K[&quot;🖱️ Etikettenpositionen anklicken&quot;]
     K --&gt; L[&quot;🔄 Etikettenstatus umschalten&quot;]
     L --&gt; M[&quot;✏️ Anzahl &amp; Startposition aktualisieren&quot;]
     M --&gt; N[&quot;🎨 Bogen-Layout neu rendern&quot;]
-    
+
     I -- Jetzt drucken --&gt; O[&quot;🖨️ Browser-Druckdialog öffnen&quot;]
     O --&gt; P[&quot;📄 Gedruckten A4-Bogen ausgeben&quot;]
-    
+
     I -- Optionen --&gt; Q[&quot;⚙️ Einstellungs-Modal öffnen&quot;]
     Q --&gt; R{&quot;📂 Tab auswählen&quot;}
     R -- Service Worker --&gt; S[&quot;🌐 API-Endpunkte verwalten&quot;]
     S --&gt; T[&quot;✏️ Sortiments-Endpunkt aktualisieren&quot;]
     S --&gt; U[&quot;✏️ Standorte-Endpunkt aktualisieren&quot;]
-    
+
     R -- Datenbank --&gt; V[&quot;🗄️ CRUD-Operationen&quot;]
     V --&gt; W[&quot;➕ Elemente hinzufügen / bearbeiten / löschen&quot;]
     W --&gt; X[&quot;💾 In localStorage speichern&quot;]
     X --&gt; E
     V --&gt; Y[&quot;📥 Datenbank-JSON exportieren&quot;]
 </code></pre>
-<h3>Etikettendesign-Workflow</h3>
-<pre><code>flowchart LR
+
+<h3 id="etikettendesign-workflow">Etikettendesign-Workflow</h3>
+<pre class="codehilite"><code>flowchart LR
     subgraph Input [&quot;1. Dateneingabe&quot;]
         A1[&quot;📄 HERMA SKU auswählen&quot;] --&gt; A2[&quot;⚙️ Geometriespezifikationen laden&quot;]
         B1[&quot;📍 Standort auswählen&quot;] --&gt; B2[&quot;🏷️ Kopf-Etikett abrufen&quot;]
@@ -486,8 +591,9 @@ container.style.setProperty(&#39;--label-scale&#39;, scale);
         M --&gt; N[&quot;🏷️ Physischer Bogen gedruckt&quot;]
     end
 </code></pre>
-<h3>Lebenszyklus des Anwendungsstatus</h3>
-<pre><code>stateDiagram-v2
+
+<h3 id="lebenszyklus-des-anwendungsstatus">Lebenszyklus des Anwendungsstatus</h3>
+<pre class="codehilite"><code>stateDiagram-v2
     [*] --&gt; Uninitialized
 
     state Uninitialized {
@@ -506,7 +612,7 @@ container.style.setProperty(&#39;--label-scale&#39;, scale);
     }
 
     Ready --&gt; ModalEditing : Klick auf Bogenvorschau
-    
+
     state ModalEditing {
         [*] --&gt; ModalOpen
         ModalOpen --&gt; ToggleCell : Rasterzelle anklicken
@@ -519,159 +625,262 @@ container.style.setProperty(&#39;--label-scale&#39;, scale);
     Ready --&gt; Printing : Klick auf &quot;Jetzt drucken&quot;
     Printing --&gt; Ready : Druckansicht schließen
 </code></pre>
-<h2>🌟 Hauptfunktionen</h2>
-<h3>1. Dynamische HERMA-Bogen-Engine</h3>
+
+<h2 id="hauptfunktionen">🌟 Hauptfunktionen</h2>
+<h3 id="1-dynamische-herma-bogen-engine">1. Dynamische HERMA-Bogen-Engine</h3>
 <ul>
-<li><p><strong>Interaktive Klick-zum-Umschalten</strong>-Bogenpositionierung auf Standard-A4-Rastern</p>
+<li>
+<p><strong>Interaktive Klick-zum-Umschalten</strong>-Bogenpositionierung auf Standard-A4-Rastern</p>
 </li>
-<li><p><strong>Echtzeit-Vorschau</strong> mit automatischer Neuberechnung</p>
+<li>
+<p><strong>Echtzeit-Vorschau</strong> mit automatischer Neuberechnung</p>
 </li>
-<li><p>Unterstützung für <strong>rechteckige und runde</strong> Etikettenvorlagen</p>
+<li>
+<p>Unterstützung für <strong>rechteckige und runde</strong> Etikettenvorlagen</p>
 </li>
 </ul>
-<h3>2. Serverless &amp; Offline First</h3>
+<h3 id="2-serverless-offline-first">2. Serverless &amp; Offline First</h3>
 <ul>
-<li><p>Nutzt <strong>Cloudflare Workers</strong> für API-Endpunkte</p>
+<li>
+<p>Nutzt <strong>Cloudflare Workers</strong> für API-Endpunkte</p>
 </li>
-<li><p>Fällt auf <strong>zwischengespeicherten Browserstatus</strong> (<code>localStorage</code>) zurück</p>
+<li>
+<p>Fällt auf <strong>zwischengespeicherten Browserstatus</strong> (<code>localStorage</code>) zurück</p>
 </li>
-<li><p><strong>Service Worker</strong> bietet Offline-Fähigkeit mit Network-First-Strategie</p>
+<li>
+<p><strong>Service Worker</strong> bietet Offline-Fähigkeit mit Network-First-Strategie</p>
 </li>
 </ul>
-<h3>3. Zweisprachige Unterstützung (i18n)</h3>
+<h3 id="3-zweisprachige-unterstutzung-i18n">3. Zweisprachige Unterstützung (i18n)</h3>
 <ul>
-<li><p>Natives Umschalten zur Laufzeit zwischen <strong>Deutsch (<code>de</code>)</strong> und <strong>Englisch (<code>en</code>)</strong></p>
+<li>
+<p>Natives Umschalten zur Laufzeit zwischen <strong>Deutsch (<code>de</code>)</strong> und <strong>Englisch (<code>en</code>)</strong></p>
 </li>
-<li><p>Dauerhafte Speicherung der Spracheinstellung im <code>localStorage</code></p>
+<li>
+<p>Dauerhafte Speicherung der Spracheinstellung im <code>localStorage</code></p>
 </li>
 </ul>
-<h3>4. Geräteübergreifende Responsive UI</h3>
+<h3 id="4-gerateubergreifende-responsive-ui">4. Geräteübergreifende Responsive UI</h3>
 <ul>
-<li><p><strong>Für Mobilgeräte optimiertes Layout</strong>, das bei Vorlagen und Standortauswahl umschaltet</p>
+<li>
+<p><strong>Für Mobilgeräte optimiertes Layout</strong>, das bei Vorlagen und Standortauswahl umschaltet</p>
 </li>
-<li><p><strong>Adaptive Breakpoints</strong> bei 768px und 520px</p>
+<li>
+<p><strong>Adaptive Breakpoints</strong> bei 768px und 520px</p>
 </li>
-<li><p>Für Touch optimierte interaktive Elemente</p>
+<li>
+<p>Für Touch optimierte interaktive Elemente</p>
 </li>
 </ul>
-<h3>5. PWA-Fähig</h3>
+<h3 id="5-pwa-fahig">5. PWA-Fähig</h3>
 <ul>
-<li><p><strong>Offline-Unterstützung</strong> durch Service Worker</p>
+<li>
+<p><strong>Offline-Unterstützung</strong> durch Service Worker</p>
 </li>
-<li><p><strong>Manifest-gesteuerte Installationsaufforderungen</strong> in kompatiblen Browsern</p>
+<li>
+<p><strong>Manifest-gesteuerte Installationsaufforderungen</strong> in kompatiblen Browsern</p>
 </li>
-<li><p><strong>Standalone-Anzeige</strong>-Konfiguration für ein App-ähnliches Erlebnis</p>
+<li>
+<p><strong>Standalone-Anzeige</strong>-Konfiguration für ein App-ähnliches Erlebnis</p>
 </li>
 </ul>
-<h3>6. Datenbankverwaltung</h3>
+<h3 id="6-datenbankverwaltung">6. Datenbankverwaltung</h3>
 <ul>
-<li><p><strong>In-Browser-CRUD-Operationen</strong> für die Produktdatenbank</p>
+<li>
+<p><strong>In-Browser-CRUD-Operationen</strong> für die Produktdatenbank</p>
 </li>
-<li><p><strong>JSON-Export</strong>-Funktionalität</p>
+<li>
+<p><strong>JSON-Export</strong>-Funktionalität</p>
 </li>
-<li><p><strong>Automatische Synchronisation</strong> zwischen localStorage und UI</p>
+<li>
+<p><strong>Automatische Synchronisation</strong> zwischen localStorage und UI</p>
 </li>
 </ul>
-<h2>🔧 Technische Spezifikationen</h2>
-<h3>Speicher- &amp; Persistenzschema</h3>
-<p>| 
+<h2 id="technische-spezifikationen">🔧 Technische Spezifikationen</h2>
+<h3 id="speicher-persistenzschema">Speicher- &amp; Persistenzschema</h3>
+<p>| <br />
 <strong>Speicherschlüssel</strong></p>
-<p> | </p>
+<p>| </p>
 <p><strong>Typ</strong></p>
-<p> | </p>
+<p>| </p>
 <p><strong>Beschreibung</strong></p>
-<p> |
-| --- | --- | --- |
+<p>|<br />
+| --- | --- | --- |<br />
 | </p>
 <p><code>lavu_lang</code></p>
-<p> | </p>
+<p>| </p>
 <p><code>string</code></p>
-<p> | </p>
+<p>| </p>
 <p>Ausgewählte i18n-Sprache (<code>de</code> | <code>en</code>)</p>
-<p> |
-| </p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p><code>lavu_location</code></p>
-<p> | </p>
+<p>| </p>
 <p><code>string</code></p>
-<p> | </p>
-<p>Aktuell ausgewählte Site-Code-ID (z. B. <code>&quot;106&quot;</code>)</p>
-<p> |
-| </p>
+<p>| </p>
+<p>Aktuell ausgewählte Site-Code-ID (z. B. <code>"106"</code>)</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p><code>lavu_locations_url</code></p>
-<p> | </p>
+<p>| </p>
 <p><code>string</code></p>
-<p> | </p>
+<p>| </p>
 <p>Remote-Worker-Endpunkt für Standorte</p>
-<p> |
-| </p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p><code>lavu_locations_cache</code></p>
-<p> | </p>
+<p>| </p>
 <p><code>string</code> (JSON)</p>
-<p> | </p>
+<p>| </p>
 <p>Zwischengespeicherte Standortliste</p>
-<p> |
-| </p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p><code>lavu_studio_defaults_v8</code></p>
-<p> | </p>
+<p>| </p>
 <p><code>string</code> (JSON)</p>
-<p> | </p>
+<p>| </p>
 <p>Zuletzt bekanntes SKU-Format, Anzahl und Positions-Offset</p>
-<p> |
-| </p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p><code>lavu_studio_sortiment_v8</code></p>
-<p> | </p>
+<p>| </p>
 <p><code>string</code> (JSON)</p>
-<p> | </p>
+<p>| </p>
 <p>Lokal bearbeiteter Datenbank-Arbeitsbereich</p>
-<p> |
-| </p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p><code>lavu_preview_zoom</code></p>
-<p> | </p>
+<p>| </p>
 <p><code>string</code></p>
-<p> | </p>
+<p>| </p>
 <p>Zoomstufe für modale Vorschau</p>
-<p> |</p>
-<h3>Media Query Breakpoint Matrix</h3>
-<p>| 
+<p>|</p>
+<h3 id="media-query-breakpoint-matrix">Media Query Breakpoint Matrix</h3>
+<p>| <br />
 <strong>Viewport-Breite</strong></p>
-<p> | </p>
+<p>| </p>
 <p><strong>Visuelle Anpassungen</strong></p>
-<p> |
-| --- | --- |
+<p>|<br />
+| --- | --- |<br />
 | </p>
 <p><strong>&gt; 768px</strong></p>
-<p> | </p>
+<p>| </p>
 <p>Volles Dual-Pane-Vorschau-Desktop-Layout mit interaktivem Bogen-Modal</p>
-<p> |
-| </p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p><strong>&lt;= 768px</strong></p>
-<p> | </p>
+<p>| </p>
 <p>Versteckt die Live-Vorschau im Seitenbereich (<code>.ps-wrapper</code>). Wechselt zum einspaltigen Fluss</p>
-<p> |
-| </p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p><strong>&lt;= 520px</strong></p>
-<p> | </p>
+<p>| </p>
 <p>Versteckt die Desktop-Header-Standort-Badges (<code>.hdr-r</code>). Aktiviert die mobile Standortauswahlsteuerung (<code>.mobile-location-wrapper</code>)</p>
-<p> |</p>
-<h3>Leistungsmetriken</h3>
-<pre><code>console.time(&#39;renderGrid&#39;);
-r2(&#39;mdl&#39;, data);
-console.timeEnd(&#39;renderGrid&#39;);
+<p>|</p>
+<h3 id="leistungsmetriken">Leistungsmetriken</h3>
+<pre class="codehilite"><code>console.time('renderGrid');
+r2('mdl', data);
+console.timeEnd('renderGrid');
 </code></pre>
-<h2>🖨 Druckanleitung</h2>
+
+<h2 id="druckanleitung">🖨 Druckanleitung</h2>
 <p>Befolgen Sie für optimale Druckergebnisse diese Einstellungen im Druckdialog Ihres Browsers:</p>
 <ol>
-<li><p><strong>Skalierung:</strong> Auf <strong>100% / Tatsächliche Größe</strong> einstellen</p>
+<li>
+<p><strong>Skalierung:</strong> Auf <strong>100% / Tatsächliche Größe</strong> einstellen</p>
 </li>
-<li><p><strong>Ränder:</strong> Auf <strong>Keine</strong> oder <strong>0mm</strong> einstellen</p>
+<li>
+<p><strong>Ränder:</strong> Auf <strong>Keine</strong> oder <strong>0mm</strong> einstellen</p>
 </li>
-<li><p><strong>Papiergröße:</strong> Auswahl erzwingen auf <strong>A4 Hochformat</strong></p>
+<li>
+<p><strong>Papiergröße:</strong> Auswahl erzwingen auf <strong>A4 Hochformat</strong></p>
 </li>
-<li><p><strong>Hintergrundgrafiken:</strong> Aktivieren, wenn Sie die Rasterlinien sehen möchten</p>
+<li>
+<p><strong>Hintergrundgrafiken:</strong> Aktivieren, wenn Sie die Rasterlinien sehen möchten</p>
 </li>
 </ol>
-<h3>Druckvorschau-Code</h3>
-<pre><code>document.getElementById(&#39;btn-print-now&#39;).addEventListener(&#39;click&#39;, function () {
+<h3 id="druckvorschau-code">Druckvorschau-Code</h3>
+<pre class="codehilite"><code>document.getElementById('btn-print-now').addEventListener('click', function () {
   if (window.innerWidth &lt;= 768) {
     o1();
   } else {
@@ -679,13 +888,14 @@ console.timeEnd(&#39;renderGrid&#39;);
   }
 });
 </code></pre>
-<h3>Druckspezifisches CSS</h3>
-<pre><code>@media print {
+
+<h3 id="druckspezifisches-css">Druckspezifisches CSS</h3>
+<pre class="codehilite"><code>@media print {
   @page {
     size: A4 portrait;
     margin: 0 !important;
   }
-  
+
   #hpc .pc {
     display: grid !important;
     gap: 0 !important;
@@ -695,7 +905,7 @@ console.timeEnd(&#39;renderGrid&#39;);
     box-shadow: none !important;
     transform: none !important;
   }
-  
+
   #hpc .lb {
     display: flex !important;
     flex-direction: column !important;
@@ -705,40 +915,47 @@ console.timeEnd(&#39;renderGrid&#39;);
   }
 }
 </code></pre>
-<h2>🚀 Schnellstart</h2>
-<h3>Installation &amp; Einrichtung</h3>
+
+<h2 id="schnellstart">🚀 Schnellstart</h2>
+<h3 id="installation-einrichtung">Installation &amp; Einrichtung</h3>
 <ol>
-<li><p><strong>Repository klonen oder herunterladen</strong></p>
-<pre><code>git clone https://github.com/LAVU-OOE/RePrint.git
-cd RePrint
-</code></pre>
+<li>
+<p><strong>Repository klonen oder herunterladen</strong></p>
+<p><code>git clone https://github.com/LAVU-OOE/RePrint.git
+cd RePrint</code></p>
 </li>
-<li><p><strong>Hosten über einen beliebigen Server für statische Seiten</strong></p>
-<pre><code>python3 -m http.server 8080
-# ODER
-npx http-server .
-# ODER
-php -S localhost:8080
-</code></pre>
+<li>
+<p><strong>Hosten über einen beliebigen Server für statische Seiten</strong></p>
+<p>```<br />
+python3 -m http.server 8080</p>
+<h1 id="oder">ODER</h1>
+<p>npx http-server .</p>
+<h1 id="oder_1">ODER</h1>
+<p>php -S localhost:8080<br />
+```</p>
 </li>
-<li><p><strong>Im Browser öffnen</strong></p>
-<pre><code>http://localhost:8080
-</code></pre>
+<li>
+<p><strong>Im Browser öffnen</strong></p>
+<p><code>http://localhost:8080</code></p>
 </li>
 </ol>
-<h3>Erstmalige Verwendung</h3>
+<h3 id="erstmalige-verwendung">Erstmalige Verwendung</h3>
 <ol>
-<li><p><strong>Einen Standort auswählen</strong> – Wählen Sie Ihre ASZ-Filiale aus dem dynamisch geladenen Dropdown-Menü</p>
+<li>
+<p><strong>Einen Standort auswählen</strong> – Wählen Sie Ihre ASZ-Filiale aus dem dynamisch geladenen Dropdown-Menü</p>
 </li>
-<li><p><strong>Einen Artikel auswählen</strong> – Suchen Sie entweder nach <strong>Artikelnr.</strong> (numerisch gruppiert) oder nach <strong>Beschreibung</strong> (alphabetisch gruppiert)</p>
+<li>
+<p><strong>Einen Artikel auswählen</strong> – Suchen Sie entweder nach <strong>Artikelnr.</strong> (numerisch gruppiert) oder nach <strong>Beschreibung</strong> (alphabetisch gruppiert)</p>
 </li>
-<li><p><strong>Drucklayout anpassen</strong> – Klicken Sie auf das Vorschaubild, um den interaktiven Bogen zu öffnen</p>
+<li>
+<p><strong>Drucklayout anpassen</strong> – Klicken Sie auf das Vorschaubild, um den interaktiven Bogen zu öffnen</p>
 </li>
-<li><p><strong>Drucken</strong> – Klicken Sie auf &quot;Jetzt drucken&quot;, um Ihren A4-Bogen zu generieren</p>
+<li>
+<p><strong>Drucken</strong> – Klicken Sie auf "Jetzt drucken", um Ihren A4-Bogen zu generieren</p>
 </li>
 </ol>
-<h2>📁 Projektstruktur</h2>
-<pre><code>.
+<h2 id="projektstruktur">📁 Projektstruktur</h2>
+<pre class="codehilite"><code>.
 ├── 📄 index.html                  # Haupt-SPA-UI-Container &amp; CSS-Layout-Engine
 ├── 📄 herma_templates.json        # A4-Raster-Registrierungsdefinitionen
 ├── 📄 manifest.json               # Web App Manifest für PWA-Installation
@@ -754,39 +971,40 @@ php -S localhost:8080
 ├── 🖼️ web-app-manifest-512x512.png # PWA-Symbol (512px)
 └── 📄 tree.md                     # Dateistruktur-Dokumentation
 </code></pre>
-<h2>🗄 Datenbankverwaltung</h2>
-<h3>In-Browser CRUD-Operationen</h3>
-<p>Die Anwendung enthält einen integrierten Datenbankmanager, der über die Schaltfläche <strong>&quot;Optionen&quot;</strong> zugänglich ist:</p>
-<pre><code>function s3() {
-  const c1 = document.getElementById(&#39;c1&#39;).value.trim(); 
-  const c2 = document.getElementById(&#39;c2&#39;).value.trim(); 
-  const c3 = document.getElementById(&#39;c3&#39;).value.trim(); 
-  
+
+<h2 id="datenbankverwaltung">🗄 Datenbankverwaltung</h2>
+<h3 id="in-browser-crud-operationen">In-Browser CRUD-Operationen</h3>
+<p>Die Anwendung enthält einen integrierten Datenbankmanager, der über die Schaltfläche <strong>"Optionen"</strong> zugänglich ist:</p>
+<pre class="codehilite"><code>function s3() {
+  const c1 = document.getElementById('c1').value.trim(); 
+  const c2 = document.getElementById('c2').value.trim(); 
+  const c3 = document.getElementById('c3').value.trim(); 
+
   if (!c1 || !c3) {
     alert(t.alertFillForm);
     return;
   }
-  
+
   if (a2.some(item =&gt; item.artNr === c1)) {
     alert(t.alertDuplicate);
     return;
   }
-  
-  a2.push({ artNr: c1, geb: c2 || &#39;-&#39;, bez: c3 });
-  localStorage.setItem(&#39;lavu_studio_sortiment_v8&#39;, JSON.stringify(a2));
+
+  a2.push({ artNr: c1, geb: c2 || '-', bez: c3 });
+  localStorage.setItem('lavu_studio_sortiment_v8', JSON.stringify(a2));
   i1(); 
   e1(); 
   u1(); 
 }
 
 function s4() {
-  const index = document.getElementById(&#39;e1&#39;).value;
-  const c1 = document.getElementById(&#39;c1&#39;).value.trim();
-  const c2 = document.getElementById(&#39;c2&#39;).value.trim();
-  const c3 = document.getElementById(&#39;c3&#39;).value.trim();
-  
+  const index = document.getElementById('e1').value;
+  const c1 = document.getElementById('c1').value.trim();
+  const c2 = document.getElementById('c2').value.trim();
+  const c3 = document.getElementById('c3').value.trim();
+
   a2[index] = { artNr: c1, geb: c2, bez: c3 };
-  localStorage.setItem(&#39;lavu_studio_sortiment_v8&#39;, JSON.stringify(a2));
+  localStorage.setItem('lavu_studio_sortiment_v8', JSON.stringify(a2));
   i1();
   e1();
   u1();
@@ -795,18 +1013,19 @@ function s4() {
 function d1(index) {
   if (confirm(t.confirmDelete)) {
     a2.splice(index, 1);
-    localStorage.setItem(&#39;lavu_studio_sortiment_v8&#39;, JSON.stringify(a2));
+    localStorage.setItem('lavu_studio_sortiment_v8', JSON.stringify(a2));
     i1();
     u1();
   }
 }
 </code></pre>
-<h3>Datenbank als JSON exportieren</h3>
-<pre><code>function e2() {
+
+<h3 id="datenbank-als-json-exportieren">Datenbank als JSON exportieren</h3>
+<pre class="codehilite"><code>function e2() {
   const jsonData = JSON.stringify(a2, null, 2);
   const blob = new Blob([jsonData], { type: &quot;application/json&quot; });
   const url = URL.createObjectURL(blob);
-  const link = document.createElement(&#39;a&#39;);
+  const link = document.createElement('a');
   link.href = url;
   link.download = &quot;sortiment_export.json&quot;;
   document.body.appendChild(link);
@@ -815,12 +1034,13 @@ function d1(index) {
   URL.revokeObjectURL(url);
 }
 </code></pre>
-<h3>Standards speichern</h3>
-<pre><code>function s7() {
+
+<h3 id="standards-speichern">Standards speichern</h3>
+<pre class="codehilite"><code>function s7() {
   const data = g1();
   const config = {
     formatKey: currentFormatKey,
-    topText: document.getElementById(&#39;i1&#39;).value,
+    topText: document.getElementById('i1').value,
     count: data.count,
     startPos: data.startPos,
     artNr: data.artNr,
@@ -828,57 +1048,70 @@ function d1(index) {
     bezeichnung: data.bezeichnung,
     sortimentIndex: data.sortimentIndex
   };
-  localStorage.setItem(&#39;lavu_studio_defaults_v8&#39;, JSON.stringify(config));
-  localStorage.setItem(&#39;lavu_location&#39;, document.getElementById(&#39;i1&#39;).value);
+  localStorage.setItem('lavu_studio_defaults_v8', JSON.stringify(config));
+  localStorage.setItem('lavu_location', document.getElementById('i1').value);
 }
 </code></pre>
-<h2>🤝 Richtlinien für Mitwirkende</h2>
-<h3>Entwicklungsumgebung</h3>
+
+<h2 id="richtlinien-fur-mitwirkende">🤝 Richtlinien für Mitwirkende</h2>
+<h3 id="entwicklungsumgebung">Entwicklungsumgebung</h3>
 <ol>
-<li><p><strong>Repository forken</strong></p>
+<li>
+<p><strong>Repository forken</strong></p>
 </li>
-<li><p><strong>Einen Feature-Branch erstellen</strong></p>
-<pre><code>git checkout -b feature/dein-feature-name
-</code></pre>
+<li>
+<p><strong>Einen Feature-Branch erstellen</strong></p>
+<p><code>git checkout -b feature/dein-feature-name</code></p>
 </li>
-<li><p><strong>Deine Änderungen vornehmen</strong></p>
+<li>
+<p><strong>Deine Änderungen vornehmen</strong></p>
 </li>
-<li><p><strong>Lokal testen</strong> – Stelle sicher, dass die Anwendung ohne Fehler läuft</p>
+<li>
+<p><strong>Lokal testen</strong> – Stelle sicher, dass die Anwendung ohne Fehler läuft</p>
 </li>
-<li><p><strong>Mit konventionellen Commit-Nachrichten committen</strong></p>
-<pre><code>git commit -m &quot;feat: Unterstützung für neue HERMA Vorlagen-SKU hinzugefügt&quot;
-git commit -m &quot;fix: Mobile Layout-Probleme in Safari behoben&quot;
-git commit -m &quot;docs: README mit neuen Cloudflare API-Endpunkten aktualisiert&quot;
-</code></pre>
+<li>
+<p><strong>Mit konventionellen Commit-Nachrichten committen</strong></p>
+<p><code>git commit -m "feat: Unterstützung für neue HERMA Vorlagen-SKU hinzugefügt"
+git commit -m "fix: Mobile Layout-Probleme in Safari behoben"
+git commit -m "docs: README mit neuen Cloudflare API-Endpunkten aktualisiert"</code></p>
 </li>
-<li><p><strong>Pushen und einen Pull Request erstellen</strong></p>
+<li>
+<p><strong>Pushen und einen Pull Request erstellen</strong></p>
 </li>
 </ol>
-<h3>Testrichtlinien</h3>
+<h3 id="testrichtlinien">Testrichtlinien</h3>
 <ul>
-<li><p><strong>Browserübergreifendes Testen</strong>: Chrome, Firefox, Safari, Edge</p>
+<li>
+<p><strong>Browserübergreifendes Testen</strong>: Chrome, Firefox, Safari, Edge</p>
 </li>
-<li><p><strong>Mobiles Testen</strong>: iOS Safari, Android Chrome</p>
+<li>
+<p><strong>Mobiles Testen</strong>: iOS Safari, Android Chrome</p>
 </li>
-<li><p><strong>Offline-Testen</strong>: Netzwerk deaktivieren und gecachte Funktionalität überprüfen</p>
+<li>
+<p><strong>Offline-Testen</strong>: Netzwerk deaktivieren und gecachte Funktionalität überprüfen</p>
 </li>
-<li><p><strong>Druck-Testen</strong>: A4-Ausgabe mit verschiedenen Druckerkonfigurationen überprüfen</p>
+<li>
+<p><strong>Druck-Testen</strong>: A4-Ausgabe mit verschiedenen Druckerkonfigurationen überprüfen</p>
 </li>
 </ul>
-<h3>Code-Standards</h3>
+<h3 id="code-standards">Code-Standards</h3>
 <ul>
-<li><p><strong>ES6+</strong> JavaScript mit <code>const</code> und <code>let</code></p>
+<li>
+<p><strong>ES6+</strong> JavaScript mit <code>const</code> und <code>let</code></p>
 </li>
-<li><p><strong>CSS-Variablen</strong> für das Theming</p>
+<li>
+<p><strong>CSS-Variablen</strong> für das Theming</p>
 </li>
-<li><p><strong>Semantische HTML5</strong>-Elemente</p>
+<li>
+<p><strong>Semantische HTML5</strong>-Elemente</p>
 </li>
-<li><p><strong>Progressive Enhancement</strong>-Prinzipien</p>
+<li>
+<p><strong>Progressive Enhancement</strong>-Prinzipien</p>
 </li>
 </ul>
-<h2>📄 Lizenz</h2>
+<h2 id="lizenz">📄 Lizenz</h2>
 <p>Dieses Projekt ist Open Source und steht unter der <strong>MIT-Lizenz</strong>.</p>
-<pre><code>MIT License
+<pre class="codehilite"><code>MIT License
 
 Copyright (c) 2024
 
@@ -900,4 +1133,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 </code></pre>
+
 <p><em>Unabhängiges Open-Source-Projekt</em></p>
+</body>
+</html>

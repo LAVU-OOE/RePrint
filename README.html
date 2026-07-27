@@ -1,7 +1,28 @@
-<h2>🚀 Introduction</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>README.md</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css">
+    <style>
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+        @media (prefers-color-scheme: dark) {
+            body { background: #0d1117; }
+        }
+    </style>
+</head>
+<body class="markdown-body">
+    <h2 id="introduction">🚀 Introduction</h2>
 <p><strong>RE:PRINT Studio v9</strong> is a lightweight, client-side Progressive Web Application (PWA) designed for ASZ branch locations in Upper Austria. It provides dynamic label formatting, live print preview calculations, and customizable template sheet rendering for standard HERMA A4 templates.</p>
 <p>The application operates entirely in the browser, leveraging modern web technologies to deliver a seamless experience across desktop and mobile devices, with robust offline capabilities.</p>
-<h2>⚠️ Disclaimer / Rechtlicher Hinweis</h2>
+<h2 id="disclaimer-rechtlicher-hinweis">⚠️ Disclaimer / Rechtlicher Hinweis</h2>
 <blockquote>
 <p><strong>Important Notice / Disclaimer:</strong></p>
 <p><strong>This software is an independent community project and is not officially affiliated with LAVU OÖ (Upper Austrian State Waste Management Company) or the district waste management associations (BAV OÖ).</strong></p>
@@ -9,64 +30,70 @@
 <p><strong>Notice:</strong></p>
 <p><strong>This application is an independent open-source project and is not officially affiliated with, endorsed by, or sponsored by LAVU OÖ or BAV OÖ.</strong></p>
 </blockquote>
-<hr><h2>🔧 Technical Details &amp; Development</h2>
+<hr>
+
+<h2 id="technical-details-development">🔧 Technical Details &amp; Development</h2>
 <ul>
 <li><strong>Language:</strong> Pure HTML, CSS, and JavaScript (ES6+).</li>
 <li><strong>Storage:</strong> Uses <code>localStorage</code> for user-specific settings, the assortment cache, and the location cache.</li>
-<li><strong>Network:</strong> Uses the <code>fetch</code> API with a &quot;no-store&quot; cache strategy for JSON data to always prioritize the most up-to-date data.</li>
+<li><strong>Network:</strong> Uses the <code>fetch</code> API with a "no-store" cache strategy for JSON data to always prioritize the most up-to-date data.</li>
 <li><strong>Service Worker:</strong> The <code>sw.js</code> implements a <strong>network-first strategy</strong> for JSON databases and a <strong>cache-first strategy</strong> for static assets, enabling robust offline use.</li>
 <li><strong>Folder Structure:</strong> The main application is located in the <code>/</code> folder, and all assets (icons, images) are in the <code>/assets/</code> folder. An <code>index.html</code> file in the root directory redirects to the app.</li>
 </ul>
-<hr><h2>📦 External Data Sources (JSON) / Externe Datenquellen (JSON)</h2>
-<p>[en] The app retrieves its dynamic data from two central JSON files maintained in this repository:
+<hr>
+
+<h2 id="external-data-sources-json-externe-datenquellen-json">📦 External Data Sources (JSON) / Externe Datenquellen (JSON)</h2>
+<p>[en] The app retrieves its dynamic data from two central JSON files maintained in this repository:<br />
 [de] Die App bezieht ihre dynamischen Daten aus zwei zentralen JSON-Dateien, die in diesem Repository gepflegt werden:</p>
 <ol>
-<li>[en] <code>sortiment.json</code> – Contains the product assortment with product number, description, and optional packaging suffix.
-[de] <code>sortiment.json</code> – Enthält das Artikel-Sortiment mit Artikelnnummer, Bezeichnung und optionalem Gebinde-Suffix.</li>
-<li>[en] <code>locations.json</code> – Contains the list of recycling center locations with name, location code, postal code, and region.
-[de] <code>locations.json</code> – Enthält die Liste der ASZ-Standorte mit Name, Standortcode, Postleitzahl und Region.</li>
+<li>[en] <code>sortiment.json</code> – Contains the product assortment with product number, description, and optional packaging suffix.<br />
+   [de] <code>sortiment.json</code> – Enthält das Artikel-Sortiment mit Artikelnnummer, Bezeichnung und optionalem Gebinde-Suffix.</li>
+<li>[en] <code>locations.json</code> – Contains the list of recycling center locations with name, location code, postal code, and region.<br />
+   [de] <code>locations.json</code> – Enthält die Liste der ASZ-Standorte mit Name, Standortcode, Postleitzahl und Region.</li>
 </ol>
-<p>[en] These files are loaded via the GitHub raw URLs and can be updated independently of the app itself.
+<p>[en] These files are loaded via the GitHub raw URLs and can be updated independently of the app itself.<br />
 [de] Diese Dateien werden über die GitHub-Raw-URLs geladen und können unabhängig von der App selbst aktualisiert werden.</p>
-<hr>
-<h2>🚀 Getting Started &amp; Usage / Erste Schritte &amp; Nutzung</h2>
-<p>[en] 1. Open the App: Access the page via the provided link or install it as a PWA.
+<hr />
+<h2 id="getting-started-usage-erste-schritte-nutzung">🚀 Getting Started &amp; Usage / Erste Schritte &amp; Nutzung</h2>
+<p>[en] 1. Open the App: Access the page via the provided link or install it as a PWA.<br />
 [de] 1. App öffnen: Rufe die Seite über den bereitgestellten Link auf oder installiere sie als PWA.</p>
-<p>[en] 2. Select a Location: Select the desired recycling center location from the dynamically loaded list in the header.
+<p>[en] 2. Select a Location: Select the desired recycling center location from the dynamically loaded list in the header.<br />
 [de] 2. Standort wählen: Wähle im Header den gewünschten ASZ-Standort aus der dynamisch geladenen Liste.</p>
-<p>[en] 3. Select Item: Search for the desired item either by <strong>Item No.</strong> (numerically grouped) or <strong>Description</strong> (alphabetically grouped).
+<p>[en] 3. Select Item: Search for the desired item either by <strong>Item No.</strong> (numerically grouped) or <strong>Description</strong> (alphabetically grouped).<br />
 [de] 3. Artikel auswählen: Suche den gewünschten Artikel entweder über die <strong>Art.Nr.</strong> (numerisch gruppiert) oder die <strong>Bezeichnung</strong> (alphabetisch gruppiert).</p>
-<p>[en] 4. Adjust Print Layout (Optional): Click on the preview image to open the interactive A4 print sheet. Click on any position on the sheet to add or remove labels.
+<p>[en] 4. Adjust Print Layout (Optional): Click on the preview image to open the interactive A4 print sheet. Click on any position on the sheet to add or remove labels.<br />
 [de] 4. Drucklayout anpassen (optional): Klicke auf das Vorschaubild, um den interaktiven A4-Druckbogen zu öffnen. Klicke auf beliebige Positionen im Bogen, um Etiketten hinzuzufügen oder zu entfernen.</p>
-<p>[en] 5. Print: Click the main <strong>&quot;Print Now&quot;</strong> button to print the A4 sheet with your labels.
-[de] 5. Drucken: Klicke auf den Haupt-Button <strong>&quot;Jetzt Drucken&quot;</strong>, um den A4-Bogen mit deinen Etiketten zu drucken.</p>
-<hr>
-<h2>⚙️ Database Customization (CRUD) / Anpassung der Datenbank (CRUD)</h2>
-<p>[en] You can access the integrated database manager via the <strong>&quot;Options&quot;</strong> button:
-[de] Über den <strong>&quot;Optionen&quot;</strong>-Button kannst du auf den integrierten Datenbank-Manager zugreifen:</p>
-<p>[en] * Select Product Range: Displays the current product list.
+<p>[en] 5. Print: Click the main <strong>"Print Now"</strong> button to print the A4 sheet with your labels.<br />
+[de] 5. Drucken: Klicke auf den Haupt-Button <strong>"Jetzt Drucken"</strong>, um den A4-Bogen mit deinen Etiketten zu drucken.</p>
+<hr />
+<h2 id="database-customization-crud-anpassung-der-datenbank-crud">⚙️ Database Customization (CRUD) / Anpassung der Datenbank (CRUD)</h2>
+<p>[en] You can access the integrated database manager via the <strong>"Options"</strong> button:<br />
+[de] Über den <strong>"Optionen"</strong>-Button kannst du auf den integrierten Datenbank-Manager zugreifen:</p>
+<p>[en] * Select Product Range: Displays the current product list.<br />
 [de] * Sortiment wählen: Zeigt die aktuelle Artikelliste an.</p>
-<p>[en] * Manage Database: Here you can add new items, edit or delete existing items, and export the entire database as a JSON file.
+<p>[en] * Manage Database: Here you can add new items, edit or delete existing items, and export the entire database as a JSON file.<br />
 [de] * Datenbank verwalten: Hier kannst du neue Artikel hinzufügen, bestehende Artikel bearbeiten oder löschen, und die gesamte Datenbank als JSON-Datei exportieren.</p>
-<p>[en] * Save Defaults: Saves the current settings (location, format, quantity, starting position) as the browser default.
+<p>[en] * Save Defaults: Saves the current settings (location, format, quantity, starting position) as the browser default.<br />
 [de] * Standard sichern: Speichert die aktuellen Einstellungen (Standort, Format, Anzahl, Startposition) als Standard im Browser.</p>
-<hr>
-<h2>🤝 Contribute / Beitrag leisten</h2>
-<p>[en] Contributions are welcome! Please note the following points:
+<hr />
+<h2 id="contribute-beitrag-leisten">🤝 Contribute / Beitrag leisten</h2>
+<p>[en] Contributions are welcome! Please note the following points:<br />
 [de] Beiträge sind willkommen! Bitte beachte die folgenden Punkte:</p>
-<p>[en] 1. Fork the repository.
+<p>[en] 1. Fork the repository.<br />
 [de] 1. Forke das Repository.</p>
-<p>[en] 2. Create a new branch for your feature (<code>git checkout -b feature/new-feature</code>).
+<p>[en] 2. Create a new branch for your feature (<code>git checkout -b feature/new-feature</code>).<br />
 [de] 2. Erstelle einen neuen Branch für dein Feature (<code>git checkout -b feature/neues-feature</code>).</p>
-<p>[en] 3. Commit your changes (<code>git commit -m &#39;feat: New feature added&#39;</code>).
-[de] 3. Committe deine Änderungen (<code>git commit -m &#39;feat: Neues Feature hinzugefügt&#39;</code>).</p>
-<p>[en] 4. Push the branch (<code>git push origin feature/new-feature</code>).
+<p>[en] 3. Commit your changes (<code>git commit -m 'feat: New feature added'</code>).<br />
+[de] 3. Committe deine Änderungen (<code>git commit -m 'feat: Neues Feature hinzugefügt'</code>).</p>
+<p>[en] 4. Push the branch (<code>git push origin feature/new-feature</code>).<br />
 [de] 4. Pushe den Branch (<code>git push origin feature/neues-feature</code>).</p>
-<p>[en] 5. Create a pull request.
+<p>[en] 5. Create a pull request.<br />
 [de] 5. Erstelle einen Pull Request.</p>
-<p>[en] Important notes for changes to the JSON databases: Ensure the JSON structure is valid. Test the changes locally before merging them into the main branch.
+<p>[en] Important notes for changes to the JSON databases: Ensure the JSON structure is valid. Test the changes locally before merging them into the main branch.<br />
 [de] Wichtige Hinweise für Änderungen an den JSON-Datenbanken: Stelle sicher, dass die JSON-Struktur gültig ist. Teste die Änderungen lokal, bevor du sie in den Hauptbranch mergst.</p>
-<hr>
-<h2>📄 License / Lizenz</h2>
-<p>[en] This project is open source and is licensed under the MIT License.
+<hr />
+<h2 id="license-lizenz">📄 License / Lizenz</h2>
+<p>[en] This project is open source and is licensed under the MIT License.<br />
 [de] Dieses Projekt ist Open Source und steht unter der MIT-Lizenz.</p>
+</body>
+</html>

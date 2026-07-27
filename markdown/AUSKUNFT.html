@@ -1,0 +1,137 @@
+<h2>📦 Externe Datenquellen (JSON)</h2>
+<p>Die App bezieht ihre dynamischen Daten aus zwei zentralen JSON-Dateien, die in diesem Repository verwaltet werden:</p>
+<ol>
+<li><p><strong><code>sortiment.json</code></strong> – Enthält das Produktsortiment mit Produktnummer, Beschreibung und optionalem Verpackungszusatz.</p>
+</li>
+<li><p><strong><code>locations.json</code></strong> – Enthält die Liste der Recyclinghöfe mit Name, Standortcode, Postleitzahl und Region.</p>
+</li>
+</ol>
+<p>Diese Dateien werden über die GitHub-URLs geladen und können unabhängig von der App aktualisiert werden.</p>
+<h2>🚀 Erste Schritte &amp; Nutzung</h2>
+<ol>
+<li><p><strong>App öffnen:</strong> Rufen Sie die Seite über den bereitgestellten Link auf oder installieren Sie sie als PWA.</p>
+</li>
+<li><p><strong>Standort auswählen:</strong> Wählen Sie den gewünschten Recyclinghof aus der dynamisch geladenen Liste in der Kopfzeile aus.</p>
+</li>
+<li><p><strong>Artikel auswählen:</strong> Suchen Sie den gewünschten Artikel entweder anhand der <strong>Artikelnummer</strong> (numerisch gruppiert) oder der <strong>Beschreibung</strong> (alphabetisch gruppiert).</p>
+</li>
+<li><p><strong>Drucklayout anpassen (optional):</strong></p>
+</li>
+</ol>
+<ul>
+<li><p>Klicken Sie auf die Vorschau, um das interaktive A4-Druckblatt zu öffnen.</p>
+</li>
+<li><p>Klicken Sie auf eine beliebige Stelle auf dem Blatt, um Etiketten hinzuzufügen oder zu entfernen.</p>
+</li>
+</ul>
+<ol start="5">
+<li><strong>Drucken:</strong> Klicken Sie auf die Schaltfläche <strong>Jetzt drucken</strong>, um das A4-Blatt mit Ihren Etiketten zu drucken.</li>
+</ol>
+<h2>⚙️ Datenbankanpassung (CRUD)</h2>
+<p>Sie können über die Schaltfläche <strong>Optionen</strong> auf den integrierten Datenbankmanager zugreifen:</p>
+<ul>
+<li><p><strong>Produktbereich auswählen:</strong> Zeigt die aktuelle Produktliste an.</p>
+</li>
+<li><p><strong>Datenbank verwalten:</strong> Hier können Sie:</p>
+</li>
+<li><p>Neue Artikel hinzufügen.</p>
+</li>
+<li><p>Vorhandene Artikel bearbeiten oder löschen.</p>
+</li>
+<li><p>Die gesamte Datenbank als JSON-Datei exportieren.</p>
+</li>
+<li><p><strong>Standardeinstellungen speichern:</strong> Speichert die aktuellen Einstellungen (Position, Format, Menge, Startposition) als Browser-Standard.</p>
+</li>
+</ul>
+<h2>🔧 Technische Details &amp; Entwicklung</h2>
+<ul>
+<li><p><strong>Sprache:</strong> Reines HTML, CSS und JavaScript (ES6+).</p>
+</li>
+<li><p><strong>Speicherung:</strong> Verwendet <code>localStorage</code> für benutzerspezifische Einstellungen, den Sortimentscache und den Standortcache.</p>
+</li>
+<li><p><strong>Netzwerk:</strong> Nutzt die <code>fetch</code>-API mit einer „No-Store“-Cache-Strategie für JSON-Daten, um stets die aktuellsten Daten zu priorisieren.</p>
+</li>
+<li><p><strong>Service Worker:</strong> Die <code>sw.js</code> implementiert eine <strong>Netzwerk-First-Strategie</strong> für JSON-Datenbanken und eine <strong>Cache-First-Strategie</strong> für statische Assets, was eine robuste Offline-Nutzung ermöglicht.</p>
+</li>
+<li><p><strong>Ordnerstruktur:</strong> Die Hauptanwendung befindet sich im Ordner <code>/</code>, alle Assets (Icons, Bilder) im Ordner <code>/assets/</code>. Eine <code>index.html</code>-Datei im Stammverzeichnis leitet zur Anwendung weiter.</p>
+</li>
+</ul>
+<h2>🤝 Mitwirken</h2>
+<p>Beiträge sind willkommen! Bitte beachten Sie Folgendes:</p>
+<ol>
+<li><p>Forken Sie das Repository.</p>
+</li>
+<li><p>Erstellen Sie einen neuen Branch für Ihr Feature (<code>git checkout -b feature/new-feature</code>).</p>
+</li>
+<li><p>Übernehmen Sie Ihre Änderungen („git commit -m &#39;feat: Neue Funktion hinzugefügt‘“).</p>
+</li>
+<li><p>Pushen Sie den Zweig („git push origin feature/new-feature“).</p>
+</li>
+<li><p>Erstellen Sie eine Pull-Anfrage.</p>
+</li>
+</ol>
+<p><strong>Wichtige Hinweise für Änderungen an den JSON-Datenbanken:</strong></p>
+<ul>
+<li>Stellen Sie sicher, dass die JSON-Struktur gültig ist.</li>
+<li>Testen Sie die Änderungen lokal, bevor Sie sie in den Hauptzweig einbinden.</li>
+</ul>
+<h2>📄 Lizenz</h2>
+<p>Dieses Projekt ist Open Source und steht unter der MIT-Lizenz.</p>
+<h2>📦 Externe Datenquellen (JSON)</h2>
+<p>Die App bezieht ihre dynamischen Daten aus zwei zentralen JSON-Dateien, die in diesem Repository gepflegt werden:</p>
+<ol>
+<li><strong><code>sortiment.json</code></strong> – Enthält das Artikel-Sortiment mit Artikelnummer, Bezeichnung und optionalem Gebinde-Suffix.</li>
+<li><strong><code>locations.json</code></strong> – Enthält die Liste der ASZ-Standorte mit Name, Standortcode, Postleitzahl und Region.</li>
+</ol>
+<p>Diese Dateien werden über die GitHub-Raw-URLs geladen und können unabhängig von der App selbst aktualisiert werden.</p>
+<h2>🚀 Erste Schritte &amp; Nutzung</h2>
+<ol>
+<li><strong>App öffnen:</strong> Rufen Sie die Seite über den bereitgestellten Link auf oder installieren Sie sie als PWA.</li>
+<li><strong>Standort wählen:</strong> Wählen Sie im Header den gewünschten ASZ-Standort aus der dynamisch geladenen Liste.</li>
+<li><strong>Artikel auswählen:</strong> Suche den gewünschten Artikel entweder über die <strong>Art.Nr.</strong> (numerisch gruppiert) oder die <strong>Bezeichnung</strong> (alphabetisch gruppiert).</li>
+<li><strong>Drucklayout anpassen (optional):</strong></li>
+</ol>
+<ul>
+<li>Klicken Sie auf das Vorschaubild, um den interaktiven A4-Druckbogen zu öffnen. </li>
+<li>Klicken Sie auf beliebige Positionen im Bogen, um Etiketten hinzuzufügen oder zu entfernen.</li>
+</ul>
+<ol start="5">
+<li><strong>Drucken:</strong> Klicken Sie auf den Haupt-Button <strong>&quot;Jetzt Drucken&quot;</strong>, um den A4-Bogen mit Ihren Etiketten zu drucken.</li>
+</ol>
+<h2>⚙️ Anpassung der Datenbank (CRUD)</h2>
+<p>Über den <strong>&quot;Optionen&quot;</strong>-Button kannst du auf den integrierten Datenbank-Manager zugreifen:</p>
+<ul>
+<li><strong>Sortiment wählen:</strong> Zeigt die aktuelle Artikelliste an.</li>
+<li><strong>Datenbank verwalten:</strong> Hier kannst du: </li>
+<li>Neue Artikel hinzufügen. </li>
+<li>Bestehende Artikel bearbeiten oder löschen. </li>
+<li>Die gesamte Datenbank als JSON-Datei exportieren.</li>
+<li><strong>Standard sichern:</strong> Speichert die aktuellen Einstellungen (Standort, Format, Anzahl, Startposition) als Standard im Browser.</li>
+</ul>
+<h2>🔧 Technische Details &amp; Entwicklung</h2>
+<ul>
+<li><strong>Sprache:</strong> Reines HTML, CSS und JavaScript (ES6+).</li>
+<li><strong>Speicherung:</strong> Verwendet <code>localStorage</code> für benutzerspezifische Einstellungen, den Sortiments-Cache und den Standort-Cache.</li>
+<li><strong>Netzwerk:</strong> Nutzt die <code>fetch</code>-API mit „no-store“-Cache-Strategie für die JSON-Daten, um immer aktuelle Daten zu priorisieren.</li>
+<li><strong>Service Worker:</strong> Der <code>sw.js</code> implementiert</li>
+</ul>
+<p>Eine <strong>Network-First-Strategie</strong> für die JSON-Datenbanken und eine <strong>Cache-First-Strategie</strong> für statische Assets, was eine robuste Offline-Nutzung ermöglicht.</p>
+<ul>
+<li><strong>Ordnerstruktur:</strong> Die Hauptanwendung befindet sich im <code>/</code>-Ordner, alle Assets (Icons, Bilder) im <code>/assets/</code>-Ordner. Eine <code>index.html</code> im Root leitet auf die App weiter.</li>
+</ul>
+<h2>🤝 Beitrag leisten</h2>
+<p>Beiträge sind willkommen! Bitte beachte die folgenden Punkte:</p>
+<ol>
+<li>Forken Sie das Repository.</li>
+<li>Erstelle einen neuen Branch für dein Feature (<code>git checkout -b feature/neues-feature</code>).</li>
+<li>Übernehmen Sie Ihre Änderungen (<code>git commit -m &#39;feat: Neues Feature hinzugefügt&#39;</code>).</li>
+<li>Pushe den Branch („git push origin feature/neues-feature“).</li>
+<li>Stellen Sie einen Pull Request ein.</li>
+</ol>
+<p><strong>Wichtige Hinweise für Änderungen an den JSON-Datenbanken:</strong></p>
+<ul>
+<li>Stellen Sie sicher, dass die JSON-Struktur gültig ist.</li>
+<li>Testen Sie die Änderungen lokal, bevor Sie sie in der Hauptbranch zusammenführen.</li>
+</ul>
+<h2>📄 Lizenz</h2>
+<p>Dieses Projekt ist Open Source und steht unter der <a href="LICENSE">MIT-Lizenz</a>.</p>

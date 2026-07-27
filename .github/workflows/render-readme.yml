@@ -14,33 +14,77 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          node-version: '20'
+          python-version: '3.11'
 
-      - name: Install Markdown parser
-        run: npm install -g marked
+      - name: Install Python markdown library
+        run: pip install markdown
 
       - name: Convert ALL .md files to styled HTML
         run: |
-          find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" | while read md_file; do
-            base_name=$(basename "$md_file" .md)
-            dir_name=$(dirname "$md_file")
-            
-            # Convert every .md to .html with the SAME name
-            # README.md → README.html (does NOT overwrite index.html)
-            output_file="$dir_name/$base_name.html"
-            
-            echo "Converting $md_file → $output_file"
-            
-            # Convert markdown to HTML with GFM
-            marked "$md_file" --gfm -o "$output_file"
-            
-            # Inject GitHub's CSS
-            sed -i 's/<head>/<head><link rel="stylesheet" href="https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/github-markdown-css\/5.5.1\/github-markdown.min.css"><style>.markdown-body { box-sizing: border-box; min-width: 200px; max-width: 980px; margin: 0 auto; padding: 45px; }<\/style>/' "$output_file"
-            sed -i 's/<body>/<body class="markdown-body">/' "$output_file"
-          done
+          python3 << 'EOF'
+          import os
+          import markdown
+          import re
+
+          # Walk through all directories
+          for root, dirs, files in os.walk('.'):
+              # Skip .git and node_modules
+              if '.git' in root or 'node_modules' in root:
+                  continue
+              
+              for file in files:
+                  if not file.endswith('.md'):
+                      continue
+                  
+                  md_path = os.path.join(root, file)
+                  html_name = file[:-3] + '.html'
+                  html_path = os.path.join(root, html_name)
+                  
+                  print(f'Converting {md_path} → {html_path}')
+                  
+                  # Read the markdown file
+                  with open(md_path, 'r', encoding='utf-8') as f:
+                      md_content = f.read()
+                  
+                  # Convert to HTML (GitHub Flavored Markdown)
+                  html_body = markdown.markdown(
+                      md_content,
+                      extensions=['extra', 'codehilite', 'toc', 'nl2br']
+                  )
+                  
+                  # Build full HTML page with GitHub CSS
+                  html_full = f'''<!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>{file}</title>
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css">
+              <style>
+                  .markdown-body {{
+                      box-sizing: border-box;
+                      min-width: 200px;
+                      max-width: 980px;
+                      margin: 0 auto;
+                      padding: 45px;
+                  }}
+                  @media (prefers-color-scheme: dark) {{
+                      body {{ background: #0d1117; }}
+                  }}
+              </style>
+          </head>
+          <body class="markdown-body">
+              {html_body}
+          </body>
+          </html>'''
+                  
+                  # Write the HTML file
+                  with open(html_path, 'w', encoding='utf-8') as f:
+                      f.write(html_full)
+          EOF
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3

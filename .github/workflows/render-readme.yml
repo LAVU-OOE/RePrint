@@ -1,0 +1,40 @@
+name: Render README to HTML
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Markdown parser
+        run: npm install -g marked
+
+      - name: Convert README.md to styled HTML
+        run: |
+          # Convert markdown to HTML using GitHub-flavored markdown
+          marked README.md -o index.html --gfm
+
+          # Inject GitHub's official CSS into the output
+          sed -i 's/<head>/<head><link rel="stylesheet" href="https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/github-markdown-css\/5.5.1\/github-markdown.min.css"><style>.markdown-body { box-sizing: border-box; min-width: 200px; max-width: 980px; margin: 0 auto; padding: 45px; }<\/style>/' index.html
+          sed -i 's/<body>/<body class="markdown-body">/' index.html
+
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
+          keep_files: false

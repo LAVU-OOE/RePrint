@@ -1,4 +1,4 @@
-name: Render README to HTML
+name: Convert All Markdown Files
 
 on:
   push:
@@ -22,14 +22,25 @@ jobs:
       - name: Install Markdown parser
         run: npm install -g marked
 
-      - name: Convert README.md to styled HTML
+      - name: Convert ALL .md files to styled HTML
         run: |
-          # Convert markdown to HTML using GitHub-flavored markdown
-          marked README.md -o index.html --gfm
-
-          # Inject GitHub's official CSS into the output
-          sed -i 's/<head>/<head><link rel="stylesheet" href="https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/github-markdown-css\/5.5.1\/github-markdown.min.css"><style>.markdown-body { box-sizing: border-box; min-width: 200px; max-width: 980px; margin: 0 auto; padding: 45px; }<\/style>/' index.html
-          sed -i 's/<body>/<body class="markdown-body">/' index.html
+          find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" | while read md_file; do
+            base_name=$(basename "$md_file" .md)
+            dir_name=$(dirname "$md_file")
+            
+            # Convert every .md to .html with the SAME name
+            # README.md → README.html (does NOT overwrite index.html)
+            output_file="$dir_name/$base_name.html"
+            
+            echo "Converting $md_file → $output_file"
+            
+            # Convert markdown to HTML with GFM
+            marked "$md_file" --gfm -o "$output_file"
+            
+            # Inject GitHub's CSS
+            sed -i 's/<head>/<head><link rel="stylesheet" href="https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/github-markdown-css\/5.5.1\/github-markdown.min.css"><style>.markdown-body { box-sizing: border-box; min-width: 200px; max-width: 980px; margin: 0 auto; padding: 45px; }<\/style>/' "$output_file"
+            sed -i 's/<body>/<body class="markdown-body">/' "$output_file"
+          done
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3

@@ -2,48 +2,27 @@
 
 ## 📖 Inhaltsverzeichnis
 
-1.  [Einführung](#-einf%C3%BChrung)
-    
-2.  [Haftungsausschluss / Rechtlicher Hinweis](#-haftungsausschluss--rechtlicher-hinweis)
-    
-3.  [Systemübersicht](#-system%C3%BCbersicht)
-    
-4.  [Architektur](#-architektur)
-    
-    *   [Client-Seitiger Kern](#client-seitiger-kern)
-        
-    *   [Cloudflare Workers Integration](#cloudflare-workers-integration)
-        
-    *   [Service Worker & Offline Strategie](#service-worker--offline-strategie)
-        
-    *   [API Fetch & Cache Fallback Sequenz](#api-fetch--cache-fallback-sequenz)
-        
-5.  [Etikettendesign & Rendering Engine](#-etikettendesign--rendering-engine)
-    
-    *   [Berechnung der Rastergeometrie](#berechnung-der-rastergeometrie)
-        
-    *   [Dynamische Skalierung](#dynamische-skalierung)
-        
-    *   [Interaktive Bogenvorschau](#interaktive-bogenvorschau)
-        
-6.  [Datenfluss & Workflow Diagramme](#-datenfluss--workflow-diagramme)
-    
-7.  [Hauptfunktionen](#-hauptfunktionen)
-    
-8.  [Technische Spezifikationen](#-technische-spezifikationen)
-    
-9.  [Druckanleitung](#-druckanleitung)
-    
-10.  [Schnellstart](#-schnellstart)
-     
-11.  [Projektstruktur](#-projektstruktur)
-     
-12.  [Datenbankverwaltung](#-datenbankverwaltung)
-     
-13.  [Richtlinien für Mitwirkende](#-richtlinien-f%C3%BCr-mitwirkende)
-     
-14.  [Lizenz](#-lizenz)
-     
+1. [Einführung](#-einf%C3%BChrung)
+2. [Haftungsausschluss / Rechtlicher Hinweis](#-haftungsausschluss--rechtlicher-hinweis)
+3. [Systemübersicht](#-system%C3%BCbersicht)
+4. [Architektur](#-architektur)
+   - [Client-Seitiger Kern](#client-seitiger-kern)
+   - [Cloudflare Workers Integration](#cloudflare-workers-integration)
+   - [Service Worker & Offline Strategie](#service-worker--offline-strategie)
+   - [API Fetch & Cache Fallback Sequenz](#api-fetch--cache-fallback-sequenz)
+5. [Etikettendesign & Rendering Engine](#-etikettendesign--rendering-engine)
+   - [Berechnung der Rastergeometrie](#berechnung-der-rastergeometrie)
+   - [Dynamische Skalierung](#dynamische-skalierung)
+   - [Interaktive Bogenvorschau](#interaktive-bogenvorschau)
+6. [Datenfluss & Workflow Diagramme](#-datenfluss--workflow-diagramme)
+7. [Hauptfunktionen](#-hauptfunktionen)
+8. [Technische Spezifikationen](#-technische-spezifikationen)
+9. [Druckanleitung](#-druckanleitung)
+10. [Schnellstart](#-schnellstart)
+11. [Projektstruktur](#-projektstruktur)
+12. [Datenbankverwaltung](#-datenbankverwaltung)
+13. [Richtlinien für Mitwirkende](#-richtlinien-f%C3%BCr-mitwirkende)
+14. [Lizenz](#-lizenz)
 
 ## 🚀 Einführung
 
@@ -67,18 +46,14 @@ Die Anwendung läuft vollständig im Browser und nutzt moderne Webtechnologien, 
 
 RE:PRINT Studio v9 basiert auf einer **Serverless-Architektur**, die Folgendes kombiniert:
 
-*   **Reines clientseitiges Rendering** mit HTML5, CSS3 und Vanilla JavaScript (ES6+)
-    
-*   **Cloudflare Workers** für API-Endpunkte, die dynamische JSON-Daten bereitstellen
-    
-*   **Service Workers** für progressive Verbesserung und Offline-Unterstützung
-    
-*   **localStorage** für die clientseitige Persistenz von Benutzereinstellungen und zwischengespeicherten Daten
-    
+- **Reines clientseitiges Rendering** mit HTML5, CSS3 und Vanilla JavaScript (ES6+)
+- **Cloudflare Workers** für API-Endpunkte, die dynamische JSON-Daten bereitstellen
+- **Service Workers** für progressive Verbesserung und Offline-Unterstützung
+- **localStorage** für die clientseitige Persistenz von Benutzereinstellungen und zwischengespeicherten Daten
 
 ### Systemkontextdiagramm
 
-```
+```mermaid
 flowchart TB
     subgraph Client ["Browser Client (PWA)"]
         UI["🎨 UI Engine<br/>(index.html)"]
@@ -109,28 +84,23 @@ flowchart TB
 
 ### Client-Seitiger Kern
 
-Der Kern der Anwendung ist in einer einzigen `index.html`\-Datei enthalten, die Folgendes umfasst:
+Der Kern der Anwendung ist in einer einzigen `index.html`-Datei enthalten, die Folgendes umfasst:
 
-1.  **Vorlagen-Registry-Engine** – Lädt und analysiert `herma_templates.json`
-    
-2.  **Dynamisches Dropdown-System** – Gruppiert nach Zahlenbereichen und alphabetischen Buchstaben
-    
-3.  **Interaktiver Raster-Renderer** – Rendert A4-Bögen mit Klick-zum-Umschalten-Funktionalität
-    
-4.  **i18n Runtime** – Zweisprachige Unterstützung mit nahtlosem Umschalten
-    
-5.  **CRUD-Datenbankmanager** – In-Browser-Datenverwaltung mit JSON-Export
-    
+1. **Vorlagen-Registry-Engine** – Lädt und analysiert `herma_templates.json`
+2. **Dynamisches Dropdown-System** – Gruppiert nach Zahlenbereichen und alphabetischen Buchstaben
+3. **Interaktiver Raster-Renderer** – Rendert A4-Bögen mit Klick-zum-Umschalten-Funktionalität
+4. **i18n Runtime** – Zweisprachige Unterstützung mit nahtlosem Umschalten
+5. **CRUD-Datenbankmanager** – In-Browser-Datenverwaltung mit JSON-Export
 
 ### Cloudflare Workers Integration
 
 Die Anwendung kommuniziert mit zwei primären Cloudflare-Worker-Endpunkten:
 
-#### 1\. Sortiment API (`sortiment-api.lavu-ooe.workers.dev`)
+#### 1. Sortiment API (`sortiment-api.lavu-ooe.workers.dev`)
 
 Gibt den Produktkatalog im JSON-Format zurück:
 
-```
+```json
 [
   {
     "artNr": "4040",
@@ -142,7 +112,7 @@ Gibt den Produktkatalog im JSON-Format zurück:
 
 **Worker-Implementierungs-Snippet:**
 
-```
+```javascript
 export default {
   async fetch(request) {
     const CORS_HEADERS = {
@@ -163,11 +133,11 @@ export default {
 }
 ```
 
-#### 2\. Locations API (`locations-api.lavu-ooe.workers.dev`)
+#### 2. Locations API (`locations-api.lavu-ooe.workers.dev`)
 
 Gibt die Liste der ASZ-Standorte zurück:
 
-```
+```json
 [
   {
     "siteCode": "106",
@@ -180,7 +150,7 @@ Gibt die Liste der ASZ-Standorte zurück:
 
 **Worker-Implementierungs-Snippet:**
 
-```
+```javascript
 export default {
   async fetch(request) {
     const CORS_HEADERS = {
@@ -203,11 +173,11 @@ export default {
 
 ### Service Worker & Offline-Strategie
 
-Der Service Worker implementiert eine **Network-First**\-Strategie für dynamische JSON-Daten und eine **Cache-First**\-Strategie für statische Assets.
+Der Service Worker implementiert eine **Network-First**-Strategie für dynamische JSON-Daten und eine **Cache-First**-Strategie für statische Assets.
 
 #### Registrierung & Installation
 
-```
+```javascript
 const CACHE_NAME = 'lavu-studio-v10';
 const STATIC_ASSETS = [
   '.',
@@ -236,7 +206,7 @@ self.addEventListener('install', event => {
 
 #### Abrufstrategie für JSON-Endpunkte
 
-```
+```javascript
 if (DYNAMIC_JSON_URLS.some(jsonUrl => url.href === jsonUrl)) {
   event.respondWith(
     fetch(request, { cache: 'no-store' })
@@ -266,7 +236,7 @@ if (DYNAMIC_JSON_URLS.some(jsonUrl => url.href === jsonUrl)) {
 
 #### Offline-Fallback für die Navigation
 
-```
+```javascript
 if (request.mode === 'navigate') {
   event.respondWith(
     fetch(request)
@@ -296,7 +266,7 @@ if (request.mode === 'navigate') {
 
 ### API Fetch & Cache Fallback Sequenz
 
-```
+```mermaid
 sequenceDiagram
     autonumber
     actor User as 👤 Benutzer
@@ -338,44 +308,17 @@ Der Etiketten-Renderer berechnet dynamische Layout-Geometrien basierend auf den 
 
 Wobei:
 
-| 
-**Variable**
-
- | 
-
-**Beschreibung**
-
- |
-| --- | --- |
-|  | 
-
-Anzahl der Spalten (`cols`)
-
- |
-|  | 
-
-Anzahl der Zeilen (`rows`)
-
- |
-|  | 
-
-Etikettenbreite in Millimetern
-
- |
-|  | 
-
-Etikettenhöhe in Millimetern
-
- |
-|  | 
-
-Horizontale und vertikale Abstände in Millimetern
-
- |
+| **Variable** | **Beschreibung** |
+|--------------|------------------|
+| `cols` | Anzahl der Spalten |
+| `rows` | Anzahl der Zeilen |
+| `width_mm` | Etikettenbreite in Millimetern |
+| `height_mm` | Etikettenhöhe in Millimetern |
+| `gap_x_mm`, `gap_y_mm` | Horizontale und vertikale Abstände in Millimetern |
 
 #### Vorlagenstruktur (`herma_templates.json`)
 
-```
+```json
 {
   "engine": "HERMA Label Engine",
   "page_format": {
@@ -404,7 +347,7 @@ Horizontale und vertikale Abstände in Millimetern
 
 #### Raster-Rendering-Funktion
 
-```
+```javascript
 function r2(containerId, data) {
   const container = document.getElementById(containerId);
   const t = templateRegistry[currentFormatKey];
@@ -450,7 +393,7 @@ function r2(containerId, data) {
 
 Um CSS-Layoutbrüche in Vorschaukarten zu vermeiden, werden Skalierungsvektoren als dynamische Inline-Eigenschaften berechnet:
 
-```
+```javascript
 const baseWidth = 70;   
 const baseHeight = 41;  
 const scaleX = t.width_mm / baseWidth;
@@ -463,7 +406,7 @@ container.style.setProperty('--label-scale', scale);
 
 Die modale Vorschau ermöglicht es Benutzern, auf einzelne Etikettenpositionen zu klicken, um deren Status umzuschalten:
 
-```
+```javascript
 function toggleLabel(clickedIndex) {
   const t = templateRegistry[currentFormatKey];
   const maxLabels = t.cols * t.rows;
@@ -494,7 +437,7 @@ function toggleLabel(clickedIndex) {
 
 ### Vollständiger Anwendungs-Workflow
 
-```
+```mermaid
 flowchart TD
     A["🚀 Benutzer öffnet App"] --> B{"🔍 localStorage prüfen"}
     B -- Cache existiert --> C["📦 Zwischengespeicherte Daten laden"]
@@ -531,7 +474,7 @@ flowchart TD
 
 ### Etikettendesign-Workflow
 
-```
+```mermaid
 flowchart LR
     subgraph Input ["1. Dateneingabe"]
         A1["📄 HERMA SKU auswählen"] --> A2["⚙️ Geometriespezifikationen laden"]
@@ -569,7 +512,7 @@ flowchart LR
 
 ### Lebenszyklus des Anwendungsstatus
 
-```
+```mermaid
 stateDiagram-v2
     [*] --> Uninitialized
 
@@ -605,209 +548,66 @@ stateDiagram-v2
 
 ## 🌟 Hauptfunktionen
 
-### 1\. Dynamische HERMA-Bogen-Engine
+### 1. Dynamische HERMA-Bogen-Engine
 
-*   **Interaktive Klick-zum-Umschalten**\-Bogenpositionierung auf Standard-A4-Rastern
-    
-*   **Echtzeit-Vorschau** mit automatischer Neuberechnung
-    
-*   Unterstützung für **rechteckige und runde** Etikettenvorlagen
-    
+- **Interaktive Klick-zum-Umschalten**-Bogenpositionierung auf Standard-A4-Rastern
+- **Echtzeit-Vorschau** mit automatischer Neuberechnung
+- Unterstützung für **rechteckige und runde** Etikettenvorlagen
 
-### 2\. Serverless & Offline First
+### 2. Serverless & Offline First
 
-*   Nutzt **Cloudflare Workers** für API-Endpunkte
-    
-*   Fällt auf **zwischengespeicherten Browserstatus** (`localStorage`) zurück
-    
-*   **Service Worker** bietet Offline-Fähigkeit mit Network-First-Strategie
-    
+- Nutzt **Cloudflare Workers** für API-Endpunkte
+- Fällt auf **zwischengespeicherten Browserstatus** (`localStorage`) zurück
+- **Service Worker** bietet Offline-Fähigkeit mit Network-First-Strategie
 
-### 3\. Zweisprachige Unterstützung (i18n)
+### 3. Zweisprachige Unterstützung (i18n)
 
-*   Natives Umschalten zur Laufzeit zwischen **Deutsch (`de`)** und **Englisch (`en`)**
-    
-*   Dauerhafte Speicherung der Spracheinstellung im `localStorage`
-    
+- Natives Umschalten zur Laufzeit zwischen **Deutsch (`de`)** und **Englisch (`en`)**
+- Dauerhafte Speicherung der Spracheinstellung im `localStorage`
 
-### 4\. Geräteübergreifende Responsive UI
+### 4. Geräteübergreifende Responsive UI
 
-*   **Für Mobilgeräte optimiertes Layout**, das bei Vorlagen und Standortauswahl umschaltet
-    
-*   **Adaptive Breakpoints** bei 768px und 520px
-    
-*   Für Touch optimierte interaktive Elemente
-    
+- **Für Mobilgeräte optimiertes Layout**, das bei Vorlagen und Standortauswahl umschaltet
+- **Adaptive Breakpoints** bei 768px und 520px
+- Für Touch optimierte interaktive Elemente
 
-### 5\. PWA-Fähig
+### 5. PWA-Fähig
 
-*   **Offline-Unterstützung** durch Service Worker
-    
-*   **Manifest-gesteuerte Installationsaufforderungen** in kompatiblen Browsern
-    
-*   **Standalone-Anzeige**\-Konfiguration für ein App-ähnliches Erlebnis
-    
+- **Offline-Unterstützung** durch Service Worker
+- **Manifest-gesteuerte Installationsaufforderungen** in kompatiblen Browsern
+- **Standalone-Anzeige**-Konfiguration für ein App-ähnliches Erlebnis
 
-### 6\. Datenbankverwaltung
+### 6. Datenbankverwaltung
 
-*   **In-Browser-CRUD-Operationen** für die Produktdatenbank
-    
-*   **JSON-Export**\-Funktionalität
-    
-*   **Automatische Synchronisation** zwischen localStorage und UI
-    
+- **In-Browser-CRUD-Operationen** für die Produktdatenbank
+- **JSON-Export**-Funktionalität
+- **Automatische Synchronisation** zwischen localStorage und UI
 
 ## 🔧 Technische Spezifikationen
 
 ### Speicher- & Persistenzschema
 
-| 
-**Speicherschlüssel**
-
- | 
-
-**Typ**
-
- | 
-
-**Beschreibung**
-
- |
-| --- | --- | --- |
-| 
-
-`lavu_lang`
-
- | 
-
-`string`
-
- | 
-
-Ausgewählte i18n-Sprache (`de` | `en`)
-
- |
-| 
-
-`lavu_location`
-
- | 
-
-`string`
-
- | 
-
-Aktuell ausgewählte Site-Code-ID (z. B. `"106"`)
-
- |
-| 
-
-`lavu_locations_url`
-
- | 
-
-`string`
-
- | 
-
-Remote-Worker-Endpunkt für Standorte
-
- |
-| 
-
-`lavu_locations_cache`
-
- | 
-
-`string` (JSON)
-
- | 
-
-Zwischengespeicherte Standortliste
-
- |
-| 
-
-`lavu_studio_defaults_v8`
-
- | 
-
-`string` (JSON)
-
- | 
-
-Zuletzt bekanntes SKU-Format, Anzahl und Positions-Offset
-
- |
-| 
-
-`lavu_studio_sortiment_v8`
-
- | 
-
-`string` (JSON)
-
- | 
-
-Lokal bearbeiteter Datenbank-Arbeitsbereich
-
- |
-| 
-
-`lavu_preview_zoom`
-
- | 
-
-`string`
-
- | 
-
-Zoomstufe für modale Vorschau
-
- |
+| **Speicherschlüssel** | **Typ** | **Beschreibung** |
+|------------------------|---------|------------------|
+| `lavu_lang` | `string` | Ausgewählte i18n-Sprache (`de` \| `en`) |
+| `lavu_location` | `string` | Aktuell ausgewählte Site-Code-ID (z. B. `"106"`) |
+| `lavu_locations_url` | `string` | Remote-Worker-Endpunkt für Standorte |
+| `lavu_locations_cache` | `string` (JSON) | Zwischengespeicherte Standortliste |
+| `lavu_studio_defaults_v8` | `string` (JSON) | Zuletzt bekanntes SKU-Format, Anzahl und Positions-Offset |
+| `lavu_studio_sortiment_v8` | `string` (JSON) | Lokal bearbeiteter Datenbank-Arbeitsbereich |
+| `lavu_preview_zoom` | `string` | Zoomstufe für modale Vorschau |
 
 ### Media Query Breakpoint Matrix
 
-| 
-**Viewport-Breite**
-
- | 
-
-**Visuelle Anpassungen**
-
- |
-| --- | --- |
-| 
-
-**\> 768px**
-
- | 
-
-Volles Dual-Pane-Vorschau-Desktop-Layout mit interaktivem Bogen-Modal
-
- |
-| 
-
-**<= 768px**
-
- | 
-
-Versteckt die Live-Vorschau im Seitenbereich (`.ps-wrapper`). Wechselt zum einspaltigen Fluss
-
- |
-| 
-
-**<= 520px**
-
- | 
-
-Versteckt die Desktop-Header-Standort-Badges (`.hdr-r`). Aktiviert die mobile Standortauswahlsteuerung (`.mobile-location-wrapper`)
-
- |
+| **Viewport-Breite** | **Visuelle Anpassungen** |
+|----------------------|--------------------------|
+| **> 768px** | Volles Dual-Pane-Vorschau-Desktop-Layout mit interaktivem Bogen-Modal |
+| **<= 768px** | Versteckt die Live-Vorschau im Seitenbereich (`.ps-wrapper`). Wechselt zum einspaltigen Fluss |
+| **<= 520px** | Versteckt die Desktop-Header-Standort-Badges (`.hdr-r`). Aktiviert die mobile Standortauswahlsteuerung (`.mobile-location-wrapper`) |
 
 ### Leistungsmetriken
 
-```
+```javascript
 console.time('renderGrid');
 r2('mdl', data);
 console.timeEnd('renderGrid');
@@ -817,18 +617,14 @@ console.timeEnd('renderGrid');
 
 Befolgen Sie für optimale Druckergebnisse diese Einstellungen im Druckdialog Ihres Browsers:
 
-1.  **Skalierung:** Auf **100% / Tatsächliche Größe** einstellen
-    
-2.  **Ränder:** Auf **Keine** oder **0mm** einstellen
-    
-3.  **Papiergröße:** Auswahl erzwingen auf **A4 Hochformat**
-    
-4.  **Hintergrundgrafiken:** Aktivieren, wenn Sie die Rasterlinien sehen möchten
-    
+1. **Skalierung:** Auf **100% / Tatsächliche Größe** einstellen
+2. **Ränder:** Auf **Keine** oder **0mm** einstellen
+3. **Papiergröße:** Auswahl erzwingen auf **A4 Hochformat**
+4. **Hintergrundgrafiken:** Aktivieren, wenn Sie die Rasterlinien sehen möchten
 
 ### Druckvorschau-Code
 
-```
+```javascript
 document.getElementById('btn-print-now').addEventListener('click', function () {
   if (window.innerWidth <= 768) {
     o1();
@@ -840,7 +636,7 @@ document.getElementById('btn-print-now').addEventListener('click', function () {
 
 ### Druckspezifisches CSS
 
-```
+```css
 @media print {
   @page {
     size: A4 portrait;
@@ -871,40 +667,30 @@ document.getElementById('btn-print-now').addEventListener('click', function () {
 
 ### Installation & Einrichtung
 
-1.  **Repository klonen oder herunterladen**
-    
-    ```
-    git clone https://github.com/LAVU-OOE/RePrint.git
-    cd RePrint
-    ```
-    
-2.  **Hosten über einen beliebigen Server für statische Seiten**
-    
-    ```
-    python3 -m http.server 8080
-    # ODER
-    npx http-server .
-    # ODER
-    php -S localhost:8080
-    ```
-    
-3.  **Im Browser öffnen**
-    
-    ```
-    http://localhost:8080
-    ```
-    
+1. **Repository klonen oder herunterladen**
+   ```bash
+   git clone https://github.com/LAVU-OOE/RePrint.git
+   cd RePrint
+   ```
+2. **Hosten über einen beliebigen Server für statische Seiten**
+   ```bash
+   python3 -m http.server 8080
+   # ODER
+   npx http-server .
+   # ODER
+   php -S localhost:8080
+   ```
+3. **Im Browser öffnen**
+   ```
+   http://localhost:8080
+   ```
 
 ### Erstmalige Verwendung
 
-1.  **Einen Standort auswählen** – Wählen Sie Ihre ASZ-Filiale aus dem dynamisch geladenen Dropdown-Menü
-    
-2.  **Einen Artikel auswählen** – Suchen Sie entweder nach **Artikelnr.** (numerisch gruppiert) oder nach **Beschreibung** (alphabetisch gruppiert)
-    
-3.  **Drucklayout anpassen** – Klicken Sie auf das Vorschaubild, um den interaktiven Bogen zu öffnen
-    
-4.  **Drucken** – Klicken Sie auf "Jetzt drucken", um Ihren A4-Bogen zu generieren
-    
+1. **Einen Standort auswählen** – Wählen Sie Ihre ASZ-Filiale aus dem dynamisch geladenen Dropdown-Menü
+2. **Einen Artikel auswählen** – Suchen Sie entweder nach **Artikelnr.** (numerisch gruppiert) oder nach **Beschreibung** (alphabetisch gruppiert)
+3. **Drucklayout anpassen** – Klicken Sie auf das Vorschaubild, um den interaktiven Bogen zu öffnen
+4. **Drucken** – Klicken Sie auf "Jetzt drucken", um Ihren A4-Bogen zu generieren
 
 ## 📁 Projektstruktur
 
@@ -932,7 +718,7 @@ document.getElementById('btn-print-now').addEventListener('click', function () {
 
 Die Anwendung enthält einen integrierten Datenbankmanager, der über die Schaltfläche **"Optionen"** zugänglich ist:
 
-```
+```javascript
 function s3() {
   const c1 = document.getElementById('c1').value.trim(); 
   const c2 = document.getElementById('c2').value.trim(); 
@@ -980,7 +766,7 @@ function d1(index) {
 
 ### Datenbank als JSON exportieren
 
-```
+```javascript
 function e2() {
   const jsonData = JSON.stringify(a2, null, 2);
   const blob = new Blob([jsonData], { type: "application/json" });
@@ -997,7 +783,7 @@ function e2() {
 
 ### Standards speichern
 
-```
+```javascript
 function s7() {
   const data = g1();
   const config = {
@@ -1019,50 +805,34 @@ function s7() {
 
 ### Entwicklungsumgebung
 
-1.  **Repository forken**
-    
-2.  **Einen Feature-Branch erstellen**
-    
-    ```
-    git checkout -b feature/dein-feature-name
-    ```
-    
-3.  **Deine Änderungen vornehmen**
-    
-4.  **Lokal testen** – Stelle sicher, dass die Anwendung ohne Fehler läuft
-    
-5.  **Mit konventionellen Commit-Nachrichten committen**
-    
-    ```
-    git commit -m "feat: Unterstützung für neue HERMA Vorlagen-SKU hinzugefügt"
-    git commit -m "fix: Mobile Layout-Probleme in Safari behoben"
-    git commit -m "docs: README mit neuen Cloudflare API-Endpunkten aktualisiert"
-    ```
-    
-6.  **Pushen und einen Pull Request erstellen**
-    
+1. **Repository forken**
+2. **Einen Feature-Branch erstellen**
+   ```bash
+   git checkout -b feature/dein-feature-name
+   ```
+3. **Deine Änderungen vornehmen**
+4. **Lokal testen** – Stelle sicher, dass die Anwendung ohne Fehler läuft
+5. **Mit konventionellen Commit-Nachrichten committen**
+   ```bash
+   git commit -m "feat: Unterstützung für neue HERMA Vorlagen-SKU hinzugefügt"
+   git commit -m "fix: Mobile Layout-Probleme in Safari behoben"
+   git commit -m "docs: README mit neuen Cloudflare API-Endpunkten aktualisiert"
+   ```
+6. **Pushen und einen Pull Request erstellen**
 
 ### Testrichtlinien
 
-*   **Browserübergreifendes Testen**: Chrome, Firefox, Safari, Edge
-    
-*   **Mobiles Testen**: iOS Safari, Android Chrome
-    
-*   **Offline-Testen**: Netzwerk deaktivieren und gecachte Funktionalität überprüfen
-    
-*   **Druck-Testen**: A4-Ausgabe mit verschiedenen Druckerkonfigurationen überprüfen
-    
+- **Browserübergreifendes Testen**: Chrome, Firefox, Safari, Edge
+- **Mobiles Testen**: iOS Safari, Android Chrome
+- **Offline-Testen**: Netzwerk deaktivieren und gecachte Funktionalität überprüfen
+- **Druck-Testen**: A4-Ausgabe mit verschiedenen Druckerkonfigurationen überprüfen
 
 ### Code-Standards
 
-*   **ES6+** JavaScript mit `const` und `let`
-    
-*   **CSS-Variablen** für das Theming
-    
-*   **Semantische HTML5**\-Elemente
-    
-*   **Progressive Enhancement**\-Prinzipien
-    
+- **ES6+** JavaScript mit `const` und `let`
+- **CSS-Variablen** für das Theming
+- **Semantische HTML5**-Elemente
+- **Progressive Enhancement**-Prinzipien
 
 ## 📄 Lizenz
 

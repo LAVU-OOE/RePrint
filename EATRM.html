@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EATRM.md</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css">
+    <style>
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+        @media (prefers-color-scheme: dark) {
+            body { background: #0d1117; }
+        }
+    </style>
+</head>
+<body class="markdown-body">
+    <p>RE:PRINT Studio v9 — Editorial Assessment &amp; Technical Reference Manual📋 Technical Writing Evaluation &amp; Editorial FeedbackProficiency Level: OutstandingYour technical documentation for RE:PRINT Studio v9 is extraordinarily comprehensive, well-structured, and clear. It seamlessly bridges high-level architecture overview with granular implementation details.Growth Areas &amp; Specific RecommendationsMathematical Formula Formatting:Observation: In Section 5, mathematical calculations for total grid width and margins were written as plain text variable assignments (e.g., W_total = (Cols * W_mm) + ...).Actionable Step: Standardize all mathematical expressions using formal LaTeX notation ($...$ for inline and $$...$$ for block displays). This improves readability and provides a professional mathematical foundation.Code Snippet Completeness &amp; Consistency:Observation: In the Service Worker section and JSON template blocks, a few unclosed JSON trailing fragments and code blocks were present at the end of the raw draft.Actionable Step: Ensure all code examples are fully closed, syntactically valid, and formatted with appropriate syntax highlighting tags (javascript, json, css, bash).Diagram Cross-Referencing:Observation: The document features excellent Mermaid flowcharts and sequence diagrams, but could benefit from explicit textual references in the preceding sections.Actionable Step: Add brief contextual introductions before each diagram explaining what the viewer should observe (e.g., "The sequence diagram below details the offline-fallback mechanism during network degradation...").RE:PRINT Studio v9 — Technische DokumentationOfficial engineering specification and operational guide for RE:PRINT Studio v9.📖 InhaltsverzeichnisEinführungHaftungsausschluss / Rechtlicher HinweisSystemübersichtArchitekturClient-Seitiger KernCloudflare Workers IntegrationService Worker &amp; Offline-StrategieAPI Fetch &amp; Cache Fallback SequenzEtikettendesign &amp; Rendering EngineBerechnung der RastergeometrieDynamische SkalierungInteraktive BogenvorschauDatenfluss &amp; Workflow-DiagrammeHauptfunktionenTechnische SpezifikationenDruckanleitungSchnellstartProjektstrukturDatenbankverwaltungRichtlinien für MitwirkendeLizenz1. 🚀 EinführungRE:PRINT Studio v9 ist eine ressourcenschonende, clientseitige Progressive Web Application (PWA), die für ASZ-Standorte (Altstoffsammelzentren) in Oberösterreich entwickelt wurde. Sie bietet dynamische Etikettenformatierung, Live-Berechnungen der Druckvorschau und anpassbares Rendern von Vorlagenbögen für Standard-HERMA-A4-Etiketten.Die Anwendung läuft vollständig im Browser und nutzt moderne Webtechnologien, um ein nahtloses Erlebnis über Desktop- und Mobilgeräte hinweg zu bieten, mit robusten Offline-Funktionen.2. ⚠️ Haftungsausschluss / Rechtlicher HinweisWichtiger Hinweis / Haftungsausschluss:Diese Software ist ein unabhängiges Community-Projekt und steht in keiner offiziellen Verbindung zur LAVU OÖ (OÖ. Landes-Abfallverwertungsunternehmen GmbH) oder den Bezirksabfallverbänden (BAV OÖ).Dies ist keine offizielle Anwendung oder Software der LAVU OÖ oder des BAV OÖ. Alle Marken, Logos und Bezeichnungen gehören ihren jeweiligen Eigentümern.Dieses Open-Source-Projekt wird von der LAVU OÖ oder dem BAV OÖ weder offiziell unterstützt noch gesponsert oder in irgendeiner Weise damit in Verbindung gebracht.3. 🏗 SystemübersichtRE:PRINT Studio v9 basiert auf einer Serverless-Architektur, die Folgendes kombiniert:Reines clientseitiges Rendering mit HTML5, CSS3 und Vanilla JavaScript (ES6+).Cloudflare Workers für API-Endpunkte, die dynamische JSON-Daten bereitstellen.Service Workers für progressive Verbesserung und Offline-Unterstützung.localStorage für die clientseitige Persistenz von Benutzereinstellungen und zwischengespeicherten Daten.Systemkontextdiagrammflowchart TB<br />
+    subgraph Client ["Browser Client (PWA)"]<br />
+        UI["🎨 UI Engine<br/>(index.html)"]<br />
+        SW["⚙️ Service Worker<br/>(sw.js)"]<br />
+        LS["💾 localStorage<br/>Cache &amp; Einstellungen"]<br />
+    end</p>
+<pre class="codehilite"><code>subgraph Cloudflare [&quot;Cloudflare Workers Edge Network&quot;]
+    SA[&quot;📦 Sortiment API&lt;br/&gt;/sortiment-api&quot;]
+    LA[&quot;📍 Locations API&lt;br/&gt;/locations-api&quot;]
+end
+
+subgraph External [&quot;Externe Assets &amp; Registry&quot;]
+    TEMPLATES[&quot;📄 HERMA Templates&lt;br/&gt;(herma_templates.json)&quot;]
+    GITHUB[&quot;🌐 GitHub Pages&lt;br/&gt;Statische Assets&quot;]
+end
+
+UI --&gt;|fetch| SA
+UI --&gt;|fetch| LA
+UI --&gt;|fetch| TEMPLATES
+SW --&gt;|Cache-Strategie| GITHUB
+UI --&gt;|Lesen/Schreiben| LS
+SW --&gt;|Network-First Cache| SA
+SW --&gt;|Network-First Cache| LA
+</code></pre>
+
+<ol>
+<li>🏛 Architektur4.1 Client-Seitiger KernDer Kern der Anwendung ist in einer einzigen index.html-Datei enthalten, die Folgendes umfasst:Vorlagen-Registry-Engine – Lädt und analysiert herma_templates.json.Dynamisches Dropdown-System – Gruppiert nach Zahlenbereichen und alphabetischen Buchstaben.Interaktiver Raster-Renderer – Rendert A4-Bögen mit Klick-zum-Umschalten-Funktionalität.i18n Runtime – Zweisprachige Unterstützung mit nahtlosem Umschalten.CRUD-Datenbankmanager – In-Browser-Datenverwaltung mit JSON-Export.4.2 Cloudflare Workers IntegrationDie Anwendung kommuniziert mit zwei primären Cloudflare-Worker-Endpunkten:1. Sortiment API (sortiment-api.lavu-ooe.workers.dev)Gibt den Produktkatalog im JSON-Format zurück:[<br />
+  {<br />
+    "artNr": "4040",<br />
+    "bez": "Elektro-Kleingeräte",<br />
+    "geb": "QR-Box"<br />
+  }<br />
+]<br />
+Worker-Implementierungs-Snippet:export default {<br />
+  async fetch(request, env) {<br />
+    const CORS_HEADERS = {<br />
+      'Access-Control-Allow-Origin': '*',<br />
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',<br />
+      'Content-Type': 'application/json; charset=utf-8'<br />
+    };<br />
+    if (request.method === 'OPTIONS') {<br />
+      return new Response(null, { headers: CORS_HEADERS });<br />
+    }<br />
+    try {<br />
+      const data = await env.SORTIMENT_KV.get('sortiment', 'json');<br />
+      return new Response(JSON.stringify(data), { headers: CORS_HEADERS });<br />
+    } catch (error) {<br />
+      return new Response(<br />
+        JSON.stringify({ error: 'Fehler beim Abrufen der Sortimentsdaten' }),<br />
+        { status: 500, headers: CORS_HEADERS }<br />
+      );<br />
+    }<br />
+  }<br />
+};</li>
+<li>Locations API (locations-api.lavu-ooe.workers.dev)Gibt die Liste der ASZ-Standorte zurück:[<br />
+  {<br />
+    "siteCode": "106",<br />
+    "name": "ASZ Asten",<br />
+    "zipCode": "4481",<br />
+    "region": "Linz-Land &amp; Linz Stadt"<br />
+  }<br />
+]<br />
+Worker-Implementierungs-Snippet:export default {<br />
+  async fetch(request, env) {<br />
+    const CORS_HEADERS = {<br />
+      'Access-Control-Allow-Origin': '*',<br />
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',<br />
+      'Content-Type': 'application/json; charset=utf-8'<br />
+    };<br />
+    if (request.method === 'OPTIONS') {<br />
+      return new Response(null, { headers: CORS_HEADERS });<br />
+    }<br />
+    try {<br />
+      const locations = await env.LOCATIONS_KV.get('locations', 'json');<br />
+      return new Response(JSON.stringify(locations), { headers: CORS_HEADERS });<br />
+    } catch (error) {<br />
+      return new Response(<br />
+        JSON.stringify({ error: 'Fehler beim Abrufen der Standortdaten' }),<br />
+        { status: 500, headers: CORS_HEADERS }<br />
+      );<br />
+    }<br />
+  }<br />
+};<br />
+4.3 Service Worker &amp; Offline-StrategieDer Service Worker (sw.js) implementiert eine Network-First-Strategie für dynamische JSON-Daten und eine Cache-First-Strategie für statische Assets.const CACHE_NAME = 'lavu-studio-v10';<br />
+const STATIC_ASSETS = [<br />
+  './',<br />
+  './index.html',<br />
+  './manifest.json',<br />
+  './favicon.svg',<br />
+  './logo.png',<br />
+  './web-app-manifest-192x192.png',<br />
+  './web-app-manifest-512x512.png'<br />
+];<br />
+const DYNAMIC_JSON_URLS = [<br />
+  'https://locations-api.lavu-ooe.workers.dev/',<br />
+  'https://sortiment-api.lavu-ooe.workers.dev/'<br />
+];</li>
+</ol>
+<p>self.addEventListener('install', event =&gt; {<br />
+  event.waitUntil(<br />
+    caches.open(CACHE_NAME)<br />
+      .then(cache =&gt; cache.addAll([...STATIC_ASSETS, ...DYNAMIC_JSON_URLS]))<br />
+      .then(() =&gt; self.skipWaiting())<br />
+  );<br />
+});</p>
+<p>self.addEventListener('activate', event =&gt; {<br />
+  event.waitUntil(<br />
+    caches.keys().then(keys =&gt; {<br />
+      return Promise.all(<br />
+        keys.filter(key =&gt; key !== CACHE_NAME).map(key =&gt; caches.delete(key))<br />
+      );<br />
+    }).then(() =&gt; self.clients.claim())<br />
+  );<br />
+});<br />
+4.4 API Fetch &amp; Cache Fallback SequenzDas folgende Sequenzdiagramm illustriert den Ablauf von Netzwerkanfragen mit automatischem Fallback auf den lokalen Speicher:sequenceDiagram<br />
+    autonumber<br />
+    actor User as 👤 Benutzer<br />
+    participant UI as 🖥️ Client UI (index.html)<br />
+    participant SW as ⚙️ Service Worker<br />
+    participant Cache as 💾 Cache / localStorage<br />
+    participant API as ☁️ Cloudflare Worker API</p>
+<pre class="codehilite"><code>User-&gt;&gt;UI: Wählt Standort / Sortimentsartikel
+UI-&gt;&gt;SW: fetch(API-Endpunkt)
+
+alt Netzwerk Online
+    SW-&gt;&gt;API: HTTP GET /locations-api oder /sortiment-api
+    API--&gt;&gt;SW: 200 OK (JSON-Nutzdaten)
+    SW-&gt;&gt;Cache: Cache-Eintrag aktualisieren
+    SW--&gt;&gt;UI: Neue JSON-Antwort zurückgeben
+else Netzwerk Offline / Abruffehler
+    SW-&gt;&gt;Cache: Zwischengespeicherte Anfrage abgleichen
+    alt Cache-Treffer
+        Cache--&gt;&gt;SW: Zwischengespeichertes JSON zurückgeben
+        SW--&gt;&gt;UI: Zwischengespeichertes JSON zurückgeben (Offline-Modus)
+    else Cache-Fehlschlag
+        SW--&gt;&gt;UI: 503 Service Unavailable (Fallback-Nutzdaten)
+    end
+end
+
+UI-&gt;&gt;User: Interaktives Raster &amp; Etikettenvorschau rendern
+</code></pre>
+
+<ol>
+<li>🎨 Etikettendesign &amp; Rendering EngineDie Kern-Rendering-Engine wandelt HERMA-Vorlagendefinitionen mit präzisen geometrischen Berechnungen in interaktive A4-Bögen um.5.1 Berechnung der RastergeometrieDer Etiketten-Renderer berechnet dynamische Layout-Geometrien basierend auf den Vorlagenparametern aus herma_templates.json.Gegeben seien Spalten $C$, Zeilen $R$, Etikettenbreite $W_{\text{mm}}$, Etikettenhöhe $H_{\text{mm}}$, Abstände $G_x$ und $G_y$, sowie Ränder $M_{\text{left}}$ und $M_{\text{top}}$:$$\text{Gesamtbreite } (W_{\text{total}}) = (C \cdot W_{\text{mm}}) + ((C - 1) \cdot G_x)$$$$\text{Gesamthöhe } (H_{\text{total}}) = (R \cdot H_{\text{mm}}) + ((R - 1) \cdot G_y)$$$$\text{Rechter Rand } (M_{\text{right}}) = 210\text{mm} - W_{\text{total}} - M_{\text{left}}$$$$\text{Unterer Rand } (M_{\text{bottom}}) = 297\text{mm} - H_{\text{total}} - M_{\text{top}}$$Die Position eines Etiketts an der Spalte $i \in [0, C-1]$ und Zeile $j \in [0, R-1]$ wird durch folgende Koordinaten bestimmt:$$X(i) = M_{\text{left}} + i \cdot (W_{\text{mm}} + G_x)$$$$Y(j) = M_{\text{top}} + j \cdot (H_{\text{mm}} + G_y)$$Vorlagenstruktur (herma_templates.json){<br />
+  "engine": "HERMA Label Engine",<br />
+  "page_format": {<br />
+    "size": "A4",<br />
+    "width_mm": 210.0,<br />
+    "height_mm": 297.0,<br />
+    "orientation": "portrait"<br />
+  },<br />
+  "templates": [<br />
+    {<br />
+      "sku": "4473",<br />
+      "category": "MEDIUM",<br />
+      "cols": 3,<br />
+      "rows": 7,<br />
+      "width_mm": 70.0,<br />
+      "height_mm": 41.0,<br />
+      "round": false,<br />
+      "top_margin_mm": 10.0,<br />
+      "left_margin_mm": 0.0,<br />
+      "gap_x_mm": 0.0,<br />
+      "gap_y_mm": 0.0<br />
+    }<br />
+  ]<br />
+}<br />
+Raster-Rendering-Funktionfunction renderGrid(containerId, data) {<br />
+  const container = document.getElementById(containerId);<br />
+  const t = templateRegistry[currentFormatKey];</li>
+</ol>
+<p>const totalGridWidth = t.cols * t.width_mm + (t.cols - 1) * t.gap_x_mm;<br />
+  const totalGridHeight = t.rows * t.height_mm + (t.rows - 1) * t.gap_y_mm;</p>
+<p>const rightMargin = 210 - totalGridWidth - t.left_margin_mm;<br />
+  const bottomMargin = 297 - totalGridHeight - t.top_margin_mm;</p>
+<p>container.style.padding = <code>${t.top_margin_mm}mm 
+    ${Math.max(0, rightMargin)}mm 
+    ${Math.max(0, bottomMargin)}mm 
+    ${t.left_margin_mm}mm</code>;</p>
+<p>container.style.gridTemplateColumns = <code>repeat(${t.cols}, ${t.width_mm}mm)</code>;<br />
+  container.style.gridTemplateRows = <code>repeat(${t.rows}, ${t.height_mm}mm)</code>;</p>
+<p>container.innerHTML = '';<br />
+  const maxLabels = t.cols * t.rows;</p>
+<p>for (let i = 1; i &lt;= maxLabels; i++) {<br />
+    const label = document.createElement('div');<br />
+    label.className = 'lb';<br />
+    if (i &gt;= startPos &amp;&amp; i &lt; startPos + count) {<br />
+      label.innerHTML = <code>&lt;div class="lbt"&gt;${data.topText || '&amp;nbsp;'}&lt;/div&gt;
+        &lt;div class="lbm"&gt;
+          &lt;div class="lba"&gt;${data.artNr || '&amp;nbsp;'}&lt;/div&gt;
+          ${data.suffix ?</code><div class="lbs">${data.suffix}</div><code>: ''}
+        &lt;/div&gt;
+        &lt;div class="lbb"&gt;${data.bezeichnung || '&amp;nbsp;'}&lt;/div&gt;
+        &lt;div class="lbf"&gt;https://lavu-ooe.github.io/&lt;/div&gt;</code>;<br />
+    } else {<br />
+      label.className += ' empty'; <br />
+    }<br />
+    container.appendChild(label);<br />
+  }<br />
+}<br />
+5.2 Dynamische SkalierungUm CSS-Layoutbrüche in Vorschaukarten zu vermeiden, werden Skalierungsfaktoren berechnet:$$\text{scale}<em _text_mm="\text{mm">x = \frac{W</em>}}}{W_{\text{base}}}, \quad \text{scale<em _text_mm="\text{mm">y = \frac{H</em>_y, 1.0)$$const baseWidth = 70; }}}{H_{\text{base}}}$$$$\text{scale} = \min(\text{scale}_x, \text{scale<br />
+const baseHeight = 41;<br />
+const scaleX = t.width_mm / baseWidth;<br />
+const scaleY = t.height_mm / baseHeight;<br />
+const scale = Math.min(scaleX, scaleY, 1);<br />
+container.style.setProperty('--label-scale', scale);<br />
+5.3 Interaktive BogenvorschauDie modale Vorschau ermöglicht es Benutzern, auf einzelne Etikettenpositionen zu klicken, um deren Druckstatus umzuschalten.6. 📊 Datenfluss &amp; Workflow-DiagrammeVollständiger Anwendungs-Workflowflowchart TD<br />
+    A["🚀 Benutzer öffnet App"] --&gt; B{"🔍 localStorage prüfen"}<br />
+    B -- Cache existiert --&gt; C["📦 Zwischengespeicherte Daten laden"]<br />
+    B -- Kein Cache --&gt; D["☁️ Von Cloudflare Workers abrufen"]<br />
+    C --&gt; E["📋 Dropdowns füllen"]<br />
+    D --&gt; E</p>
+<pre class="codehilite"><code>E --&gt; F[&quot;📍 Benutzer wählt Standort&quot;]
+F --&gt; G[&quot;🏷️ Benutzer wählt Produkt&quot;]
+G --&gt; H[&quot;👁️ Live-Vorschau rendern&quot;]
+
+H --&gt; I{&quot;⚡ Benutzeraktion&quot;}
+I -- Klick auf Vorschau --&gt; J[&quot;🖼️ Interaktives Bogen-Modal öffnen&quot;]
+J --&gt; K[&quot;🖱️ Etikettenpositionen anklicken&quot;]
+K --&gt; L[&quot;🔄 Etikettenstatus umschalten&quot;]
+L --&gt; M[&quot;✏️ Anzahl &amp; Startposition aktualisieren&quot;]
+M --&gt; N[&quot;🎨 Bogen-Layout neu rendern&quot;]
+
+I -- Jetzt drucken --&gt; O[&quot;🖨️ Browser-Druckdialog öffnen&quot;]
+O --&gt; P[&quot;📄 Gedruckten A4-Bogen ausgeben&quot;]
+
+I -- Optionen --&gt; Q[&quot;⚙️ Einstellungs-Modal öffnen&quot;]
+Q --&gt; R{&quot;📂 Tab auswählen&quot;}
+R -- Service Worker --&gt; S[&quot;🌐 API-Endpunkte verwalten&quot;]
+R -- Datenbank --&gt; V[&quot;🗄️ CRUD-Operationen&quot;]
+V --&gt; W[&quot;➕ Elemente hinzufügen / bearbeiten / löschen&quot;]
+W --&gt; X[&quot;💾 In localStorage speichern&quot;]
+X --&gt; E
+</code></pre>
+
+<ol>
+<li>🌟 HauptfunktionenDynamische HERMA-Bogen-Engine:Interaktive Klick-zum-Umschalten-Bogenpositionierung auf Standard-A4-Rastern.Echtzeit-Vorschau mit automatischer Neuberechnung.Unterstützung für rechteckige und runde Etikettenvorlagen.Serverless &amp; Offline First:Cloudflare Workers für performante Edge-APIs.Lokaler Browser-Cache (localStorage &amp; ServiceWorker) sorgt für vollkommene Offline-Lauffähigkeit.Zweisprachige Unterstützung (i18n):Nahtloser Wechsel zwischen Deutsch (de) und Englisch (en).Responsive &amp; Mobile UI:Optimierte Ansichten für Tablets, Smartphones und Desktop-Terminals.8. 🔧 Technische SpezifikationenSpeicher- &amp; PersistenzschemaSpeicherschlüsselTypBeschreibunglavu_langstringAusgewählte i18n-Sprache (de | en)lavu_locationstringAktuell ausgewählte Site-Code-ID (z. B. "106")lavu_locations_urlstringRemote-Worker-Endpunkt für Standortelavu_locations_cachestring (JSON)Zwischengespeicherte Standortlistelavu_studio_defaults_v8string (JSON)Standard-Format, Anzahl und Startpositionlavu_studio_sortiment_v8string (JSON)Lokal bearbeiteter Sortimentsspeicher9. 🖨 DruckanleitungSkalierung: Auf 100% / Tatsächliche Größe einstellen (nicht "An Seite anpassen").Ränder: Auf Keine oder 0mm einstellen.Papiergröße: DIN A4 (Portrait).Hintergrundgrafiken: Aktivieren.@media print {<br />
+  @page {<br />
+    size: A4 portrait;<br />
+    margin: 0 !important;<br />
+  }</li>
+</ol>
+<p>body {<br />
+    background: white !important;<br />
+  }</p>
+<p>.a4-print-sheet {<br />
+    width: 210mm !important;<br />
+    height: 297mm !important;<br />
+    box-shadow: none !important;<br />
+  }<br />
+}<br />
+10. 🚀 Schnellstart# Repository klonen<br />
+git clone https://github.com/LAVU-OOE/RePrint.git<br />
+cd RePrint</p>
+<h1 id="lokalen-webserver-starten">Lokalen Webserver starten</h1>
+<p>python3 -m http.server 8080</p>
+<h1 id="im-browser-aufrufen">Im Browser aufrufen</h1>
+<h1 id="httplocalhost8080">http://localhost:8080</h1>
+<ol>
+<li>📁 Projektstrukturreprint-studio/<br />
+├── index.html                  # Haupt-PWA-Container &amp; Layout Engine<br />
+├── herma_templates.json        # HERMA A4-Geometriedefinitionen<br />
+├── manifest.json               # Web App Manifest<br />
+├── sw.js                       # Service Worker<br />
+├── favicon.svg                 # Vektor-App-Icon<br />
+├── logo.png                    # Branding Logo<br />
+└── workers/<br />
+    ├── sortiment-api/          # Cloudflare Worker Sortiment-Endpunkt<br />
+    └── locations-api/          # Cloudflare Worker Standorte-Endpunkt</li>
+<li>🗄 DatenbankverwaltungÜber das Optionsmenü können Sortimentsdaten lokal hinzugefügt, bearbeitet, gelöscht und als JSON exportiert werden.function exportDatabaseJSON(dataArray) {<br />
+  const jsonData = JSON.stringify(dataArray, null, 2);<br />
+  const blob = new Blob([jsonData], { type: "application/json" });<br />
+  const url = URL.createObjectURL(blob);<br />
+  const a = document.createElement('a');<br />
+  a.href = url;<br />
+  a.download = "sortiment_export.json";<br />
+  a.click();<br />
+  URL.revokeObjectURL(url);<br />
+}</li>
+<li>🤝 Richtlinien für MitwirkendePWA / Standard JS: Keine schweren Frameworks (React, Vue) verwenden; Vanilla JS ES6+ beibehalten.Geometrie-Präzision: Neue HERMA-SKUs mit einem digitalen Messschieber verifizieren ($W_{\text{mm}}, H_{\text{mm}}, G_x, G_y$).Browser-Kompatibilität: Über Chrome, Edge, Firefox und iOS Safari testen.14. 📄 LizenzDieses Projekt steht unter der MIT-Lizenz.MIT License</li>
+</ol>
+<p>Copyright (c) 2026 LAVU OÖ Community Project</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy<br />
+of this software and associated documentation files (the "Software"), to deal<br />
+in the Software without restriction, including without limitation the rights<br />
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell<br />
+copies of the Software, and to permit persons to whom the Software is<br />
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all<br />
+copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br />
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br />
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br />
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br />
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br />
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE<br />
+SOFTWARE.</p>
+</body>
+</html>

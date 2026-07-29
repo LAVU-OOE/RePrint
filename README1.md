@@ -444,7 +444,7 @@
                     }
 
                     #mermaid-svg-17 :root {
-                        --mermaid-font-family: "trebuchet ms", verdana, arial, sans-serif;
+                        - -mermaid-font-family: "trebuchet ms", verdana, arial, sans-serif;
                     }
                 </style>
                 <g>
@@ -1878,7 +1878,7 @@
                     }
 
                     #mermaid-svg-19 :root {
-                        --mermaid-font-family: "trebuchet ms", verdana, arial, sans-serif;
+                        - -mermaid-font-family: "trebuchet ms", verdana, arial, sans-serif;
                     }
                 </style>
                 <g>
@@ -3162,7 +3162,7 @@
                     }
 
                     #mermaid-svg-18 :root {
-                        --mermaid-font-family: "trebuchet ms", verdana, arial, sans-serif;
+                        - -mermaid-font-family: "trebuchet ms", verdana, arial, sans-serif;
                     }
                 </style>
                 <g>
